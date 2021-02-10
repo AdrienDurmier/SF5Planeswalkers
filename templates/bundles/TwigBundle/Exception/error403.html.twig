@@ -1,0 +1,19 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Accès refusé{% endblock %}
+
+{% block entete %}
+    <h1>Accès refusé</h1>
+{% endblock %}
+
+{% block body %}
+
+    <p>Vous ne disposez pas des droits nécessaires pour accéder à ce contenu.</p>
+
+    <hr>
+
+    <p>
+        <small><i>{{status_code}} ({{status_text}}). {{exception.message}}</i></small>
+    </p>
+
+{% endblock %}

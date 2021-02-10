@@ -1,0 +1,19 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block entete %}
+    <h1>Erreur inconnue</h1>
+{% endblock %}
+
+{% block body %}
+
+    <p>Veuillez contacter votre webmaster.</p>
+	
+	<hr>
+
+    <p>
+        <small><i>{{status_code}} ({{status_text}}). {{exception.message}}</i></small>
+    </p>
+
+{% endblock %}

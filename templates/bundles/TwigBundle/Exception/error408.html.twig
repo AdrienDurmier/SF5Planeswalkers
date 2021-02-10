@@ -1,0 +1,31 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}{{status_code}}: Temps de réponse maximal atteint{% endblock %}
+
+{% block sousmenu %}
+    {# Actions #}
+    <div class="sousmenu-titre sousmenu-affichage">Actions</div>
+	<ul class="nav flex-column">
+        <li class="nav-item">
+            <a href="#" class="nav-link" onclick="history.go(0)">
+                <i class="fas fa-sync"></i><span class="sousmenu-affichage">  Actualiser la page</span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block entete %}
+    <h1><i class="fas fa-hourglass-end"></i> Temps de réponse maximal atteint</h1>
+{% endblock %}
+
+{% block body %}
+
+    <p class="my-4">La page que vous avez demandée a mis trop de temps à répondre. Le processus a été abandoné veuillez recharger la page plus tard.</p>
+
+    <hr>
+	
+    <p>
+		<small><i>{{status_code}} ({{status_text}}). {{exception.message}}</i></small>
+    </p>
+
+{% endblock %}
