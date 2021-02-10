@@ -4,29 +4,11 @@ security:
             algorithm: auto
 
     role_hierarchy:
-        # Plateforme HEIDI
-        ROLE_HEIDI_ADMIN: [ ROLE_USER ]
-        # GED
-        ROLE_GED_USER: [ ROLE_USER ]
-        ROLE_GED_LIVRES_USER: [ ROLE_GED_USER ]
-        ROLE_GED_FICHIERS_USER: [ ROLE_GED_USER ]
-        ROLE_GED_LIVRES_ADMIN: [ ROLE_GED_ADMIN, ROLE_GED_LIVRES_USER ]
-        ROLE_GED_FICHIERS_ADMIN: [ ROLE_GED_ADMIN, ROLE_GED_FICHIERS_USER ]
-        # TCHAT
-        ROLE_TCHAT_USER: [ ROLE_GED_USER, ROLE_VISIO_GUEST ]
-        ROLE_TCHAT_ADMIN: [ ROLE_GED_ADMIN, ROLE_TCHAT_USER, ROLE_TCHAT_AJOUT_SALON, ROLE_TCHAT_AJOUT_SONDAGE, ROLE_TCHAT_EPINGLER ]
-        # VISIO
-        ROLE_VISIO_GUEST: [ ROLE_USER ]
-        ROLE_VISIO_USER: [ ROLE_GED_USER, ROLE_VISIO_GUEST ]
-        ROLE_VISIO_ADMIN: [ ROLE_GED_ADMIN, ROLE_VISIO_USER ]
-        # TELEPHONIE
-        ROLE_TELEPHONIE_USER: [ ROLE_USER ]
-        ROLE_TELEPHONIE_ADMIN: [ ROLE_TELEPHONIE_USER ]
-        # TOOLBOX
-        ROLE_TOOLBOX_TACHE_USER: [ ROLE_USER ]
-        ROLE_TOOLBOX_TACHE_ADMIN: [ ROLE_TOOLBOX_TACHE_USER ]
+        # Planeswalkers
+        ROLE_PLANESWALKERS_USER: [ ROLE_USER ]
+        ROLE_PLANESWALKERS_ADMIN: [ ROLE_PLANESWALKERS_USER ]
         # ADMIN
-        ROLE_ADMIN: [ ROLE_HEIDI_ADMIN, ROLE_GED_LIVRES_ADMIN, ROLE_GED_FICHIERS_ADMIN, ROLE_TCHAT_ADMIN, ROLE_VISIO_ADMIN, ROLE_TELEPHONIE_ADMIN, ROLE_TOOLBOX_TACHE_ADMIN ]
+        ROLE_ADMIN: [ ROLE_PLANESWALKERS_ADMIN ]
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -49,17 +31,8 @@ security:
                     - App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                # target: app_any_route # where to redirect after logout
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
+        - { path: ^/admin, roles: ROLE_ADMIN }

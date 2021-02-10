@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BackController extends AbstractController
+class AdminController extends AbstractController
 {
     /**
-     * @Route("/", name="back.index")
+     * @Route("/", name="admin.index")
      * @return Response
      */
     public function index()
     {
-        return $this->render('back/index.html.twig', [
+        dd("Je suis dans l'index");
+        return $this->render('admin/index.html.twig', [
         ]);
     }
 

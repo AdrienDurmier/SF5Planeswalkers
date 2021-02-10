@@ -11,20 +11,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/", name="accueil")
-     * @param Security $security
-     * @return Response
-     */
-    public function accueil(Security $security): Response
-    {
-        $user = $security->getUser();
-        if($user){
-            return $this->redirectToRoute('planeswalkers.deck.index');
-        }
-        return $this->redirectToRoute('app_login');
-    }
-
-    /**
      * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
