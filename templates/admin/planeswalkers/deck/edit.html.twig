@@ -41,7 +41,7 @@
             {# Ajout de carte #}
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <form action="{{ path('planeswalkers.deckcard.new', {deck : deck.id}) }}" method="post" enctype="multipart/form-data">
+                    <form id="planeswalkers-deck-add-card-form" action="{{ path('planeswalkers.deckcard.new', {deck : deck.id}) }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="deck" value="{{ deck.id }}">
                         <div class="row">
                             <div class="col-sm-12 col-xl-6">
@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-sm-3 col-xl-1">
                                 <div class="input-group my-1">
-                                    <button class="btn btn-sm btn-success" type="submit">
+                                    <button id="planeswalkers-deck-add-card-btn" class="btn btn-sm btn-success" type="submit">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -493,6 +493,15 @@
             $('#deck_card_search').val(card_name);
             $('#deck_card_search_results').hide();
         });
+
+        // Bloque l'ajout tant que id_scryfall n'est pas rempli
+        $('#planeswalkers-deck-add-card-form').submit(function(e) {
+            if ($.trim($("#id_scryfall").val()) === "") {
+                e.preventDefault();
+                alert("You must select a card.");
+            }
+        });
+
 
         // Ferme les résultats d'autocomplétion lors d'un clic à l'extérieur de cet élement
         $(document.body).click(function (e) {
