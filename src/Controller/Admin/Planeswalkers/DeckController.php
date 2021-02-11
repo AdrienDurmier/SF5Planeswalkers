@@ -181,7 +181,7 @@ class DeckController extends AbstractController
         $deck_cards = $this->getDoctrine()->getRepository(DeckCard::class)->findByDeck($deck);
         $probabilites = $probabilityService->tirageParTour($deck, $deck_cards);
 
-        return $this->render('planeswalkers/deck/probabilites.html.twig', [
+        return $this->render('admin/planeswalkers/deck/probabilites.html.twig', [
             'deck'         =>  $deck,
             'probabilites' =>  $probabilites,
         ]);
