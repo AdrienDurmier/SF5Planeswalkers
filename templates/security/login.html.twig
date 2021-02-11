@@ -2,62 +2,72 @@
 
 {% block title %}Connexion{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        #logo_login {background-image:url('/images/logo.png');background-size:cover;background-repeat:no-repeat;height:192px;width:600px;position:absolute;top:0;bottom:0;right:0;left:0;margin:auto;}
+    </style>
+{% endblock %}
+
 {% block body %}
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="container-fluid pl-0 bg-login-image">
+        <div class="row">
 
-    {#<form class="validate-form" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <div class="wrap-input100 validate-input" data-validate = "Veuillez entrer une adresse mail valide : iptis@iptis.fr">
-            <input class="input100" type="email" name="username" id="username" autofocus>
-            <span class="focus-input100"></span>
-            <span class="label-input100">Email</span>
-        </div>
-        <div class="wrap-input100 validate-input" data-validate="Veuillez entrer un mot de passe">
-            <input class="input100" type="password" name="password" id="password">
-            <span class="focus-input100"></span>
-            <span class="label-input100">Mot de passe</span>
-        </div>
-        <div class="flex-sb-m w-full p-t-3 p-b-32">
+            <div class="col-lg-3 col-md-5 col-sm-6 col-xs-12 p-0">
+                <div class="card o-hidden border-0 shadow-lg min-vh-100" style="border-radius:0;">
+                    <div class="card-body">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
-            <div>
-                <a href="{{ path('security.motdepasse.demande') }}" class="txt1">
-                    Mot de passe oublié ?
+                        <h1 class="h4 text-gray-200 mb-4">Planeswalkers</h1>
+
+                        <hr>
+
+                        <form method="post" class="user">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            <div class="form-group">
+                                <label for="inputEmail" class="sr-only">Email</label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-user" placeholder="Votre adresse email..." required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="sr-only">Password</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control form-control-user" placeholder="Votre mot de passe" required>
+                            </div>
+
+                            {#
+                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                                See https://symfony.com/doc/current/security/remember_me.html
+
+                                <div class="checkbox mb-3">
+                                    <label>
+                                        <input type="checkbox" name="_remember_me"> Remember me
+                                    </label>
+                                </div>
+                            #}
+
+                            <button class="btn btn-success btn-user btn-block" type="submit">
+                                <i class="fas fa-sign-in-alt"></i> Se connecter
+                            </button>
+                        </form>
+                        <hr>
+                        <p>
+                            <span class="small text-muted"><i class="fab fa-wizards-of-the-coast"></i> Magic : the Gathering est une marque déposée de Wizards of the Coast</span>
+                            <br>
+                            <span class="small text-muted">©Adrien Durmier 2019 - <a href="https://scryfall.com/" target="_blank" class="text-muted">Propulsé par l'API Scryfall</a>.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-7 col-sm-6 col-xs-12 d-none d-sm-block">
+                <a href="https://www.iptis.fr/" target="_blank" class="text-muted">
+                    <div id="logo_login"></div>
                 </a>
             </div>
+
         </div>
-        <div class="container-login100-form-btn">
-            <button type="submit" class="login100-form-btn">
-                Se connecter
-            </button>
-        </div>
-    </form>#}
-
-    <form method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
-            </div>
-        #}
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+    </div>
 
 {% endblock %}
