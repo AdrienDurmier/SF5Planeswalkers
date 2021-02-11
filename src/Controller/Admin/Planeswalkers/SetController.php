@@ -2,13 +2,14 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use Doctrine\DBAL\Exception\ServerException;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\APIScryfall;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\DBAL\Exception\ServerException;
+use Unirest\Exception;
+use App\Service\Planeswalkers\APIScryfall;
 
 class SetController extends AbstractController
 {
@@ -18,7 +19,7 @@ class SetController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws ServerException
+     * @throws Exception
      */
     public function index(PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
     {
@@ -30,23 +31,24 @@ class SetController extends AbstractController
             60
         );
 
-        return $this->render('planeswalkers/set/index.html.twig', [
+        return $this->render('admin/planeswalkers/set/index.html.twig', [
             'sets'  =>  $sets,
         ]);
     }
 
     /**
      * @Route("/planeswalkers/sets/{code}", name="planeswalkers.set.show")
+     * @param $code
      * @param APIScryfall $apiScryfall
      * @return Response
-     * @throws ServerException
+     * @throws Exception
      */
     public function show($code, APIScryfall $apiScryfall)
     {
         $response_set = $apiScryfall->interroger('get', 'sets/'.$code);
         $response_cards = $apiScryfall->interroger('get', 'cards/search?order=cmc&q=set%3A'.$code);
 
-        return $this->render('planeswalkers/set/show.html.twig', [
+        return $this->render('admin/planeswalkers/set/show.html.twig', [
             'set'  =>  $response_set->body,
             'cards'  =>  $response_cards->body,
         ]);

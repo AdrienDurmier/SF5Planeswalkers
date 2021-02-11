@@ -1,0 +1,52 @@
+{% extends 'back.html.twig' %}
+
+{% block title "Éditions" %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">Éditions</h1>
+    </div>
+
+    <hr>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Count</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for set in sets %}
+                        <tr>
+                            <td style="color:#fff;font-size:2em;">
+                                <img src="{{ set.icon_svg_uri }}" class="img-fluid" style="height:50px;">
+                            </td>
+                            <td>{{ set.name }}</td>
+                            <td>{{ set.released_at }}</td>
+                            <td>{{ set.card_count }}</td>
+                            <td>
+                                <a href="{{ path('planeswalkers.set.show', {code: set.code}) }}">
+                                    voir
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(sets) }}
+    </div>
+
+{% endblock %}

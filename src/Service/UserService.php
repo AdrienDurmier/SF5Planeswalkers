@@ -1,89 +1,69 @@
 <?php
 
+namespace App\Service;
 
-namespace App\Service\Tchat;
-
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Datetime;
 use Exception;
+use App\Entity\User;
+use App\Utils\Jwt;
 
 class UserService
 {
     private $em;
-    private $jwt_content;
 
     /**
-     * UserService constructor.
-     * @param ManagerRegistry $mr
-     * @param $jwt_content
+     * Api constructor.
+     * @param EntityManagerInterface $em
      */
-    public function __construct(ManagerRegistry $mr, $jwt_content){
-        $this->em = $mr->getManager($jwt_content->connexion);
-        $this->jwt_content = $jwt_content;
-    }
-
-    /**
-     * @param int $userId
-     * @return User|null
-     */
-    public function getUser(int $userId): ?User
+    public function __construct(EntityManagerInterface $em)
     {
-        $user = $this->em->getRepository(User::class)->findOneByHeidiId($userId);
-        if ($user == null){
-            $user = $this->addCurrentUser(true);
-        }
-        return $user;
+        $this->em = $em;
     }
 
     /**
-     * @param int $userId
-     * @return bool
-     */
-    public function exists(int $userId): bool
-    {
-        $user = $this->em->getRepository(User::class)->findOneByHeidiId($userId);
-        if ($user){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param $datas
-     * @param bool $wFlush
+     * @param string $token
+     * @param string $refresh_token
+     * @param string $email
+     * @param string $password
      * @return User
+     * @throws Exception
      */
-    public function addUser($datas, $wFlush = true) : User
+    public function updateOrCreateUserLocal(string $token, string $refresh_token, string $email, string $password) : User
     {
-        $user = new User();
-        $user->setHeidiId($datas["id"]);
-        $user->setHeidiTierceId($this->jwt_content->user->tierce_id);
-        $user->setFirstname($datas["firstname"]);
-        $user->setLastname($datas["lastname"]);
-        $user->setEmail($datas["username"]);
-        $this->em->persist($user);
-        if ($wFlush){
-            $this->em->flush();
+        $jwtPayload = Jwt::getPayload($token);
+        // Recherche de l'utilisateur sur Apps
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+        if (!$user) {
+            // Création de l'utilisateur sur Apps
+            $user = new User();
+            $user->setEmail($email);
+            $user->setPassword($password);
         }
-        return $user;
-    }
+        // Mise à jour des utilisateurs de Apps
+        $user->setFirstname($jwtPayload->user->firstname);
+        $user->setLastname($jwtPayload->user->lastname);
+        $user->setAvatar($jwtPayload->user->avatar);
+        $user->setHeidiId($jwtPayload->user->id);
+        $user->setStatut(0);
 
-    /**
-     * @param bool $wFlush
-     * @return User
-     */
-    public function addCurrentUser($wFlush = true): User
-    {
-        $user = new User();
-        $user->setHeidiId($this->jwt_content->user->id);
-        $user->setHeidiTierceId($this->jwt_content->user->tierce_id);
-        $user->setFirstname($this->jwt_content->user->firstname);
-        $user->setLastname($this->jwt_content->user->lastname);
-        $user->setEmail($this->jwt_content->username);
+        // Mise à jour des tokens
+        $user->setHeidiToken($token);
+        $user->setHeidiRefreshToken($refresh_token);
+
+        // Mise à jour des rôles
+        foreach($user->getRoles() as $role):
+            $user->removeRole($role);
+        endforeach;
+        if(isset($jwtPayload->roles)):
+            foreach($jwtPayload->roles as $role):
+                $user->addRole($role);
+            endforeach;
+        endif;
+
         $this->em->persist($user);
-        if ($wFlush){
-            $this->em->flush();
-        }
+        $this->em->flush();
+
         return $user;
     }
 }

@@ -2,18 +2,19 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use App\Service\Planeswalkers\LegalityService;
-use Doctrine\DBAL\Exception\ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Planeswalkers\Deck;
-use App\Service\APIScryfall;
-use App\Entity\Planeswalkers\DeckCard;
+use Doctrine\DBAL\Exception\ServerException;
+use App\Service\Planeswalkers\LegalityService;
+use App\Service\Planeswalkers\APIScryfall;
 use App\Service\Planeswalkers\ProbabilityService;
+use App\Entity\Planeswalkers\Deck;
+use App\Entity\Planeswalkers\DeckCard;
+use Unirest\Exception;
 
 class DeckController extends AbstractController
 {
@@ -21,7 +22,6 @@ class DeckController extends AbstractController
      * @Route("/planeswalkers/decks", name="planeswalkers.deck.index")
      * @param APIScryfall $apiScryfall
      * @return Response
-     * @throws ServerException
      */
     public function index(APIScryfall $apiScryfall)
     {
@@ -29,7 +29,7 @@ class DeckController extends AbstractController
             'author' => $this->getUser()
         ]);
 
-        return $this->render('planeswalkers/deck/index.html.twig', [
+        return $this->render('admin/planeswalkers/deck/index.html.twig', [
             'decks'  =>  $decks
         ]);
     }
@@ -56,7 +56,7 @@ class DeckController extends AbstractController
             ]);
         }
 
-        return $this->render('planeswalkers/deck/new.html.twig', [
+        return $this->render('admin/planeswalkers/deck/new.html.twig', [
         ]);
     }
 
@@ -87,7 +87,7 @@ class DeckController extends AbstractController
             }
         }
 
-        return $this->render('planeswalkers/deck/edit.html.twig', [
+        return $this->render('admin/planeswalkers/deck/edit.html.twig', [
             'deck'         =>  $deck,
             'deck_ordered'   =>  $deck_ordered,
         ]);
@@ -123,7 +123,7 @@ class DeckController extends AbstractController
         $legalities_deck = $legalityService->deck($deck_cards);
         $legalities_cartes = $legalityService->cards($deck_cards);
 
-        return $this->render('planeswalkers/deck/legality.html.twig', [
+        return $this->render('admin/planeswalkers/deck/legality.html.twig', [
             'deck'         =>  $deck,
             'legalities_deck'   =>  $legalities_deck,
             'legalities_cartes'   =>  $legalities_cartes,
@@ -135,7 +135,7 @@ class DeckController extends AbstractController
      * @param Deck $deck
      * @param APIScryfall $apiScryfall
      * @return Response
-     * @throws ServerException
+     * @throws Exception
      */
     public function estimation(Deck $deck, APIScryfall $apiScryfall)
     {
@@ -164,7 +164,7 @@ class DeckController extends AbstractController
             $estimation['deck']['total_reserve'] = $total_reserve;
         }
 
-        return $this->render('planeswalkers/deck/estimation.html.twig', [
+        return $this->render('admin/planeswalkers/deck/estimation.html.twig', [
             'deck'         =>  $deck,
             'estimation'   =>  $estimation,
         ]);

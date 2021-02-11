@@ -1,0 +1,42 @@
+{% extends 'back.html.twig' %}
+
+{% block title "Artists" %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">Artists</h1>
+    </div>
+
+    <hr>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Artist Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for artist in artists %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('planeswalkers.artist.show', {name: artist}) }}">
+                                    {{ artist }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(artists) }}
+    </div>
+
+{% endblock %}

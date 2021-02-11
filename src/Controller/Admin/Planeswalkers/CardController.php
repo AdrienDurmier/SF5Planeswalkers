@@ -2,14 +2,15 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use App\Entity\Planeswalkers\Deck;
-use Doctrine\DBAL\Exception\ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\APIScryfall;
+use Doctrine\DBAL\Exception\ServerException;
+use App\Service\Planeswalkers\APIScryfall;
+use App\Entity\Planeswalkers\Deck;
+use Unirest\Exception;
 
 class CardController extends AbstractController
 {
@@ -18,7 +19,7 @@ class CardController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return JsonResponse
-     * @throws ServerException
+     * @throws Exception
      */
     public function search(APIScryfall $apiScryfall, Request $request) {
         $params = $request->query->all();
@@ -35,9 +36,10 @@ class CardController extends AbstractController
 
     /**
      * @Route("/planeswalkers/cards/{id}", name="planeswalkers.card.show")
+     * @param $id
      * @param APIScryfall $apiScryfall
      * @return Response
-     * @throws ServerException
+     * @throws Exception
      */
     public function show($id, APIScryfall $apiScryfall)
     {
@@ -46,7 +48,7 @@ class CardController extends AbstractController
 
         $decks = $this->getDoctrine()->getRepository(Deck::class)->findAll();
 
-        return $this->render('planeswalkers/card/show.html.twig', [
+        return $this->render('admin/planeswalkers/card/show.html.twig', [
             'card'      =>  $response_card->body,
             'rules'     =>  $response_rules->body,
             'decks'     =>  $decks,

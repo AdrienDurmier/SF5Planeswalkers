@@ -1,0 +1,60 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        figure{height:180px;overflow:hidden;margin:0;width:100%;}
+        @media screen and (min-width:1200px) and (max-width:1900px) {
+            figure{height:100px;}
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">{{ name }}</h1>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.artist.index') }}">Artists</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ name }}</li>
+        </ol>
+    </nav>
+
+    <hr>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                {% for card in cards %}
+                    <div class="col-sm-6 col-md-4 col-xl-2 my-3">
+                        <a href="{{ path('planeswalkers.card.show', {id: card.id}) }}">
+                            <figure>
+                                {% if card.image_uris is defined %}
+                                    <img src="{{ card.image_uris.art_crop }}" alt="{{ card.name }}" class="img-fluid">
+                                {% else %}
+                                    <img src="{{ '/images/no-picture.png' }}" alt="Photo indisponible" class="card-img-top">
+                                {% endif %}
+                            </figure>
+                        </a>
+                        <div class="text-center">
+                            <b>{{ card.name }}</b>
+                            <br>
+                            {{ card.released_at }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(cards) }}
+    </div>
+
+{% endblock %}

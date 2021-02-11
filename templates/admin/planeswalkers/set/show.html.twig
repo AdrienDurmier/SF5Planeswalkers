@@ -1,0 +1,60 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    Édition {{ set.name }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">Édition {{ set.name }}</h1>
+    </div>
+
+    <hr>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Couleur</th>
+                        <th>CMC</th>
+                        <th>Prix</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for card in cards.data %}
+                        <tr>
+                            <td>{{ card.collector_number }}</td>
+                            <td style="color:#fff;font-size:2em;">
+                                <img src="{{ card.image_uris.art_crop }}" class="img-fluid" style="height:100px;">
+                            </td>
+                            <td>{{ card.name }}</td>
+                            <td>{{ card.type_line }}</td>
+                            <td>
+                                {% for color in card.colors  %}
+                                    {{ color }}
+                                {% endfor  %}
+                            </td>
+                            <td>{{ card.cmc }}</td>
+                            <td>{{ card.prices.eur }} €</td>
+                            <td>
+                                <a href="{{ path('planeswalkers.card.show', { id: card.id }) }}">
+                                    voir
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

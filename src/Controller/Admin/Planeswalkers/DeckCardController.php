@@ -2,15 +2,16 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use App\Entity\Planeswalkers\Card;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Unirest\Exception;
+use App\Entity\Planeswalkers\Card;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\DeckCard;
-use App\Service\APIScryfall;
+use App\Service\Planeswalkers\APIScryfall;
 
 class DeckCardController extends AbstractController
 {
@@ -19,7 +20,7 @@ class DeckCardController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\DBAL\Exception\ServerException
+     * @throws Exception
      */
     public function new(APIScryfall $apiScryfall, Request $request)
     {
@@ -70,7 +71,7 @@ class DeckCardController extends AbstractController
             ]);
         }
 
-        return $this->render('planeswalkers/deck/new.html.twig', [
+        return $this->render('admin/planeswalkers/deck/new.html.twig', [
         ]);
     }
 

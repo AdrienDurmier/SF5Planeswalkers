@@ -1,0 +1,536 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    {{ deck.title }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/chart/chart.min.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">
+            <i class="fas fa-layer-group"></i>&nbsp;{{ deck.title }}
+        </h1>
+        <div class="d-sm-inline-block">
+            <a href="{{ path('planeswalkers.deck.index') }}" class="btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-reply fa-sm text-white-50"></i>
+            </a>
+            <form method="post" style="display:inline-block;"action="{{ path('planeswalkers.deck.delete', {id: deck.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?')">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_deck') }}">
+                <button class="btn btn-sm btn-danger" title="Delete this deck"><i class="fas fa-trash fa-sm text-white-50"></i> Delete this deck</button>
+            </form>
+        </div>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.index') }}">My decks</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ deck.title }}</li>
+        </ol>
+    </nav>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-9">
+
+            {# Ajout de carte #}
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <form action="{{ path('planeswalkers.deckcard.new', {deck : deck.id}) }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="deck" value="{{ deck.id }}">
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="autocomplete_area my-1">
+                                    <input type="hidden" id="id_scryfall" name="id_scryfall">
+                                    <div class="input-group">
+                                        <input id="deck_card_search" name="deck_card_search" class="form-control form-control-sm" placeholder="Search a card..." type="search" autocomplete="off">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                        </div>
+                                    </div>
+                                    <div id="deck_card_search_results" class="autocomplete_search_results" style="display:none;">
+                                        <div id="deck_card_search_cards"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-9 col-xl-4">
+                                <div class="input-group input-group-sm my-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Quantity</span>
+                                    </div>
+                                    <input id="quantite" placeholder="Quantity" name="quantite" type="number" lang="en" min="0" step="1" value="1" class="form-control form-control-sm" required>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="reserve">&nbsp;Sideboard
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xl-1">
+                                <div class="input-group my-1">
+                                    <button class="btn btn-sm btn-success" type="submit">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {# Contenu du deck #}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="h6 m-0 font-weight-bold text-light">
+                        {{ deck.countCards }} main cards
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for key, decks_cards in deck_ordered %}
+                        <p><b>{{ key }}</b></p>
+                        <hr>
+                        <div class="row">
+                            {% for key, deck_card in decks_cards %}
+                                {% if deck_card.quantite %}
+                                    <div class="deck-card-area col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                        <div class="py-3">
+                                            <a href="{{ path('planeswalkers.card.show', {id: deck_card.card.idScryfall}) }}">
+                                                <img src="{{ deck_card.card.imageUrisNormal }}" alt="{{ deck_card.card.name }}" class="img-fluid" style="border-radius:15px;">
+                                            </a>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <input type="number" min="0" step="1" class="form-control form-control-sm input-deckcard-quantite" data-deckcard="{{ deck_card.id }}" name="quantite" value="{{ deck_card.quantite }}" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <a class="text-danger input-deckcard-delete" title="Supprimer cette carte" data-deckcard="{{ deck_card.id }}" style="cursor:pointer;">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {# Contenu de la réserve #}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="h6 m-0 font-weight-bold text-light">
+                        {{ deck.countReserve }} cards in sideboard
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for key, decks_cards in deck_ordered %}
+                        <div class="row">
+                            {% for key, deck_card in decks_cards %}
+                                {% if deck_card.quantiteReserve %}
+                                    <div class="deck-card-area col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                        <div class="py-3">
+                                            <a href="{{ path('planeswalkers.card.show', {id: deck_card.card.idScryfall}) }}">
+                                                <img src="{{ deck_card.card.imageUrisNormal }}" alt="{{ deck_card.card.name }}" class="img-fluid" style="border-radius:15px;">
+                                            </a>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <input type="number" min="0" step="1" class="form-control form-control-sm input-deckcard-quantite" data-deckcard="{{ deck_card.id }}" name="quantite" value="{{ deck_card.quantiteReserve }}" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <a class="text-danger input-deckcard-delete" title="Supprimer cette carte" data-deckcard="{{ deck_card.id }}" style="cursor:pointer;">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            {# Mana #}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                    <div class="h6 m-0 font-weight-bold text-light">
+                        Mana
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <b>Deck colors:</b>
+                        {% for color in deck.colorsDeck %}
+                            <span class="mx-1 d-inline-block card-symbol-{{ color }}" style="width:20px;height:20px;"></span>
+                        {% endfor %}
+                    </p>
+                    <hr>
+                    <p><b>Mana curve:</b></p>
+                    <canvas id="manaCurveChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            {# Rareté #}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="h6 m-0 font-weight-bold text-light">Rarity</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <canvas id="rarityPie" width="200" height="200"></canvas>
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-sm table-striped">
+                                <tbody>
+                                    {% for key, rarity in deck.getRarity %}
+                                        <tr>
+                                            <td><small>{{ key }}</small></td>
+                                            <td>
+												{% if deck.countCards > 0 %}
+													{{ ((rarity/deck.countCards)*100)|number_format(2) }}%
+												{% endif %}
+											</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Légalité #}
+            <a href="{{ path('planeswalkers.deck.legality', {id: deck.id}) }}" class="text-light">
+                <div class="card border-left-light shadow py-2 mb-4">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="h5 mb-0 font-weight-bold text-light-800">Legality</div>
+                                <div class="text-xs font-weight-bold text-light text-uppercase mb-1">Advanced checking tool</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-double fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {# Estimation #}
+            <a href="{{ path('planeswalkers.deck.estimation', {id: deck.id}) }}" class="text-light">
+                <div class="card border-left-light shadow py-2 mb-4">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="h5 mb-0 font-weight-bold text-light-800">Prices</div>
+                                <div class="text-xs font-weight-bold text-light text-uppercase mb-1">based on scryfall API</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {# Probabilités de tirage par tour #}
+            <a href="{{ path('planeswalkers.deck.probabilites', {id: deck.id}) }}" class="text-light">
+                <div class="card border-left-light shadow py-2 mb-4">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="h5 mb-0 font-weight-bold text-light-800">Probability</div>
+                                <div class="text-xs font-weight-bold text-light text-uppercase mb-1">analysis</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-hat-wizard fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {# Main de départ #}
+            <a href="#" class="text-light click-main-depart" data-toggle="modal" data-target="#mainDepartModal">
+                <div class="card border-left-light shadow py-2 mb-4">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="h5 mb-0 font-weight-bold text-light-800">Starting hand</div>
+                                <div class="text-xs font-weight-bold text-light text-uppercase mb-1">Simulation</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-hands fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    {# Commentaires #}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">Comments</div>
+        </div>
+        <div class="card-body">
+            {{ deck.content|raw }}
+        </div>
+    </div>
+
+    <!-- Main de départ Modal -->
+    <div class="modal fade" id="mainDepartModal" tabindex="-1" role="dialog" aria-labelledby="mainDepartModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="h5 modal-title" id="mainDepartModalTitle">Simulation d'une main de départ</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="main_depart_area">
+                        <i class="fas fa-spinner fa-pulse"></i> Chargement en cours...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/chart/chart.min.js') }}"></script>
+    <script>
+        // Courbe de mana
+        var ctx = document.getElementById('manaCurveChart');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '10+'],
+                datasets: [{
+                    data: [{% for cmc in deck.getManaCurve %}{{ cmc }}{% if not loop.last %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        {% for cmc in deck.getManaCurve %}'rgba(255, 255, 255, 0.5)'{% if not loop.last %},{% endif %}{% endfor %}
+                    ],
+                    borderColor: [
+                        {% for cmc in deck.getManaCurve %}'rgba(255, 255, 255, 0.5)'{% if not loop.last %},{% endif %}{% endfor %}
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Coût converti de mana (CMC)'
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Nombre de cartes'
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Pie: rareté des cartes
+        var pie = document.getElementById('rarityPie');
+        var rarityPie = new Chart(pie, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: [{% for rarity in deck.getRarity %}{{ rarity }}{% if not loop.last %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        'rgba(20, 20, 20, 0.3)',
+                        'rgba(192, 192, 192, 0.3)',
+                        'rgba(255, 215, 0, 0.3)',
+                        'rgba(209, 93, 45, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 0, 0, 0.1)',
+                        'rgba(192, 192, 192, 0.1)',
+                        'rgba(255, 215, 0, 0.1)',
+                        'rgba(209, 93, 45, 0.1)'
+                    ]
+                }],
+                labels: [
+                    'Common',
+                    'Uncommon',
+                    'Rare',
+                    'Mythic'
+                ]
+            },
+            options: {
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+        // Modification de la quantité en live
+        $(document).on('mouseout', '.input-deckcard-quantite', function (event) {
+            let deckcard = $(this);
+            let parametres = {
+                deckcard: $(this).data('deckcard'),
+                quantite: deckcard.val(),
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.deckcard.ajax.quantite') }}",
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#saving-area').fadeIn();
+                },
+                success: function (data) {
+                    if(data.delete == true){
+                        deckcard.closest('.deck-card-area').remove();
+                    }
+                },
+                complete: function () {
+                    $('#saving-area').fadeOut();
+                },
+                data: parametres
+            });
+        });
+        // Suppression d'une carte en live
+        $(document).on('click', '.input-deckcard-delete', function (event) {
+            let deckcard = $(this);
+            let parametres = {
+                deckcard: $(this).data('deckcard'),
+                quantite: 0,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.deckcard.ajax.quantite') }}",
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#saving-area').fadeIn();
+                },
+                success: function (data) {
+                    if(data.delete == true){
+                        deckcard.closest('.deck-card-area').remove();
+                    }
+                },
+                complete: function () {
+                    $('#saving-area').fadeOut();
+                },
+                data: parametres
+            });
+        });
+
+        /**
+         * Moteur de recherche de cartes
+         */
+        // Lance la recherche si l'utilisateur n'a pas saisie depuis 500ms
+        $('#deck_card_search').keyup(function () {
+            clearTimeout($.data(this, 'timer'));
+            let wait = setTimeout(searchCards, 500);
+            $(this).data('timer', wait);
+        });
+
+        // Recherche de carte
+        function searchCards() {
+            var nb_caractere_debut_recherche = 3;
+            if ($('#deck_card_search').val().length >= nb_caractere_debut_recherche) {
+                let parametres = {
+                    term: $('#deck_card_search').val().replace(' ', '+'), // Terme à rechercher
+                };
+                $.ajax({
+                    url: "{{ path('planeswalkers.card.search') }}",
+                    type: 'get',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $('#loader-area').fadeIn();
+                    },
+                    success: function (data) {
+                        $('#deck_card_search_results').show();
+                        let results_html = '';
+                        $.each(data.cards.data, function (index, element) {
+                            results_html = results_html + '<div class="autocomplete_result">';
+                            results_html = results_html + '<a class="autocomplete_choice autocomplete_deck_card_choice"';
+                            results_html = results_html + ' data-card-id="' + element.id + '"';
+                            results_html = results_html + ' data-card-name="' + element.name + '"';
+                            results_html = results_html + '>';
+                            results_html = results_html + element.name;
+                            results_html = results_html + '</a>';
+                            results_html = results_html + '</div>';
+                        });
+                        results_html = results_html + '</div>';
+                        $('#deck_card_search_cards').html(results_html);
+                    },
+                    complete: function () {
+                        $('#loader-area').fadeOut();
+                    },
+                    data: parametres
+                });
+            }
+        }
+
+        // Action lors du choix d'une carte
+        $(document).on('click', '.autocomplete_deck_card_choice', function (event) {
+            let card_id = $(this).data('card-id');
+            let card_name = $(this).data('card-name');
+            $('#id_scryfall').val(card_id);
+            $('#deck_card_search').val(card_name);
+            $('#deck_card_search_results').hide();
+        });
+
+        // Ferme les résultats d'autocomplétion lors d'un clic à l'extérieur de cet élement
+        $(document.body).click(function (e) {
+            let div_cliquable = $('.autocomplete_area');
+            if (!$(e.target).is(div_cliquable) && !$.contains(div_cliquable[0], e.target)) {
+                $('#deck_card_search_results').hide();
+            }
+        });
+
+        // Simulation d'une main de départ
+        $(document).on('click', '.click-main-depart', function (event) {
+            let parametres = {
+                deck: {{ deck.id }}
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.deck.ajax.maindepart') }}",
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#loading-area').fadeIn();
+                },
+                success: function (data) {
+                    console.log(data.bibliotheque);
+                    let results_html = '<div class="row">';
+                    $.each(data.bibliotheque, function (index, element) {
+                        results_html = results_html + '<div class="col">';
+                        results_html = results_html + '<img class="img-fluid my-2" src="'+element.image+'" style="border-radius:15px;"/>';
+                        results_html = results_html + '</div>';
+                    });
+                    results_html = results_html + '</div>';
+                    $('#main_depart_area').html(results_html);
+                },
+                complete: function () {
+                    $('#loading-area').fadeOut();
+                },
+                data: parametres
+            });
+        });
+
+    </script>
+{% endblock %}

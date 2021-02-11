@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'fr'
+    url_api_scryfall: '%env(string:URL_API_SCRYFALL)%'
     url_api_heidi: '%env(HEIDI_API_URL)%'
     url_uploads_heidi: '%env(HEIDI_UPLOADS_URL)%'
 

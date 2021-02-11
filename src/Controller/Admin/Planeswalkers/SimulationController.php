@@ -2,12 +2,12 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use App\Entity\Planeswalkers\Deck;
-use App\Entity\Planeswalkers\DeckCard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Planeswalkers\Deck;
+use App\Entity\Planeswalkers\DeckCard;
 
 class SimulationController extends AbstractController
 {
@@ -21,7 +21,7 @@ class SimulationController extends AbstractController
             'author' => $this->getUser()
         ]);
 
-        return $this->render('planeswalkers/simulation/index.html.twig', [
+        return $this->render('admin/planeswalkers/simulation/index.html.twig', [
             'decks'  =>  $decks
         ]);
     }
@@ -37,7 +37,7 @@ class SimulationController extends AbstractController
         $deck = $this->getDoctrine()->getRepository(Deck::class)->find($datas['deck']);
         $bibliotheque = $deck->getBibliotheque();
 
-        return $this->render('planeswalkers/simulation/play.html.twig', [
+        return $this->render('admin/planeswalkers/simulation/play.html.twig', [
             'bibliotheque' => $bibliotheque,
         ]);
     }

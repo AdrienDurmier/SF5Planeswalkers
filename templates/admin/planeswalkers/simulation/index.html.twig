@@ -1,0 +1,37 @@
+{% extends 'back.html.twig' %}
+
+{% block title "Simulation" %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">Simulation</h1>
+    </div>
+
+    <hr>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form action="{{ path('planeswalkers.simulation.play') }}" method="post" enctype="multipart/form-data">
+                {% for deck in decks %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="deck" id="deck-{{ deck.id }}" value="{{ deck.id }}">
+                        <label class="form-check-label" for="{{ deck.id }}">
+                            {{ deck.title }}
+                            {% for color in deck.colorsDeck %}
+                                <span class="mx-1 d-inline-block card-symbol-{{ color }}" style="width:20px;height:20px;"></span>
+                            {% endfor %}
+                        </label>
+                    </div>
+                {% endfor %}
+                <hr>
+                <div class="input-group">
+                    <button class="btn btn-sm btn-success" type="submit">
+                        <i class="fas fa-play"></i>&nbsp;Lancer la simulation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

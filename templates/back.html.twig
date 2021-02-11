@@ -26,7 +26,7 @@
 
             <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('back.index') }}">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('admin.index') }}">
                     <div class="sidebar-brand-icon rotate-n-45">
                         {#<i class="fab fa-wizards-of-the-coast"></i>#}
                     </div>
@@ -36,7 +36,7 @@
                 <hr class="sidebar-divider my-0">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('back.index') }}">
+                    <a class="nav-link" href="{{ path('admin.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i><span>Tableau de bord</span>
                     </a>
                 </li>
@@ -129,24 +129,6 @@
                     </div>
 
                     <ul class="navbar-nav ml-auto">
-                        {# Glossaire #}
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="{{ path('aide.glossaire.index') }}" title="Glossaire">
-                                <i class="fas fa-info-circle fa-fw"></i>
-                            </a>
-                        </li>
-                        {# Tutoriaux #}
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="{{ path('aide.tutorial.index') }}" title="Aide en ligne">
-                                <i class="fas fa-question-circle fa-fw"></i>
-                            </a>
-                        </li>
-                        {# Signaler un bug #}
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="{{ path('bug.index') }}" title="Signaler un bug">
-                                <i class="fas fa-bug fa-fw"></i>
-                            </a>
-                        </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         {# Utilisateur #}
                         <li class="nav-item dropdown no-arrow">
@@ -155,15 +137,11 @@
                                 <i class="fas fa-user-circle fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ path('user.profil') }}">
+                                <a class="dropdown-item" href="#todo">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Mon profil
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ path('contact.index') }}" title="Nous contacter">
-                                    <i class="fas fa-paper-plane fa-sm fa-fw mr-2 text-gray-400"></i> Nous contacter
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ path('logout') }}" title="Se déconnecter">
+                                <a class="dropdown-item" href="{{ path('app_logout') }}" title="Se déconnecter">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Se déconnecter
                                 </a>
                             </div>

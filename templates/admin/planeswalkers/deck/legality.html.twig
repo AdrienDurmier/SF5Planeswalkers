@@ -1,0 +1,271 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    {{ deck.title }} - Legality
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200"><i class="fas fa-layer-group"></i> {{ deck.title }} - Legality</h1>
+        <div class="d-sm-inline-block">
+            <a href="{{ path('planeswalkers.deck.edit', {id: deck.id}) }}" class="btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-reply fa-sm text-white-50"></i>
+            </a>
+        </div>
+    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.index') }}">Mes decks</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.edit', {id: deck.id }) }}">{{ deck.title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Legality</li>
+        </ol>
+    </nav>
+
+    <hr>
+
+    {# Contenu du deck #}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">Deck</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Standard</td>
+                                <td>{{ legalities_deck['standard']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Future Standard</td>
+                                <td>{{ legalities_deck['future']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Modern</td>
+                                <td>{{ legalities_deck['modern']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Legacy</td>
+                                <td>{{ legalities_deck['legacy']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pauper</td>
+                                <td>{{ legalities_deck['pauper']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Penny</td>
+                                <td>{{ legalities_deck['penny']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Commander</td>
+                                <td>{{ legalities_deck['commander']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Duel Commander</td>
+                                <td>{{ legalities_deck['duel']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Brawl</td>
+                                <td>{{ legalities_deck['brawl']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Vintage</td>
+                                <td>{{ legalities_deck['vintage']|display_boolean_picto|raw }}</td>
+                            </tr>
+                            <tr>
+                                <td>Oldschool 1993/1994</td>
+                                <td>{{ legalities_deck['oldschool']|display_boolean_picto|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Cartes principales #}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">
+                Main deck
+            </div>
+            <div class="d-sm-inline-block">
+                <i class="fas fa-times text-danger"></i> not legal
+                &nbsp;|&nbsp;
+                <i class="fas fa-ban text-danger"></i> banned
+                &nbsp;|&nbsp;
+                <i class="fas fa-exclamation text-warning"></i> restricted
+                &nbsp;|&nbsp;
+                <i class="fas fa-check text-success"></i> legal
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Card</th>
+                            <th class="text-center">Standard</th>
+                            <th class="text-center">Future</th>
+                            <th class="text-center">Modern</th>
+                            <th class="text-center">Legacy</th>
+                            <th class="text-center">Pauper</th>
+                            <th class="text-center">Penny</th>
+                            <th class="text-center">Commander</th>
+                            <th class="text-center">Duel</th>
+                            <th class="text-center">Brawl</th>
+                            <th class="text-center">Vintage</th>
+                            <th class="text-center">Oldschool</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for card in legalities_cartes %}
+                            {% if card.quantite > 0 %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('planeswalkers.card.show', {id: card.carte.id}) }}">
+                                            <img src="{{ card.carte.image_uris.art_crop }}" alt="{{ card.carte.name }}" class="img-fluid" style="width:70px;">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <b>{{ card.carte.name }}</b>
+                                        <br><em>{{ card.carte.type_line }}</em>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.standard|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.future|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.modern|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.legacy|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.pauper|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.penny|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.commander|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.duel|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.brawl|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.vintage|legality|raw }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ card.oldschool|legality|raw }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {# Cartes principales #}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">
+                Sideboard
+            </div>
+            <div class="d-sm-inline-block">
+                <i class="fas fa-times text-danger"></i> not legal
+                &nbsp;|&nbsp;
+                <i class="fas fa-ban text-danger"></i> banned
+                &nbsp;|&nbsp;
+                <i class="fas fa-exclamation text-warning"></i> restricted
+                &nbsp;|&nbsp;
+                <i class="fas fa-check text-success"></i> legal
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Card</th>
+                        <th class="text-center">Standard</th>
+                        <th class="text-center">Future</th>
+                        <th class="text-center">Modern</th>
+                        <th class="text-center">Legacy</th>
+                        <th class="text-center">Pauper</th>
+                        <th class="text-center">Penny</th>
+                        <th class="text-center">Commander</th>
+                        <th class="text-center">Duel</th>
+                        <th class="text-center">Brawl</th>
+                        <th class="text-center">Vintage</th>
+                        <th class="text-center">Oldschool</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for card in legalities_cartes %}
+                        {% if card.quantite_reserve > 0 %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('planeswalkers.card.show', {id: card.carte.id}) }}">
+                                        <img src="{{ card.carte.image_uris.art_crop }}" alt="{{ card.carte.name }}" class="img-fluid" style="width:70px;">
+                                    </a>
+                                </td>
+                                <td>
+                                    <b>{{ card.carte.name }}</b>
+                                    <br><em>{{ card.carte.type_line }}</em>
+                                </td>
+                                <td class="text-center">
+                                    {{ card.standard|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.future|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.modern|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.legacy|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.pauper|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.penny|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.commander|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.duel|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.brawl|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.vintage|legality|raw }}
+                                </td>
+                                <td class="text-center">
+                                    {{ card.oldschool|legality|raw }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

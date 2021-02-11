@@ -2,7 +2,7 @@
 
 namespace App\Service\Planeswalkers;
 
-use App\Service\APIScryfall;
+use App\Service\Planeswalkers\APIScryfall;
 use Doctrine\ORM\EntityManagerInterface;
 
 class LegalityService

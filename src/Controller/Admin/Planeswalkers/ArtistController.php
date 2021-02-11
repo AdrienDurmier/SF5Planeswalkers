@@ -2,13 +2,13 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
-use Doctrine\DBAL\Exception\ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Service\APIScryfall;
+use Doctrine\DBAL\Exception\ServerException;
+use App\Service\Planeswalkers\APIScryfall;
 
 class ArtistController extends AbstractController
 {
@@ -18,7 +18,7 @@ class ArtistController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws ServerException
+     * @throws \Unirest\Exception
      */
     public function index(PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
     {
@@ -30,7 +30,7 @@ class ArtistController extends AbstractController
             50
         );
 
-        return $this->render('planeswalkers/artist/index.html.twig', [
+        return $this->render('admin/planeswalkers/artist/index.html.twig', [
             'artists'  =>  $artists,
         ]);
     }
@@ -42,7 +42,7 @@ class ArtistController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws ServerException
+     * @throws \Unirest\Exception
      */
     public function show($name, PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
     {
@@ -54,7 +54,7 @@ class ArtistController extends AbstractController
             12
         );
 
-        return $this->render('planeswalkers/artist/show.html.twig', [
+        return $this->render('admin/planeswalkers/artist/show.html.twig', [
             'name'  =>  $name,
             'cards'  =>  $cards,
         ]);

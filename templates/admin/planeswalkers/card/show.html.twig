@@ -1,0 +1,151 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    {{ card.name }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-200">{{ card.name }} <small>{{ card.lang }}</small></h1>
+        <div class="d-sm-inline-block">
+            <form action="{{ path('planeswalkers.deckcard.new') }}" method="post" class="d-inline-block">
+                <input type="hidden" name="id_scryfall" value="{{ card.id }}"/>
+                <input type="hidden" name="quantite" value="1"/>
+                <div class="input-group">
+                    <select class="form-control form-control-sm" name="deck" onChange="submit()">
+                        <option>Ajouter à un deck</option>
+                        {% for deck in decks %}
+                            <option value="{{ deck.id }}">{{ deck }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ card.image_uris.border_crop }}" class="img-fluid">
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    {{ card.type_line }}
+                    <hr>
+                    {{ card.oracle_text }}
+                    <hr>
+                    <p><b>Précision sur les règles</b></p>
+                    {% for rule in rules.data %}
+                        <p>{{ rule.published_at }}: {{ rule.comment }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="h6 m-0 font-weight-bold text-light">Légalités</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <span class="badge mx-1 {{ card.legalities.standard|legality }}">Standard</span>
+                        <span class="badge mx-1 {{ card.legalities.modern|legality }}">Modern</span>
+                        <span class="badge mx-1 {{ card.legalities.legacy|legality }}">Legacy</span>
+                        <span class="badge mx-1 {{ card.legalities.vintage|legality }}">Vintage</span>
+                        <span class="badge mx-1 {{ card.legalities.pauper|legality }}">Pauper</span>
+                        <span class="badge mx-1 {{ card.legalities.penny|legality }}">Penny</span>
+                        <span class="badge mx-1 {{ card.legalities.commander|legality }}">Commander</span>
+                        <span class="badge mx-1 {{ card.legalities.brawl|legality }}">Brawl</span>
+                        <span class="badge mx-1 {{ card.legalities.duel|legality }}">Duel</span>
+                        <span class="badge mx-1 {{ card.legalities.future|legality }}">Future</span>
+                        <span class="badge mx-1 {{ card.legalities.oldschool|legality }}">Oldschool</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">Facilitateur d'achat</div>
+        </div>
+        <div class="card-body">
+            Prix conseillé: {{ card.prices.eur }} €
+
+            <a href="{{ card.purchase_uris.tcgplayer }}">tcgplayer</a>
+            <a href="{{ card.purchase_uris.cardmarket }}">carmarket</a>
+            <a href="{{ card.purchase_uris.cardhoarder }}">cardhoarder</a>
+        </div>
+    </div>
+
+    <div class="card shadow mt-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="h6 m-0 font-weight-bold text-light">Détails</div>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-md-2">id</dt>
+                <dd class="col-md-10">{{ card.id }}</dd>
+                <dt class="col-md-2">oracle_id</dt>
+                <dd class="col-md-10">{{ card.oracle_id }}</dd>
+                <dt class="col-md-2">released_at</dt>
+                <dd class="col-md-10">{{ card.released_at }}</dd>
+                <dt class="col-md-2">uri</dt>
+                <dd class="col-md-10">{{ card.uri }}</dd>
+                <dt class="col-md-2">scryfall_uri</dt>
+                <dd class="col-md-10">{{ card.scryfall_uri }}</dd>
+                <dt class="col-md-2">layout</dt>
+                <dd class="col-md-10">{{ card.layout }}</dd>
+                <dt class="col-md-2">mana_cost</dt>
+                <dd class="col-md-10">{{ card.mana_cost }}</dd>
+                <dt class="col-md-2">cmc</dt>
+                <dd class="col-md-10">{{ card.cmc }}</dd>
+                <dt class="col-md-2">colors</dt>
+                <dd class="col-md-10">
+                    {% for color in card.colors %}
+                        {{ color }}
+                    {% endfor %}
+                </dd>
+                <dt class="col-md-2">color_identity</dt>
+                <dd class="col-md-10">
+                    {% for color in card.color_identity %}
+                        {{ color }}
+                    {% endfor %}
+                </dd>
+                <dt class="col-md-2">rarity</dt>
+                <dd class="col-md-10">{{ card.rarity }}</dd>
+                <dt class="col-md-2">watermark</dt>
+                <dd class="col-md-10">{% if card.watermark is defined %}{{ card.watermark }}{% endif %}</dd>
+                <dt class="col-md-2">flavor_text</dt>
+                <dd class="col-md-10">{% if card.flavor_text is defined %}{{ card.flavor_text }}{% endif %}</dd>
+                <dt class="col-md-2">illustration_id</dt>
+                <dd class="col-md-10">{{ card.illustration_id }}</dd>
+                <dt class="col-md-2">card_back_id</dt>
+                <dd class="col-md-10">{{ card.card_back_id }}</dd>
+                <dt class="col-md-2">artist</dt>
+                <dd class="col-md-10">{{ card.artist }}</dd>
+                {% if card.related_uris.gatherer is defined %}
+                    <dt class="col-md-2">Gatherer</dt>
+                    <dd class="col-md-10"><a href="{{ card.related_uris.gatherer }}" target="_blank">lien</a></dd>
+                {% endif %}
+                {% if card.related_uris.tcgplayer_decks is defined %}
+                    <dt class="col-md-2">TCGplayer</dt>
+                    <dd class="col-md-10"><a href="{{ card.related_uris.tcgplayer_decks }}" target="_blank">lien</a></dd>
+                {% endif %}
+                {% if card.related_uris.edhrec is defined %}
+                    <dt class="col-md-2">EDHrec</dt>
+                    <dd class="col-md-10"><a href="{{ card.related_uris.edhrec }}" target="_blank">lien</a></dd>
+                {% endif %}
+                {% if card.related_uris.mtgtop8 is defined %}
+                    <dt class="col-md-2">MTG Top 8</dt>
+                    <dd class="col-md-10"><a href="{{ card.related_uris.mtgtop8 }}" target="_blank">lien</a></dd>
+                {% endif %}
+
+            </dl>
+        </div>
+    </div>
+
+{% endblock %}
