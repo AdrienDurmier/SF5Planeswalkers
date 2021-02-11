@@ -24,7 +24,7 @@
 
         <div id="wrapper">
 
-            <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul id="accordionSidebar" class="navbar-nav sidebar sidebar-dark accordion">
 
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('admin.index') }}">
                     <div class="sidebar-brand-icon rotate-n-45">
@@ -137,10 +137,10 @@
                                 <i class="fas fa-user-circle fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#todo">
+                                {#<a class="dropdown-item" href="#todo">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Mon profil
                                 </a>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>#}
                                 <a class="dropdown-item" href="{{ path('app_logout') }}" title="Se déconnecter">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Se déconnecter
                                 </a>
@@ -189,6 +189,7 @@
         <script src="{{ asset('assets/popper/popper.min.js') }}"></script>
         <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/plateforme/js/sb-admin-2.js') }}"></script>
+        <script src="{{ asset('assets/plateforme/js/plateforme.js') }}"></script>
         <script src="{{ asset('assets/select2/js/select2.js') }}"></script>
         <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
         <script>

@@ -7,7 +7,7 @@
 {% block body %}
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-200">{{ card.name }} <small>{{ card.lang }}</small></h1>
+        <h1 class="h3 mb-0 text-gray-200">{{ card.name }} <small>({{ card.lang }})</small></h1>
         <div class="d-sm-inline-block">
             <form action="{{ path('planeswalkers.deckcard.new') }}" method="post" class="d-inline-block">
                 <input type="hidden" name="id_scryfall" value="{{ card.id }}"/>
@@ -28,15 +28,15 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <img src="{{ card.image_uris.border_crop }}" class="img-fluid">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    {{ card.type_line }}
+                    <b>{{ card.type_line }}</b>
                     <hr>
-                    {{ card.oracle_text }}
+                    {{ card.oracle_text|cardsymbol|raw }}
                     <hr>
                     <p><b>Précision sur les règles</b></p>
                     {% for rule in rules.data %}
@@ -51,17 +51,17 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <span class="badge mx-1 {{ card.legalities.standard|legality }}">Standard</span>
-                        <span class="badge mx-1 {{ card.legalities.modern|legality }}">Modern</span>
-                        <span class="badge mx-1 {{ card.legalities.legacy|legality }}">Legacy</span>
-                        <span class="badge mx-1 {{ card.legalities.vintage|legality }}">Vintage</span>
-                        <span class="badge mx-1 {{ card.legalities.pauper|legality }}">Pauper</span>
-                        <span class="badge mx-1 {{ card.legalities.penny|legality }}">Penny</span>
-                        <span class="badge mx-1 {{ card.legalities.commander|legality }}">Commander</span>
-                        <span class="badge mx-1 {{ card.legalities.brawl|legality }}">Brawl</span>
-                        <span class="badge mx-1 {{ card.legalities.duel|legality }}">Duel</span>
-                        <span class="badge mx-1 {{ card.legalities.future|legality }}">Future</span>
-                        <span class="badge mx-1 {{ card.legalities.oldschool|legality }}">Oldschool</span>
+                        <span class="badge mx-1">{{ card.legalities.standard|legality|raw }} Standard</span>
+                        <span class="badge mx-1">{{ card.legalities.modern|legality|raw }} Modern</span>
+                        <span class="badge mx-1">{{ card.legalities.legacy|legality|raw }} Legacy</span>
+                        <span class="badge mx-1">{{ card.legalities.vintage|legality|raw }} Vintage</span>
+                        <span class="badge mx-1">{{ card.legalities.pauper|legality|raw }} Pauper</span>
+                        <span class="badge mx-1">{{ card.legalities.penny|legality|raw }} Penny</span>
+                        <span class="badge mx-1">{{ card.legalities.commander|legality|raw }} Commander</span>
+                        <span class="badge mx-1">{{ card.legalities.brawl|legality|raw }} Brawl</span>
+                        <span class="badge mx-1">{{ card.legalities.duel|legality|raw }} Duel</span>
+                        <span class="badge mx-1">{{ card.legalities.future|legality|raw }} Future</span>
+                        <span class="badge mx-1">{{ card.legalities.oldschool|legality|raw }} Oldschool</span>
                     </div>
                 </div>
             </div>
