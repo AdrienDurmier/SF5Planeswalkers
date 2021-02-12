@@ -18,37 +18,45 @@
                 <table class="table table-sm table-striped" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th></th>
-                        <th></th>
+                        <th>Artwork</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Couleur</th>
-                        <th>CMC</th>
-                        <th>Prix</th>
-                        <th></th>
+                        <th>Oracle text</th>
+                        <th>Manacost</th>
+                        <th>Rarity</th>
+                        <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for card in cards.data %}
-                        <tr>
-                            <td>{{ card.collector_number }}</td>
-                            <td style="color:#fff;font-size:2em;">
-                                <img src="{{ card.image_uris.art_crop }}" class="img-fluid" style="height:100px;">
+                        <tr class='clickable-row' data-href='{{ path('planeswalkers.card.show', { id: card.id }) }}'>
+                            <td>
+                                {% if card.image_uris is defined %}
+                                    <img src="{{ card.image_uris.art_crop }}" class="img-fluid" alt="" style="height:50px;">
+                                {% else %}
+                                    No visual
+                                {% endif %}
                             </td>
-                            <td>{{ card.name }}</td>
+                            <td>
+                                {{ card.name }}
+                                <br>
+                                <small>Collector number: {{ card.collector_number }}</small>
+                            </td>
                             <td>{{ card.type_line }}</td>
                             <td>
-                                {% for color in card.colors  %}
-                                    {{ color }}
-                                {% endfor  %}
+                                {% if card.oracle_text is defined %}
+                                    <small>{{ card.oracle_text|cardsymbol|raw }}</small>
+                                {% endif %}
                             </td>
-                            <td>{{ card.cmc }}</td>
-                            <td>{{ card.prices.eur }} €</td>
                             <td>
-                                <a href="{{ path('planeswalkers.card.show', { id: card.id }) }}">
-                                    voir
-                                </a>
+                                {% if card.mana_cost is defined %}
+                                    {{ card.mana_cost|cardsymbol|raw }}
+                                {% endif %}
+                                <br><small>CMC: {{ card.cmc }}</small>
+                                <br>
                             </td>
+                            <td>{{ card.rarity }}</td>
+                            <td>{{ card.prices.eur }} €</td>
                         </tr>
                     {% endfor %}
                     </tbody>

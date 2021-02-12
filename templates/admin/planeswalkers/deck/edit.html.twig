@@ -12,7 +12,10 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-200">
-            <i class="fas fa-inbox"></i>&nbsp;{{ deck.title }}
+            {% for color in deck.colorsDeck %}
+                <span class="d-inline-block card-symbol-{{ color }}" style="width:20px;height:20px;"></span>
+            {% endfor %}
+            {{ deck.title }}
         </h1>
         <div class="d-sm-inline-block">
             <a href="{{ path('planeswalkers.deck.index') }}" class="btn btn-sm btn-secondary shadow-sm">
@@ -163,18 +166,10 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex align-items-center justify-content-between">
                     <div class="h6 m-0 font-weight-bold text-light">
-                        Mana
+                        Mana curve
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>
-                        <b>Deck colors:</b>
-                        {% for color in deck.colorsDeck %}
-                            <span class="mx-1 d-inline-block card-symbol-{{ color }}" style="width:20px;height:20px;"></span>
-                        {% endfor %}
-                    </p>
-                    <hr>
-                    <p><b>Mana curve:</b></p>
                     <canvas id="manaCurveChart" width="400" height="400"></canvas>
                 </div>
             </div>
@@ -339,7 +334,7 @@
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Mana converted cost'
+                            labelString: 'Converted Mana Cost (CMC)'
                         }
                     }],
                     xAxes: [{

@@ -10,39 +10,22 @@
 
     <hr>
 
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-sm table-striped" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Count</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for set in sets %}
-                        <tr>
-                            <td style="color:#fff;font-size:2em;">
-                                <img src="{{ set.icon_svg_uri }}" class="img-fluid" style="height:50px;">
-                            </td>
-                            <td>{{ set.name }}</td>
-                            <td>{{ set.released_at }}</td>
-                            <td>{{ set.card_count }}</td>
-                            <td>
-                                <a href="{{ path('planeswalkers.set.show', {code: set.code}) }}">
-                                    voir
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <div class="row">
+        {% for set in sets %}
+            <div class="col-sm-4 col-md-3 col-lg-2">
+                <div class="card mb-4">
+                    <a href="{{ path('planeswalkers.set.show', {code: set.code}) }}">
+                        <div class="planeswalkers-sets-thumb" style="background-image:url('{{ set.icon_svg_uri }}');"></div>
+                    </a>
+                    <div class="card-body">
+                        <div class="card-title"><b>{{ set.name }}</b></div>
+                        Number of cards: {{ set.card_count }}
+                        <br>
+                        Release date: {{ set.released_at }}
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
 
     <div class="navigation">

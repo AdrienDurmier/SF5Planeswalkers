@@ -33,7 +33,7 @@
                             <td>{{ deck.title }}</td>
                             <td>
                                 {% for color in deck.colorsDeck %}
-                                    <span class="mx-1 d-inline-block card-symbol-{{ color }}" style="width:20px;height:20px;"></span>
+                                    <div class="card-symbol card-symbol-{{ color }}"></div>
                                 {% endfor %}
                             </td>
                             <td>{{ deck.updated|date('d/m/Y') }}</td>
