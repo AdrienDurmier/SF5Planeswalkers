@@ -1,4 +1,4 @@
-{% extends 'back.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}
     {{ deck.title }}
@@ -12,7 +12,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-200">
-            <i class="fas fa-layer-group"></i>&nbsp;{{ deck.title }}
+            <i class="fas fa-inbox"></i>&nbsp;{{ deck.title }}
         </h1>
         <div class="d-sm-inline-block">
             <a href="{{ path('planeswalkers.deck.index') }}" class="btn btn-sm btn-secondary shadow-sm">
@@ -339,13 +339,13 @@
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Coût converti de mana (CMC)'
+                            labelString: 'Mana converted cost'
                         }
                     }],
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Nombre de cartes'
+                            labelString: 'Cards number'
                         }
                     }]
                 }

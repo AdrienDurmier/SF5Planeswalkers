@@ -1,4 +1,4 @@
-{% extends 'back.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}
     {{ deck.title }} - Legality
@@ -7,7 +7,7 @@
 {% block body %}
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-200"><i class="fas fa-layer-group"></i> {{ deck.title }} - Legality</h1>
+        <h1 class="h3 mb-0 text-gray-200"><i class="fas fa-inbox"></i> {{ deck.title }} - Legality</h1>
         <div class="d-sm-inline-block">
             <a href="{{ path('planeswalkers.deck.edit', {id: deck.id}) }}" class="btn btn-sm btn-secondary shadow-sm">
                 <i class="fas fa-reply fa-sm text-white-50"></i>
@@ -17,7 +17,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.index') }}">Mes decks</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.index') }}">My decks</a></li>
             <li class="breadcrumb-item"><a href="{{ path('planeswalkers.deck.edit', {id: deck.id }) }}">{{ deck.title }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Legality</li>
         </ol>

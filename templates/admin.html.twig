@@ -27,9 +27,6 @@
             <ul id="accordionSidebar" class="navbar-nav sidebar sidebar-dark accordion">
 
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('admin.index') }}">
-                    <div class="sidebar-brand-icon rotate-n-45">
-                        {#<i class="fab fa-wizards-of-the-coast"></i>#}
-                    </div>
                     <div class="sidebar-brand-text mx-3">Planeswalkers</div>
                 </a>
 
@@ -37,35 +34,25 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin.index') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i><span>Tableau de bord</span>
+                        <i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span>
                     </a>
-                </li>
-
-                <hr class="sidebar-divider">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseEdition" aria-expanded="true" aria-controls="collapseEdition">
-                        <i class="fas fa-bars"></i>
-                        <span>Éditions</span>
-                    </a>
-                    <div id="collapseEdition" class="collapse {{ app.request.get('_route')|split('.')[1] == 'set' ? 'show' }}" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item {{ path('planeswalkers.set.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.set.index') }}">
-                                Liste
-                            </a>
-                        </div>
-                    </div>
                 </li>
 
                 <hr class="sidebar-divider">
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseDeck" aria-expanded="true" aria-controls="collapseDeck">
-                        <i class="fas fa-layer-group"></i>
-                        <span>Decks</span>
+                        <i class="fas fa-user"></i> <span>My space</span>
                     </a>
                     <div id="collapseDeck" class="collapse {{ app.request.get('_route')|split('.')[1] == 'deck' ? 'show' }}" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item {{ path('planeswalkers.deck.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.deck.index') }}">
-                                Mes decks
+                                <i class="fas fa-inbox"></i> My decks
+                            </a>
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-layer-group"></i> My cards
+                            </a>
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-heart"></i> My wishlist
                             </a>
                         </div>
                     </div>
@@ -73,14 +60,39 @@
 
                 <hr class="sidebar-divider">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseArtist" aria-expanded="true" aria-controls="collapseArtist">
-                        <i class="fas fa-paint-brush"></i>
-                        <span>Artists</span>
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseCommunity" aria-expanded="true" aria-controls="collapseCommunity">
+                        <i class="fas fa-users"></i> <span>Community</span>
                     </a>
-                    <div id="collapseArtist" class="collapse {{ app.request.get('_route')|split('.')[1] == 'artist' ? 'show' }}" data-parent="#accordionSidebar">
+                    <div id="collapseCommunity" class="collapse {{ app.request.get('_route')|split('.')[1] == 'deck' ? 'show' }}" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-medal"></i> Top 8
+                            </a>
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-chart-line"></i> Decks
+                            </a>
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-hands-helping"></i> Combos
+                            </a>
+                            <a class="collapse-item" href="#todo">
+                                <i class="fas fa-medal"></i> Analysis
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMtg" aria-expanded="true" aria-controls="collapseMtg">
+                        <i class="fab fa-wizards-of-the-coast"></i> <span>Magic the Gathering</span>
+                    </a>
+                    <div id="collapseMtg" class="collapse {{ app.request.get('_route')|split('.')[1] == 'artist' ? 'show' }}" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item {{ path('planeswalkers.set.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.set.index') }}">
+                                <i class="fas fa-bars"></i> <span>Sets</span>
+                            </a>
                             <a class="collapse-item {{ path('planeswalkers.artist.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.artist.index') }}">
-                                Liste
+                                <i class="fas fa-paint-brush"></i> Artists
                             </a>
                         </div>
                     </div>
@@ -90,7 +102,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('planeswalkers.simulation.index') }}">
                         <i class="fas fa-gamepad"></i>
-                        <span>Simulation</span>
+                        <span>Play</span>
                     </a>
                 </li>
 
@@ -117,7 +129,7 @@
                         <div class="autocomplete_area">
                             <input type="hidden" id="cards_search_choice" name="cards_search_choice">
                             <div class="input-group">
-                                <input id="card_search" name="card_search" class="form-control form-control-sm" placeholder="Rechercher..." type="search" autocomplete="off">
+                                <input id="card_search" name="card_search" class="form-control form-control-sm" placeholder="Search..." type="search" autocomplete="off">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                                 </div>
@@ -141,8 +153,8 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Mon profil
                                 </a>
                                 <div class="dropdown-divider"></div>#}
-                                <a class="dropdown-item" href="{{ path('app_logout') }}" title="Se déconnecter">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Se déconnecter
+                                <a class="dropdown-item" href="{{ path('app_logout') }}" title="Logout">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                                 </a>
                             </div>
                         </li>
@@ -178,10 +190,10 @@
         </a>
 
         <div id="loader-area" class="small" style="display:none;">
-            <i class="fas fa-spinner fa-pulse"></i> Chargement en cours...
+            <i class="fas fa-spinner fa-pulse"></i> Loading...
         </div>
         <div id="saving-area" class="small" style="display:none;">
-            <i class="fas fa-save"></i> Enregistrement en cours...
+            <i class="fas fa-save"></i> Saving...
         </div>
 
         <noscript>Your browser does not support JavaScript!</noscript>
