@@ -16,9 +16,21 @@
                 <input type="hidden" name="quantite" value="1"/>
                 <div class="input-group">
                     <select class="form-control form-control-sm" name="deck" onChange="submit()">
-                        <option>Ajouter à un deck</option>
+                        <option>Add to a deck</option>
                         {% for deck in decks %}
                             <option value="{{ deck.id }}">{{ deck }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            <form action="{{ path('planeswalkers.wishlistcard.new') }}" method="post" class="d-inline-block ml-2">
+                <input type="hidden" name="id_scryfall" value="{{ card.id }}"/>
+                <input type="hidden" name="quantite" value="1"/>
+                <div class="input-group">
+                    <select class="form-control form-control-sm" name="wishlist" onChange="submit()">
+                        <option>Add to a wishlist</option>
+                        {% for wishlist in wishlists %}
+                            <option value="{{ wishlist.id }}">{{ wishlist }}</option>
                         {% endfor %}
                     </select>
                 </div>

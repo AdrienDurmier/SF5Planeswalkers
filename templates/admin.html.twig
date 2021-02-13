@@ -51,7 +51,7 @@
                             <a class="collapse-item" href="#todo">
                                 <i class="fas fa-layer-group"></i> My cards
                             </a>
-                            <a class="collapse-item" href="#todo">
+                            <a class="collapse-item {{ path('planeswalkers.wishlist.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.wishlist.index') }}">
                                 <i class="fas fa-heart"></i> My wishlist
                             </a>
                         </div>
@@ -63,7 +63,7 @@
                     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseCommunity" aria-expanded="true" aria-controls="collapseCommunity">
                         <i class="fas fa-users"></i> <span>Community</span>
                     </a>
-                    <div id="collapseCommunity" class="collapse {{ app.request.get('_route')|split('.')[1] == 'deck' ? 'show' }}" data-parent="#accordionSidebar">
+                    <div id="collapseCommunity" class="collapse {{ app.request.get('_route')|split('.')[1] == 'community' ? 'show' }}" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="#todo">
                                 <i class="fas fa-medal"></i> Top 8

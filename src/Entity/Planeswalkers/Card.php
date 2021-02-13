@@ -26,7 +26,7 @@ class Card
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $id_scryfall;
+    private $idScryfall;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -41,37 +41,37 @@ class Card
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_small;
+    private $imageUrisSmall;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_normal;
+    private $imageUrisNormal;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_large;
+    private $imageUrisLarge;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_png;
+    private $imageUrisPng;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_art_crop;
+    private $imageUrisArtCrop;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_uris_border_crop;
+    private $imageUrisBorderCrop;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $mana_cost;
+    private $manaCost;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -86,7 +86,7 @@ class Card
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $type_line;
+    private $typeLine;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -100,12 +100,12 @@ class Card
 
     public function getIdScryfall(): ?string
     {
-        return $this->id_scryfall;
+        return $this->idScryfall;
     }
 
-    public function setIdScryfall(string $id_scryfall): self
+    public function setIdScryfall(string $idScryfall): self
     {
-        $this->id_scryfall = $id_scryfall;
+        $this->idScryfall = $idScryfall;
 
         return $this;
     }
@@ -136,84 +136,84 @@ class Card
 
     public function getImageUrisSmall(): ?string
     {
-        return $this->image_uris_small;
+        return $this->imageUrisSmall;
     }
 
-    public function setImageUrisSmall(string $image_uris_small): self
+    public function setImageUrisSmall(string $imageUrisSmall): self
     {
-        $this->image_uris_small = $image_uris_small;
+        $this->imageUrisSmall = $imageUrisSmall;
 
         return $this;
     }
 
     public function getImageUrisNormal(): ?string
     {
-        return $this->image_uris_normal;
+        return $this->imageUrisNormal;
     }
 
-    public function setImageUrisNormal(string $image_uris_normal): self
+    public function setImageUrisNormal(string $imageUrisNormal): self
     {
-        $this->image_uris_normal = $image_uris_normal;
+        $this->imageUrisNormal = $imageUrisNormal;
 
         return $this;
     }
 
     public function getImageUrisLarge(): ?string
     {
-        return $this->image_uris_large;
+        return $this->imageUrisLarge;
     }
 
-    public function setImageUrisLarge(string $image_uris_large): self
+    public function setImageUrisLarge(string $imageUrisLarge): self
     {
-        $this->image_uris_large = $image_uris_large;
+        $this->imageUrisLarge = $imageUrisLarge;
 
         return $this;
     }
 
     public function getImageUrisPng(): ?string
     {
-        return $this->image_uris_png;
+        return $this->imageUrisPng;
     }
 
-    public function setImageUrisPng(string $image_uris_png): self
+    public function setImageUrisPng(string $imageUrisPng): self
     {
-        $this->image_uris_png = $image_uris_png;
+        $this->imageUrisPng = $imageUrisPng;
 
         return $this;
     }
 
     public function getImageUrisArtCrop(): ?string
     {
-        return $this->image_uris_art_crop;
+        return $this->imageUrisArtCrop;
     }
 
-    public function setImageUrisArtCrop(string $image_uris_art_crop): self
+    public function setImageUrisArtCrop(string $imageUrisArtCrop): self
     {
-        $this->image_uris_art_crop = $image_uris_art_crop;
+        $this->imageUrisArtCrop = $imageUrisArtCrop;
 
         return $this;
     }
 
     public function getImageUrisBorderCrop(): ?string
     {
-        return $this->image_uris_border_crop;
+        return $this->imageUrisBorderCrop;
     }
 
-    public function setImageUrisBorderCrop(string $image_uris_border_crop): self
+    public function setImageUrisBorderCrop(string $imageUrisBorderCrop): self
     {
-        $this->image_uris_border_crop = $image_uris_border_crop;
+        $this->imageUrisBorderCrop = $imageUrisBorderCrop;
 
         return $this;
     }
 
     public function getManaCost(): ?string
     {
-        return $this->mana_cost;
+        return $this->manaCost;
     }
 
-    public function setManaCost(string $mana_cost): self
+    public function setManaCost(string $manaCost): self
     {
-        $this->mana_cost = $mana_cost;
+        $this->manaCost = $manaCost;
 
         return $this;
     }
@@ -232,12 +232,12 @@ class Card
 
     public function getTypeLine(): ?string
     {
-        return $this->type_line;
+        return $this->typeLine;
     }
 
-    public function setTypeLine(string $type_line): self
+    public function setTypeLine(string $typeLine): self
     {
-        $this->type_line = $type_line;
+        $this->typeLine = $typeLine;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
+use App\Entity\Planeswalkers\Wishlist;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,12 +47,14 @@ class CardController extends AbstractController
         $response_card = $apiScryfall->interroger('get', 'cards/'.$id);
         $response_rules = $apiScryfall->interroger('get', 'cards/'.$id.'/rulings');
 
-        $decks = $this->getDoctrine()->getRepository(Deck::class)->findAll();
+        $decks = $this->getDoctrine()->getRepository(Deck::class)->findByAuthor($this->getUser());
+        $wishlists = $this->getDoctrine()->getRepository(Wishlist::class)->findByAuthor($this->getUser());
 
         return $this->render('admin/planeswalkers/card/show.html.twig', [
             'card'      =>  $response_card->body,
             'rules'     =>  $response_rules->body,
             'decks'     =>  $decks,
+            'wishlists' =>  $wishlists,
         ]);
     }
     
