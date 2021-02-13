@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\DBAL\Exception\ServerException;
 use App\Service\Planeswalkers\APIScryfall;
 
 class ArtistController extends AbstractController
@@ -18,7 +17,6 @@ class ArtistController extends AbstractController
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws \Unirest\Exception
      */
     public function index(PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
     {
@@ -27,7 +25,7 @@ class ArtistController extends AbstractController
         $artists = $paginator->paginate(
             $response->body->data,
             $request->query->getInt('page', 1),
-            50
+            180
         );
 
         return $this->render('admin/planeswalkers/artist/index.html.twig', [
@@ -36,26 +34,26 @@ class ArtistController extends AbstractController
     }
 
     /**
-     * @Route("/planeswalkers/artists/{name}", name="planeswalkers.artist.show")
-     * @param $name
+     * @Route("/planeswalkers/artists/{artist}", name="planeswalkers.artist.show")
+     * @param string $artist
      * @param PaginatorInterface $paginator
      * @param APIScryfall $apiScryfall
      * @param Request $request
      * @return Response
-     * @throws \Unirest\Exception
      */
-    public function show($name, PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
+    public function show(string $artist, PaginatorInterface $paginator, APIScryfall $apiScryfall, Request $request)
     {
-        $response_cards = $apiScryfall->interroger('get', 'collapseArtist=a%3A'.str_replace(' ', '',$name));
+        $query = $request->query->all();
+        $response = $apiScryfall->interroger('get', 'cards/search?q=a%3A"'.$artist.'"');
 
         $cards = $paginator->paginate(
-            $response_cards->body->data,
+            $response->body->data,
             $request->query->getInt('page', 1),
-            12
+            24
         );
 
         return $this->render('admin/planeswalkers/artist/show.html.twig', [
-            'name'  =>  $name,
+            'name'  =>  $query['name'],
             'cards'  =>  $cards,
         ]);
     }

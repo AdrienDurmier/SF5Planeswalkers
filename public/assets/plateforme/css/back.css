@@ -1,5 +1,5 @@
 body {background-image:url('/images/background.jpg');background-repeat: repeat;}
-
+a:hover {text-decoration:none;}
 /* Sidebar */
 #accordionSidebar {background-color: rgba(0,0,0,0.5);}
 
@@ -30,8 +30,11 @@ body {background-image:url('/images/background.jpg');background-repeat: repeat;}
 /* Table */
 .clickable-row {cursor:pointer;}
 
-/* Bootstrap */
+/* Bootstrap - form */
 input[type='file'].form-control {padding:0;}
+/* Bootstrap - card*/
+.card .card-body a {color:rgba(255, 255, 255, 0.8);}
+.card .card-body a:hover {color:#fff;}
 
 /* Planeswalkers */
 /* Planeswalkers - Sets */

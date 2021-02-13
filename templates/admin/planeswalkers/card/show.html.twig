@@ -75,10 +75,20 @@
                                     <br>
                                     Collector number: {{ card.collector_number }}
                                     <br>
-                                    Artist: {{ card.artist }}
+                                    Artist: <a href="{{ path('planeswalkers.artist.show', {artist : card.artist|slugify }) }}">{{ card.artist }}</a>
                                     <br>
                                     Border color: {{ card.border_color }}
+                                    <br>
+                                    Digital: {{ card.digital|display_boolean }}
+                                    <br>
+                                    Promo: {{ card.promo|display_boolean }}
+                                    <br>
+                                    Reprint: {{ card.reprint }}
                                 </td>
+                            </tr>
+                            <tr>
+                                <td><b>EDHrec rank</b></td>
+                                <td>{{ card.edhrec_rank }}</td>
                             </tr>
                             <tr>
                                 <td><b>Useful links</b></td>

@@ -19,10 +19,10 @@ class BooleanExtension extends AbstractExtension
         if($entity !== null){
             switch ($entity) {
                 case 1:
-                $response = "Oui";
+                $response = "Yes";
                 break;
                 case 0:
-                $response =  "Non";
+                $response =  "No";
                 break;
             }
         }

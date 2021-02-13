@@ -37,7 +37,6 @@ class APIScryfall
      * @param string $uri : fin de l'url absolue
      * @param array $parametres : contenu de la reqûete
      * @return mixed
-     * @throws Unirest\Exception
      */
     public function interroger($methode = 'get', $uri = '', $parametres = array())
     {
@@ -45,7 +44,7 @@ class APIScryfall
 
         $base_url_api = $this->params->get('url_api_scryfall');
         $headers = array('Content-type' => 'application/json');
-        $body = Unirest\Request\Body::json([]);
+        $body = Unirest\Request\Body::form(json_encode($parametres));
         $response = Unirest\Request::$methode($base_url_api . $uri, $headers, $body);
 
         return $response;

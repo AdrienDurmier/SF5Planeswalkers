@@ -10,30 +10,20 @@
 
     <hr>
 
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-sm table-striped" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Artist Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for artist in artists %}
-                        <tr>
-                            <td>
-                                <a href="{{ path('planeswalkers.artist.show', {name: artist}) }}">
-                                    {{ artist }}
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <div class="row">
+        {% for artist in artists %}
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="{{ path('planeswalkers.artist.show', {artist: artist|slugify, name: artist } ) }}" class="text-center">
+                            {{ artist }}
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
+
 
     <div class="navigation">
         {{ knp_pagination_render(artists) }}
