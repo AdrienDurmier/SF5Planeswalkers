@@ -23,16 +23,16 @@
         <div class="card-body">
             <div class="row">
                 {% for wishlistcard in wishlist.cards %}
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="wishlist-card-area col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="py-3">
                             <a href="{{ path('planeswalkers.card.show', {id: wishlistcard.card.idScryfall}) }}">
                                 <img src="{{ wishlistcard.card.imageUrisNormal }}" alt="{{ wishlistcard.card.name }}" class="img-fluid" style="border-radius:15px;">
                             </a>
                             <div class="input-group input-group-sm mb-3">
-                                <input type="number" min="0" step="1" class="form-control form-control-sm input-wishlistcard-quantite" data-deckcard="{{ wishlistcard.id }}" name="quantite" value="{{ wishlistcard.quantite }}" />
+                                <input type="number" min="0" step="1" class="form-control form-control-sm input-wishlistcard-quantite" data-wishlistcard="{{ wishlistcard.id }}" name="quantite" value="{{ wishlistcard.quantite }}" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
-                                        <a class="text-danger input-deckcard-delete" title="Supprimer cette carte" data-deckcard="{{ wishlistcard.id }}" style="cursor:pointer;">
+                                        <a class="text-danger input-wishlistcard-delete" title="Supprimer cette carte" data-wishlistcard="{{ wishlistcard.id }}" style="cursor:pointer;">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </span>
@@ -45,4 +45,60 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        {# Modification de la quantité en live #}
+        $(document).on('change', '.input-wishlistcard-quantite', function (event) {
+            let wishlistcard = $(this);
+            let parametres = {
+                wishlistcard: $(this).data('wishlistcard'),
+                quantite: wishlistcard.val(),
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.wishlistcard.ajax.quantite') }}",
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#saving-area').fadeIn();
+                },
+                success: function (data) {
+                    if(data.delete == true){
+                        wishlistcard.closest('.wishlist-card-area').remove();
+                    }
+                },
+                complete: function () {
+                    $('#saving-area').fadeOut();
+                },
+                data: parametres
+            });
+        });
+
+        {# Suppression d'une carte en live #}
+        $(document).on('click', '.input-wishlistcard-delete', function (event) {
+            let wishlistcard = $(this);
+            let parametres = {
+                wishlistcard: $(this).data('wishlistcard'),
+                quantite: 0,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.wishlistcard.ajax.quantite') }}",
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#saving-area').fadeIn();
+                },
+                success: function (data) {
+                    if(data.delete == true){
+                        wishlistcard.closest('.wishlist-card-area').remove();
+                    }
+                },
+                complete: function () {
+                    $('#saving-area').fadeOut();
+                },
+                data: parametres
+            });
+        });
+    </script>
 {% endblock %}

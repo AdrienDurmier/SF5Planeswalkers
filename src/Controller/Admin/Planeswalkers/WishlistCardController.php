@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Unirest\Exception;
 use App\Entity\Planeswalkers\Card;
-use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\WishlistCard;
 use App\Service\Planeswalkers\APIScryfall;
 
@@ -71,4 +70,30 @@ class WishlistCardController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/planeswalkers/wishlistcard/ajax-quantite", name="planeswalkers.wishlistcard.ajax.quantite", methods="POST")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function ajaxQuantite(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+        $delete = false;
+        $wishlistcard = $this->getDoctrine()->getRepository(WishlistCard::class)->find($datas['wishlistcard']);
+        if(isset($datas['quantite'])){
+            if($datas['quantite'] > 1) {
+                $wishlistcard->setQuantite($datas['quantite']);
+                $em->persist($wishlistcard);
+            } else {
+                $em->remove($wishlistcard);
+                $delete = true;
+            }
+        }
+        $em->flush();
+        $response = array(
+            'delete' => $delete,
+        );
+        return new JsonResponse($response);
+    }
 }

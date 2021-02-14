@@ -382,7 +382,7 @@
         });
 
         // Modification de la quantité en live
-        $(document).on('mouseout', '.input-deckcard-quantite', function (event) {
+        $(document).on('change', '.input-deckcard-quantite', function (event) {
             let deckcard = $(this);
             let parametres = {
                 deckcard: $(this).data('deckcard'),
