@@ -36,25 +36,21 @@ class Game
     private $updated;
 
     /**
-     * @var User
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @var Legality
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Legality")
      * @ORM\JoinColumn(nullable=false)
      */
     private $format;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\Play\Team", mappedBy="game", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\Play\Player", mappedBy="game", cascade={"persist", "remove"})
      */
-    private $teams;
+    private $players;
 
     public function getId(): ?int
     {
@@ -110,19 +106,19 @@ class Game
         $this->format = $format;
     }
 
-    public function addTeam(Team $team)
+    public function addPlayer(Player $player)
     {
-        $this->teams[] = $team;
+        $this->players[] = $player;
     }
 
-    public function removeTeam(Team $team)
+    public function removePlayer(Player $player)
     {
-        $this->teams->removeElement($team);
+        $this->players->removeElement($player);
     }
 
-    public function getTeams()
+    public function getPlayers()
     {
-        return $this->teams;
+        return $this->players;
     }
 
 }

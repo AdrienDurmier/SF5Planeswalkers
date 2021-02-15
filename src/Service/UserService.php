@@ -13,7 +13,6 @@ class UserService
     private $em;
 
     /**
-     * Api constructor.
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)

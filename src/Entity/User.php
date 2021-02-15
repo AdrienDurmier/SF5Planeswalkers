@@ -51,14 +51,19 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $dciNumber;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -214,6 +219,19 @@ class User implements UserInterface
         $this->lastname = $lastname;
         return $this;
     }
+
+    public function getDciNumber(): ?string
+    {
+        return $this->dciNumber;
+    }
+
+    public function setDciNumber(string $dciNumber): self
+    {
+        $this->dciNumber = $dciNumber;
+
+        return $this;
+    }
+
 
     public function getHeidiToken(): ?string
     {

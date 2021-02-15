@@ -2,16 +2,22 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
-use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Planeswalkers\Deck;
+use App\Entity\User;
 
 /**
  * @ORM\Table(name="planeswalkers_play_player")
- * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\PlayerRepository::class)
+ * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\ExileRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class Player extends User
+class Player
 {
+    public function __toString()
+    {
+        return $this->user->getFirstname() . ' ' . $this->user->getLastname();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,27 +25,57 @@ class Player extends User
      */
     private $id;
 
-    public function getId(): ?int
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Play\Game", inversedBy="players")
+     */
+    private $game;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Deck")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $deck;
+
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @var Team
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Play\Team", inversedBy="teams")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $team;
-
-    public function getTeam(): Team
+    public function getGame()
     {
-        return $this->team;
+        return $this->game;
     }
 
-    public function setTeam(Team $team): void
+    public function setGame(Game $game): self
     {
-        $this->team = $team;
+        $this->game = $game;
+        return $this;
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getDeck()
+    {
+        return $this->deck;
+    }
+
+    public function setDeck(Deck $deck): self
+    {
+        $this->deck = $deck;
+        return $this;
+    }
 }

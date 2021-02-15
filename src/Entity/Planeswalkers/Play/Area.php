@@ -32,24 +32,5 @@ abstract class Area
         return $this->id;
     }
 
-    /**
-     * @var Player
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Play\Player")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $player;
-
-    public function getPlayer(): Player
-    {
-        return $this->player;
-    }
-
-    public function setPlayer(Player $player): void
-    {
-        $this->player = $player;
-    }
-
-
 
 }

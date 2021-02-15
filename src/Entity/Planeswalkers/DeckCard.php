@@ -29,16 +29,12 @@ class DeckCard
     private $quantite_reserve;
 
     /**
-     * @var DeckCard
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Deck")
      * @ORM\JoinColumn(nullable=false)
      */
     private $deck;
 
     /**
-     * @var DeckCard
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Card")
      * @ORM\JoinColumn(nullable=false)
      */

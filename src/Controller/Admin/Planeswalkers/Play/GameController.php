@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin\Planeswalkers\Play;
 
+use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
+use App\Service\Planeswalkers\Play\GameService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,29 +21,27 @@ class GameController extends AbstractController
     public function index(Request $request)
     {
         $games = $this->getDoctrine()->getRepository(Game::class)->findAll();
+        $decks = $this->getDoctrine()->getRepository(Deck::class)->findByAuthor($this->getUser());
         $formats = $this->getDoctrine()->getRepository(Legality::class)->findAll();
 
         return $this->render('admin/planeswalkers/play/game/index.html.twig', [
             'games'     =>  $games,
+            'decks'     =>  $decks,
             'formats'   =>  $formats,
         ]);
     }
 
     /**
      * @Route("/admin/planeswalkers/play/games/new", name="planeswalkers.play.game.new", methods="POST")
+     * @param GameService $gameService
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request)
+    public function new(GameService $gameService, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $datas = $request->request->all();
-        $game = new Game();
-        $legality = $em->getRepository(Legality::class)->find($datas['format']);
-        $game->setAuthor($this->getUser());
-        $game->setLegality($legality);
-        $em->persist($game);
-        $em->flush();
+        $game = $gameService->new($datas, $this->getUser());
+
         return $this->redirectToRoute('planeswalkers.play.game.index');
     }
     
