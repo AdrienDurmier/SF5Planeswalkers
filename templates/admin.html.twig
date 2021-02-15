@@ -46,13 +46,13 @@
                     <div id="collapseDeck" class="collapse {{ app.request.get('_route')|split('.')[1] == 'deck' ? 'show' }}" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item {{ path('planeswalkers.deck.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.deck.index') }}">
-                                <i class="fas fa-inbox"></i> Deck builder
+                                <i class="fas fa-inbox"></i> Decks
                             </a>
-                            <a class="collapse-item" href="#todo">
-                                <i class="fas fa-layer-group"></i> My cards
+                            <a class="collapse-item {{ path('planeswalkers.collection.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.collection.index') }}">
+                                <i class="fas fa-layer-group"></i> Collection
                             </a>
                             <a class="collapse-item {{ path('planeswalkers.wishlist.index') == app.request.pathinfo ? 'active' }}" href="{{ path('planeswalkers.wishlist.index') }}">
-                                <i class="fas fa-heart"></i> My wishlist
+                                <i class="fas fa-heart"></i> Wishlists
                             </a>
                         </div>
                     </div>

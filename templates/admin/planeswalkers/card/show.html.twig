@@ -35,7 +35,13 @@
                     </select>
                 </div>
             </form>
-
+            <form action="{{ path('planeswalkers.collectioncard.new') }}" method="post" class="d-inline-block ml-2">
+                <input type="hidden" name="id_scryfall" value="{{ card.id }}"/>
+                <input type="hidden" name="quantite" value="1"/>
+                <button type="submit" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-layer-group fa-sm text-white-50"></i> Add to my collection
+                </button>
+            </form>
         </div>
     </div>
 
@@ -83,7 +89,7 @@
                                 <td>
                                     {{ card.set_name }}
                                     <br>
-                                    Rarity: {{ card.rarity }}
+                                    Rarity: {{ card.rarity|rarity|raw }}
                                     <br>
                                     Collector number: {{ card.collector_number }}
                                     <br>

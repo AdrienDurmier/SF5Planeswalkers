@@ -3,18 +3,12 @@
 namespace App\Controller\Admin\Planeswalkers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Exception\ServerException;
-use App\Service\Planeswalkers\LegalityService;
-use App\Service\Planeswalkers\APIScryfall;
-use App\Service\Planeswalkers\ProbabilityService;
 use App\Entity\Planeswalkers\Wishlist;
-use App\Entity\Planeswalkers\WishlistCard;
-use Unirest\Exception;
 
 class WishlistController extends AbstractController
 {

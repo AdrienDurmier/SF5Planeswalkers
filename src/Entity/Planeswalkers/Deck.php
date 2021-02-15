@@ -7,7 +7,7 @@ use App\Entity\User;
 
 /**
  * @ORM\Table(name="planeswalkers_deck")
- * @ORM\Entity(repositoryClass="App\Repository\Planeswalkers\DeckRepository")
+ * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\DeckRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
 class Deck
@@ -64,7 +64,7 @@ class Deck
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\DeckCard", mappedBy="deck", cascade={"persist", "remove"})
      */
-    private $cartes;
+    private $cards;
 
     public function getId(): ?int
     {
@@ -144,40 +144,40 @@ class Deck
         $this->author = $author;
     }
 
-    public function addCard(DeckCard $carte)
+    public function addCard(DeckCard $card)
     {
-        $this->cartes[] = $carte;
+        $this->cards[] = $card;
     }
 
-    public function removeCard(DeckCard $carte)
+    public function removeCard(DeckCard $card)
     {
-        $this->cartes->removeElement($carte);
+        $this->cards->removeElement($card);
     }
 
     public function getCards()
     {
-        return $this->cartes;
+        return $this->cards;
     }
 
     /**
-     * Méthode permettant de compter le nombre total de carte principal dans le deck
+     * Méthode permettant de compter le nombre total de card principal dans le deck
      * @return int
      */
     public function countCards(){
         $total = 0;
-        foreach($this->cartes as $deck_card){
+        foreach($this->cards as $deck_card){
             $total += $deck_card->getQuantite();
         }
         return $total;
     }
 
     /**
-     * Méthode permettant de compter le nombre total de carte en réserve
+     * Méthode permettant de compter le nombre total de card en réserve
      * @return int
      */
     public function countReserve(){
         $total = 0;
-        foreach($this->cartes as $deck_card){
+        foreach($this->cards as $deck_card){
             $total += $deck_card->getQuantiteReserve();
         }
         return $total;
@@ -189,7 +189,7 @@ class Deck
      */
     public function colorsDeck(){
         $colors = array();
-        foreach($this->cartes as $deck_card){
+        foreach($this->cards as $deck_card){
             foreach($deck_card->getCard()->getColors() as $color){
                 if (!in_array($color, $colors)) {
                     $colors[] = $color;
@@ -208,7 +208,7 @@ class Deck
             '0' => 0, '1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0,
             '6' => 0, '7' => 0, '8' => 0, '9' => 0, '10' => 0, '10+' => 0,
         );
-        foreach($this->cartes as $deck_card){
+        foreach($this->cards as $deck_card){
             // On ne compte pas les terrains
             if(strpos(strtolower($deck_card->getCard()->getTypeLine()), 'land')!== false) {
             }else{
@@ -226,7 +226,7 @@ class Deck
     }
 
     /**
-     * Analyse de la rareté des cartes de ce deck
+     * Analyse de la rareté des cards de ce deck
      * @return array
      */
     public function getRarity(){
@@ -236,7 +236,7 @@ class Deck
             'rare' => 0,
             'mythic' => 0,
         );
-        foreach($this->cartes as $deck_card){
+        foreach($this->cards as $deck_card){
             $rarity[$deck_card->getCard()->getRarity()] += $deck_card->getQuantite();
         }
         return $rarity;

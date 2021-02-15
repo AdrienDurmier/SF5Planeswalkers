@@ -37,6 +37,12 @@ input[type='file'].form-control {padding:0;}
 .card .card-body a:hover {color:#fff;}
 
 /* Planeswalkers */
+/* Planeswalkers - Rarity */
+.planeswalkers-rarity {font-weight:bold;font-size:1.1em;}
+.planeswalkers-rarity.planeswalkers-rarity-common{color:#000000;}
+.planeswalkers-rarity.planeswalkers-rarity-uncommon{color:#515a5a;}
+.planeswalkers-rarity.planeswalkers-rarity-rare{color:#d4af37;}
+.planeswalkers-rarity.planeswalkers-rarity-mythic{color:#e76907;}
 /* Planeswalkers - Sets */
 .planeswalkers-sets-thumb {width:100px;height:150px;background-size:100% auto;background-position:center;background-repeat:no-repeat;text-align:center;margin:auto;}
 /* Planeswalkers - Card symbol */

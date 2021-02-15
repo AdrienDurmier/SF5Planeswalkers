@@ -55,7 +55,7 @@
                                 <br><small>CMC: {{ card.cmc }}</small>
                                 <br>
                             </td>
-                            <td>{{ card.rarity }}</td>
+                            <td>{{ card.rarity|rarity|raw }}</td>
                             <td>{{ card.prices.eur }} €</td>
                         </tr>
                     {% endfor %}
