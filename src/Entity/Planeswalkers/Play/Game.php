@@ -36,6 +36,14 @@ class Game
     private $updated;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
      * @var Legality
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Legality")
@@ -80,6 +88,16 @@ class Game
      */
     public function updateDate() {
         $this->setUpdated(new \Datetime());
+    }
+
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): void
+    {
+        $this->author = $author;
     }
 
     public function getFormat(): Legality

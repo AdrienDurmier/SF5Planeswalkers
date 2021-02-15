@@ -37,6 +37,9 @@ class GameController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $datas = $request->request->all();
         $game = new Game();
+        $legality = $em->getRepository(Legality::class)->find($datas['format']);
+        $game->setAuthor($this->getUser());
+        $game->setLegality($legality);
         $em->persist($game);
         $em->flush();
         return $this->redirectToRoute('planeswalkers.play.game.index');
