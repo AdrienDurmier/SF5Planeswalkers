@@ -13,21 +13,30 @@ class RarityExtension extends AbstractExtension
         ];
     }
 
-    public function displayRarity($rarity)
+    /**
+     * @param $rarity
+     * @param bool $fulltext
+     * @return string
+     */
+    public function displayRarity($rarity, bool $fulltext = false)
     {
         $response = '';
         switch ($rarity) {
             case "common":
-                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-common" title="Common">C</span>';
+                $text = ($fulltext)?'Common':'C';
+                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-common" title="Common">'.$text.'</span>';
                 break;
             case "uncommon":
-                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-uncommon" title="Uncommon">U</span>';
+                $text = ($fulltext)?'Uncommon':'U';
+                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-uncommon" title="Uncommon">'.$text.'</span>';
                 break;
             case "rare":
-                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-rare" title="Rare">R</span>';
+                $text = ($fulltext)?'Rare':'R';
+                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-rare" title="Rare">'.$text.'</span>';
                 break;
             case "mythic":
-                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-mythic" title="Mythic">M</span>';
+                $text = ($fulltext)?'Mythic':'M';
+                $response = '<span class="planeswalkers-rarity planeswalkers-rarity-mythic" title="Mythic">'.$text.'</span>';
                 break;
         }
         return $response;

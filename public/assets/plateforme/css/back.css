@@ -38,7 +38,7 @@ input[type='file'].form-control {padding:0;}
 
 /* Planeswalkers */
 /* Planeswalkers - Rarity */
-.planeswalkers-rarity {font-weight:bold;font-size:1.1em;}
+.planeswalkers-rarity {font-weight:bold;}
 .planeswalkers-rarity.planeswalkers-rarity-common{color:#000000;}
 .planeswalkers-rarity.planeswalkers-rarity-uncommon{color:#515a5a;}
 .planeswalkers-rarity.planeswalkers-rarity-rare{color:#d4af37;}
