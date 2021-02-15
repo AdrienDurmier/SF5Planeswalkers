@@ -2,26 +2,26 @@
 
 namespace App\Service\Planeswalkers\Play;
 
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
 use App\Entity\Planeswalkers\Play\Player;
-use Doctrine\ORM\EntityManagerInterface;
-use Datetime;
-use Exception;
 use App\Entity\User;
-use App\Utils\Jwt;
 
 class GameService
 {
     private $em;
+    private $playerService;
 
     /**
      * @param EntityManagerInterface $em
+     * @param PlayerService $playerService
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, PlayerService $playerService)
     {
         $this->em = $em;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -42,14 +42,10 @@ class GameService
         // Legality
         $game->setLegality($legality);
 
+        // Entitées liées à game
         $this->em->persist($game);
-
         // Players
-        $player = new Player();
-        $player->setUser($user);
-        $player->setGame($game);
-        $player->setDeck($deck);
-        $this->em->persist($player);
+        $player = $this->playerService->new($game, $user, $deck);
         $game->addPlayer($player);
 
         // Save
