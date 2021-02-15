@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\DeckCard;
 
-class SimulationController extends AbstractController
+class SimulationControllerOLD extends AbstractController
 {
     /**
      * @Route("/planeswalkers/simulation/index", name="planeswalkers.simulation.index")

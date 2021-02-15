@@ -97,9 +97,7 @@ class ApiAnonyme
                 $flashbag->add('warning', $response->body->message);
                 return $response->body;
             case Response::HTTP_INTERNAL_SERVER_ERROR: // 500
-                if ($this->params->get('app_env') == "dev"){
-                    die($response->body);
-                }
+                dd($response->body);
                 throw new Exception("Erreur de communication avec l'API $api.");
         }
         return $response;
