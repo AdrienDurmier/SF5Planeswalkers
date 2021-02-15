@@ -32,38 +32,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for game in games %}
-                        <tr>
-                            <td>{{ game.id }}</td>
-                            <td>{{ game.format }}</td>
-                            <td>
-                                {% for player in game.players %}
-                                    <p>
-                                        {{ player }}
-                                        <br>
-                                        <small>
-                                            {% for color in player.deck.colorsDeck %}
-                                                <span class="d-inline-block card-symbol-{{ color }}" style="width:1em;height:1em;"></span>
-                                            {% endfor %}
-                                            {{ player.deck }}
-                                        </small>
-                                    </p>
-                                {% endfor %}
-                            </td>
-                            <td>{{ game.updated|date('d F Y') }}</td>
-                            <td>
-                                <a href="{#todo#}" class="btn btn-sm btn-primary">
-                                    Join
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for game in games %}
+                            <tr>
+                                <td>{{ game.id }}</td>
+                                <td>{{ game.format }}</td>
+                                <td>
+                                    {% for player in game.players %}
+                                        <p>
+                                            {{ player }}
+                                            <br>
+                                            <small>
+                                                {% for color in player.deck.colorsDeck %}
+                                                    <span class="d-inline-block card-symbol-{{ color }}" style="width:1em;height:1em;"></span>
+                                                {% endfor %}
+                                                {{ player.deck }}
+                                            </small>
+                                        </p>
+                                    {% endfor %}
+                                </td>
+                                <td>{{ game.updated|date('d F Y') }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary planeswalkers-game-join-link" data-game="{{ game.id }}" data-toggle="modal" data-target="#planeswalkersGameJoinModal">
+                                        Join
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    {# modal New Game#}
     <div class="modal fade" id="planeswalkersGameNewModal" tabindex="-1" role="dialog" aria-labelledby="planeswalkersGameNewModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -102,4 +103,44 @@
         </div>
     </div>
 
+    {# modal Join Game#}
+    <div class="modal fade" id="planeswalkersGameJoinModal" tabindex="-1" role="dialog" aria-labelledby="planeswalkersGameJoinModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="planeswalkersGameJoinModalLabel">Join game</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{ path('planeswalkers.play.game.join') }}">
+                    <div class="modal-body">
+                        <input type="hidden" id="planeswalkers-game-join-hidden" name="game" value="">
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" name="deck">
+                                <option>Choose a deck</option>
+                                {% for deck in decks %}
+                                    <option value="{{ deck.id }}">{{ deck }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-gamepad"></i> <span>Start</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('.planeswalkers-game-join-link').on('click', function (e) {
+            let game = $(this).data('game');
+            $('#planeswalkers-game-join-hidden').val(game);
+        });
+    </script>
 {% endblock %}

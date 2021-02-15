@@ -25,6 +25,8 @@ class GameService
     }
 
     /**
+     * New Game
+     *
      * @param array $datas
      * @param User $user
      * @return Game
@@ -44,6 +46,29 @@ class GameService
 
         // Entitées liées à game
         $this->em->persist($game);
+        // Players
+        $player = $this->playerService->new($game, $user, $deck);
+        $game->addPlayer($player);
+
+        // Save
+        $this->em->persist($game);
+        $this->em->flush();
+
+        return $game;
+    }
+
+    /**
+     * Join a game
+     *
+     * @param array $datas
+     * @param User $user
+     * @return Game
+     */
+    public function join(array $datas, User $user): Game
+    {
+        $game = $this->em->getRepository(Game::class)->find($datas['game']);
+        $deck = $this->em->getRepository(Deck::class)->find($datas['deck']);
+
         // Players
         $player = $this->playerService->new($game, $user, $deck);
         $game->addPlayer($player);

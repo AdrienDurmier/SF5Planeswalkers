@@ -44,5 +44,19 @@ class GameController extends AbstractController
 
         return $this->redirectToRoute('planeswalkers.play.game.index');
     }
+
+    /**
+     * @Route("/admin/planeswalkers/play/games/join", name="planeswalkers.play.game.join", methods="POST")
+     * @param GameService $gameService
+     * @param Request $request
+     * @return Response
+     */
+    public function join(GameService $gameService, Request $request)
+    {
+        $datas = $request->request->all();
+        $game = $gameService->join($datas, $this->getUser());
+
+        return $this->redirectToRoute('planeswalkers.play.game.index');
+    }
     
 }
