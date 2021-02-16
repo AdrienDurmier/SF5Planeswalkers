@@ -121,4 +121,26 @@ class Game
         return $this->players;
     }
 
+    public function getPlayer(User $user): ?Player
+    {
+        foreach($this->players as $player){
+            if ($player->getUser() == $user){
+                return $player;
+            }
+        }
+        return null;
+    }
+
+    public function getOpponent(User $user): ?Player
+    {
+        foreach($this->players as $player){
+            if ($player->getUser() != $user){
+                return $player;
+            }
+        }
+        return null;
+    }
+
+
+
 }

@@ -40,7 +40,7 @@ class GameController extends AbstractController
     public function new(GameService $gameService, Request $request)
     {
         $datas = $request->request->all();
-        $game = $gameService->new($datas, $this->getUser());
+        $gameService->new($datas, $this->getUser());
 
         return $this->redirectToRoute('planeswalkers.play.game.index');
     }
@@ -56,7 +56,31 @@ class GameController extends AbstractController
         $datas = $request->request->all();
         $game = $gameService->join($datas, $this->getUser());
 
-        return $this->redirectToRoute('planeswalkers.play.game.index');
+        return $this->redirectToRoute('planeswalkers.play.game.fight', [
+            'id'  =>  $game->getId(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
+     * @param Game $game
+     * @param GameService $gameService
+     * @param Request $request
+     * @return Response
+     */
+    public function fight(Game $game, GameService $gameService, Request $request)
+    {
+        $player = $game->getPlayer($this->getUser());
+        $opponent = $game->getOpponent($this->getUser());
+
+
+
+
+        return $this->render('admin/planeswalkers/play/game/fight.html.twig', [
+            'game'      =>  $game,
+            'player'    =>  $player,
+            'opponent'  =>  $opponent,
+        ]);
     }
     
 }

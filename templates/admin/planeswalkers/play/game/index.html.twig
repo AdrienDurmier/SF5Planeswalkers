@@ -1,6 +1,14 @@
+{% import 'macro/avatar.html.twig' as avatar %}
 {% extends 'admin.html.twig' %}
 
 {% block title "Games" %}
+
+{% block stylesheets %}
+    <style>
+        .avatar {margin:5px 10px 0px 0;}
+    </style>
+{% endblock %}
+
 
 {% block body %}
 
@@ -39,7 +47,7 @@
                                 <td>
                                     {% for player in game.players %}
                                         <p>
-                                            {{ player }}
+                                            {{ avatar.afficher(player.user) }} {{ player }}
                                             <br>
                                             <small>
                                                 {% for color in player.deck.colorsDeck %}
@@ -52,9 +60,21 @@
                                 </td>
                                 <td>{{ game.updated|date('d F Y') }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-primary planeswalkers-game-join-link" data-game="{{ game.id }}" data-toggle="modal" data-target="#planeswalkersGameJoinModal">
-                                        Join
-                                    </a>
+                                    {% set resumeGame = false %}
+                                    {% for player in game.players %}
+                                        {% if player.user == app.user %}
+                                            {% set resumeGame = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if resumeGame %}
+                                        <a href="{{ path('planeswalkers.play.game.fight', { id : game.id }) }}" class="btn btn-sm btn-primary planeswalkers-game-join-link">
+                                            Resume
+                                        </a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-sm btn-primary planeswalkers-game-join-link" data-game="{{ game.id }}" data-toggle="modal" data-target="#planeswalkersGameJoinModal">
+                                            Join
+                                        </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -64,7 +84,7 @@
         </div>
     </div>
 
-    {# modal New Game#}
+    {# modal New Game #}
     <div class="modal fade" id="planeswalkersGameNewModal" tabindex="-1" role="dialog" aria-labelledby="planeswalkersGameNewModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -103,7 +123,7 @@
         </div>
     </div>
 
-    {# modal Join Game#}
+    {# modal Join Game #}
     <div class="modal fade" id="planeswalkersGameJoinModal" tabindex="-1" role="dialog" aria-labelledby="planeswalkersGameJoinModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

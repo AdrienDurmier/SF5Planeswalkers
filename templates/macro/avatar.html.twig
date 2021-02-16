@@ -1,0 +1,21 @@
+{% macro afficher(user) %}
+
+    {% set url_avatar = null %}
+    {% set userId = (user.heidiId is defined) ? user.heidiId : user.id  %}
+    {% set url_avatar =  asset('images/unknown-user.png') %}
+
+    {% if user.avatar is not null %}
+        {% set url_avatar = url_uploads_heidi ~ 'tierces/' ~ user.avatar %}
+    {% endif %}
+
+    {% if user.connexionStatusApps is defined or user.statut is defined %}
+        {% set userStatut = (user.connexionStatusApps is defined) ? user.connexionStatusApps : user.statut  %}
+    {% endif %}
+
+    <div class="avatar" style="background-image:url({{ url_avatar }})">
+        <div class="avatar-status avatar-user-{{ userId }}">
+            {{ userStatut|connectionStatus|raw }}
+        </div>
+    </div>
+
+{% endmacro%}

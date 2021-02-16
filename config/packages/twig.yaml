@@ -1,2 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+    # Variables utilisables dans les vues twig
+    globals:
+        url_api_heidi: '%url_api_heidi%'
+        url_uploads_heidi: '%url_uploads_heidi%'
