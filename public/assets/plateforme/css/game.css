@@ -1,17 +1,14 @@
-html,body {
-    padding:0;
-    margin:0;
-    height:100%;
-}
+html,body {padding:0;margin:0;height:100%;}
+body {width:100%;background-repeat: repeat;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQImWNgYGA4g4b/M2AROMOARQAu+B9d5X90IwAw1xVScR1jOgAAAABJRU5ErkJggg==);}
 
-body {
-    width:100%;
-    background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQImWNgYGA4g4b/M2AROMOARQAu+B9d5X90IwAw1xVScR1jOgAAAABJRU5ErkJggg==);
-    background-repeat: repeat;
-}
+#opponent-area, #ally-area {height:50%;position:relative;}
 
-.row-library-hand {height:7%;}
-.row-zone-battlefield {height:43%;}
+/* Avatar */
+#opponent-area .avatar-area {position:absolute;bottom:15px;left:15px;}
+#ally-area .avatar-area {position:absolute;top:15px;left:15px;}
+
+.row-library-hand {height:15%;}
+.row-zone-battlefield {height:85%;}
 .library, .graveyard, .exile, .hand, .battlefield  {height:100%;float:left;}
 .library, .graveyard, .exile  {width:100px;}
 .hand  {width:calc(100% - 300px);}

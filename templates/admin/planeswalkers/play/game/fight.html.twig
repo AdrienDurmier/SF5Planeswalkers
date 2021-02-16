@@ -6,44 +6,54 @@
 {% block body %}
 
     {# Opponent area #}
-    <div class="row-library-hand">
-        <div class="exile" style="background:silver;">
-            exile opponent
-        </div>
-        <div class="graveyard" style="background:black;">
-            graveyard opponent
-        </div>
-        <div class="library" style="background:blue;">
-            library opponent
-        </div>
-        <div class="hand" style="background:green;">
-            hand opponent
-        </div>
-    </div>
-    <div class="row-zone-battlefield">
-        <div class="battlefield" style="background:yellow;">
+    <div id="opponent-area">
+        <div class="avatar-area">
             {{ avatar.afficher(opponent.user) }} {{ opponent.user }}
+        </div>
+        <div class="row-library-hand">
+            <div class="exile" style="background:silver;">
+                exile opponent
+            </div>
+            <div class="graveyard" style="background:black;">
+                graveyard opponent
+            </div>
+            <div class="library" style="background:blue;">
+                library opponent
+            </div>
+            <div class="hand" style="background:green;">
+                hand opponent
+            </div>
+        </div>
+        <div class="row-zone-battlefield">
+            <div class="battlefield" style="background:yellow;">
+
+            </div>
         </div>
     </div>
 
     {# Allies area #}
-    <div class="row-zone-battlefield">
-        <div class="battlefield" style="background:green;">
+    <div id="ally-area">
+        <div class="avatar-area">
             {{ avatar.afficher(player.user) }} {{ player.user }}
         </div>
-    </div>
-    <div class="row-library-hand">
-        <div class="exile" style="background:silver;">
-            exile opponent
+        <div class="row-zone-battlefield">
+            <div class="battlefield" style="background:green;">
+
+            </div>
         </div>
-        <div class="graveyard" style="background:black;">
-            graveyard opponent
-        </div>
-        <div class="library" style="background:blue;">
-            library opponent
-        </div>
-        <div class="hand" style="background:yellow;">
-            hand allies
+        <div class="row-library-hand">
+            <div class="exile" style="background:silver;">
+                exile opponent
+            </div>
+            <div class="graveyard" style="background:black;">
+                graveyard opponent
+            </div>
+            <div class="library" style="background:blue;">
+                library opponent
+            </div>
+            <div class="hand" style="background:yellow;">
+                hand allies
+            </div>
         </div>
     </div>
 
