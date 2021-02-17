@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorMap({
  *  "commandzone"   = "CommandZone",
+ *  "battlefield"   = "Battlefield",
  *  "exile"         = "Exile",
  *  "graveyard"     = "Graveyard",
  *  "hand"          = "Hand",

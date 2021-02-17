@@ -41,6 +41,48 @@ class Player
      */
     private $deck;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Library::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $library;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Hand::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hand;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Graveyard::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $graveyard;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Exile::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $exile;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Battlefield::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $battlefield;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CommandZone::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commandZone;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Sideboard::class, inversedBy="player", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sideboard;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -78,4 +120,89 @@ class Player
         $this->deck = $deck;
         return $this;
     }
+
+    public function getLibrary(): ?Library
+    {
+        return $this->library;
+    }
+
+    public function setLibrary(Library $library): self
+    {
+        $this->library = $library;
+
+        return $this;
+    }
+
+    public function getHand(): ?Hand
+    {
+        return $this->hand;
+    }
+
+    public function setHand(Hand $hand): self
+    {
+        $this->hand = $hand;
+
+        return $this;
+    }
+
+    public function getGraveyard(): ?Graveyard
+    {
+        return $this->graveyard;
+    }
+
+    public function setGraveyard(Graveyard $graveyard): self
+    {
+        $this->graveyard = $graveyard;
+
+        return $this;
+    }
+
+    public function getExile(): ?Exile
+    {
+        return $this->exile;
+    }
+
+    public function setExile(Exile $exile): self
+    {
+        $this->exile = $exile;
+
+        return $this;
+    }
+
+    public function getBattlefield(): ?Battlefield
+    {
+        return $this->battlefield;
+    }
+
+    public function setBattlefield(Battlefield $battlefield): self
+    {
+        $this->battlefield = $battlefield;
+
+        return $this;
+    }
+
+    public function getCommandZone(): ?CommandZone
+    {
+        return $this->commandZone;
+    }
+
+    public function setCommandZone(CommandZone $commandZone): self
+    {
+        $this->commandZone = $commandZone;
+
+        return $this;
+    }
+
+    public function getSideboard(): ?Sideboard
+    {
+        return $this->sideboard;
+    }
+
+    public function setSideboard(Sideboard $sideboard): self
+    {
+        $this->sideboard = $sideboard;
+
+        return $this;
+    }
+
 }

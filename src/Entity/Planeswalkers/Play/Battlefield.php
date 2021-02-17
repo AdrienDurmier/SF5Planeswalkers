@@ -5,11 +5,11 @@ namespace App\Entity\Planeswalkers\Play;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="planeswalkers_play_commandzone")
- * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\CommandZoneRepository::class)
+ * @ORM\Table(name="planeswalkers_play_battlefield")
+ * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\BattlefieldRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class CommandZone extends Area
+class Battlefield extends Area
 {
     /**
      * @ORM\Id()
@@ -19,7 +19,7 @@ class CommandZone extends Area
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Player::class, mappedBy="commandZone", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Player::class, mappedBy="battlefield", cascade={"persist", "remove"})
      */
     private $player;
 
@@ -30,8 +30,8 @@ class CommandZone extends Area
 
     public function setPlayer(Player $player): self
     {
-        if ($player->getCommandZone() !== $this) {
-            $player->setCommandZone()($this);
+        if ($player->getBattlefield() !== $this) {
+            $player->setBattlefield()($this);
         }
         $this->player = $player;
         return $this;

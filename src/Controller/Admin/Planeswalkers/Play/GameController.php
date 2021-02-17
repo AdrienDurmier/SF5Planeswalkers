@@ -73,9 +73,6 @@ class GameController extends AbstractController
         $player = $game->getPlayer($this->getUser());
         $opponent = $game->getOpponent($this->getUser());
 
-
-
-
         return $this->render('admin/planeswalkers/play/game/fight.html.twig', [
             'game'      =>  $game,
             'player'    =>  $player,

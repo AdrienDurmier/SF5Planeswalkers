@@ -17,4 +17,23 @@ class Hand extends Area
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Player::class, mappedBy="hand", cascade={"persist", "remove"})
+     */
+    private $player;
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(Player $player): self
+    {
+        if ($player->getHand() !== $this) {
+            $player->setHand($this);
+        }
+        $this->player = $player;
+        return $this;
+    }
 }

@@ -17,4 +17,23 @@ class Graveyard extends Area
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Player::class, mappedBy="graveyard", cascade={"persist", "remove"})
+     */
+    private $player;
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(Player $player): self
+    {
+        if ($player->getGraveyard() !== $this) {
+            $player->setGraveyard($this);
+        }
+        $this->player = $player;
+        return $this;
+    }
 }

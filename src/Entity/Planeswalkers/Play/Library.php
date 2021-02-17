@@ -17,4 +17,23 @@ class Library extends Area
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Player::class, mappedBy="library", cascade={"persist", "remove"})
+     */
+    private $player;
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(Player $player): self
+    {
+        if ($player->getLibrary() !== $this) {
+            $player->setLibrary($this);
+        }
+        $this->player = $player;
+        return $this;
+    }
 }
