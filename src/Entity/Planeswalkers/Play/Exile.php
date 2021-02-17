@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\ExileRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class Exile
+class Exile extends Area
 {
     /**
      * @ORM\Id()

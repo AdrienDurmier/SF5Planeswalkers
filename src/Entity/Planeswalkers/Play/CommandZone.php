@@ -31,7 +31,7 @@ class CommandZone extends Area
     public function setPlayer(Player $player): self
     {
         if ($player->getCommandZone() !== $this) {
-            $player->setCommandZone()($this);
+            $player->setCommandZone($this);
         }
         $this->player = $player;
         return $this;

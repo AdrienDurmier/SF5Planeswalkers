@@ -31,7 +31,7 @@ class Battlefield extends Area
     public function setPlayer(Player $player): self
     {
         if ($player->getBattlefield() !== $this) {
-            $player->setBattlefield()($this);
+            $player->setBattlefield($this);
         }
         $this->player = $player;
         return $this;
