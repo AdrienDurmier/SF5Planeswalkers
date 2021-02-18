@@ -3,6 +3,7 @@
 namespace App\Service\Planeswalkers\Play;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use App\Entity\Planeswalkers\Play\Game;
 use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\Planeswalkers\Deck;
@@ -53,6 +54,7 @@ class PlayerService
      * @param User $user
      * @param Deck $deck
      * @return Player
+     * @throws Exception
      */
     public function new(Game $game, User $user, Deck $deck): Player
     {
@@ -70,6 +72,8 @@ class PlayerService
         $player->setSideboard($this->sideboardService->new($player));
 
         $this->em->persist($player);
+        $this->em->flush();
+
         return $player;
     }
 }

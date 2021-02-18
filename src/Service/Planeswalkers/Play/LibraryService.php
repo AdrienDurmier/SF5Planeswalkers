@@ -60,7 +60,7 @@ class LibraryService
 
         $positionKey=0;
         foreach ($library->getGameCardsLibrary() as $gameCardLibrary){
-            $gameCardLibrary->setWeight($positionKey);
+            $gameCardLibrary->setWeight($positions[$positionKey]);
             $this->em->persist($gameCardLibrary);
             $positionKey++;
         }
