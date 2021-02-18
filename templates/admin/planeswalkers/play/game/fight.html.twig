@@ -1,4 +1,5 @@
 {% import 'macro/avatar.html.twig' as avatar %}
+{% import 'admin/planeswalkers/play/macro/card-details.html.twig' as cardDetails %}
 {% extends 'game.html.twig' %}
 
 {% block title "Games" %}
@@ -61,18 +62,90 @@
             </div>
             <div class="hand" style="background:yellow;">
                 {% for cardHand in player.hand.gameCardsHand %}
-                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
+                    <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
 
-                    </div>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>
     </div>
 
+    {{ cardDetails.afficher() }}
+
 {% endblock %}
 
 {% block javascripts %}
     <script>
+        {# Au chargement de la page #}
+        $(document).ready(function() {
 
+        });
+
+        {#  #}
+        $(document).on('click', '.hand-card-link', function () {
+            let idScryfall = $(this).data('idsrcyfall');
+            displayCardDetails(idScryfall);
+        });
+
+        function displayCardDetails(idScryfall){
+            $.ajax({
+                url: "https://api.scryfall.com/cards/"+idScryfall,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#cardDetailsTitre').text(data.name);
+                    $('#cardDetailsImg').attr('src', data.image_uris.large);
+                    $('#cardDetailsTypeLine').text(data.type_line);
+                    $('#cardDetailsOracleText').html(data.oracle_text);
+                    $('#cardDetailsEdhrecRank').text(data.edhrec_rank);
+                    $('#cardDetailsRelatedUrisGatherer').attr('href', data.related_uris.gatherer);
+                    $('#cardDetailsRelatedUrisTcgplayerDecks').attr('href', data.related_uris.tcgplayer_decks);
+                    $('#cardDetailsRelatedUrisEdhrec').attr('href', data.related_uris.edhrec);
+                    $('#cardDetailsRelatedUrisMtgtop8').attr('href', data.related_uris.mtgtop8);
+                    $('#cardDetailsPricesUsd').text(data.prices.usd);
+                    $('#cardDetailsPricesEur').text(data.prices.eur);
+                    $('#cardDetailsPricesUsdFoil').text(data.prices.usd_foil);
+                    $('#cardDetailsPricesEurFoil').text(data.prices.eur_foil);
+                    $('#cardDetailsLegalitiesStandard').text(data.legalities.standard);
+                    $('#cardDetailsLegalitiesModern').text(data.legalities.modern);
+                    $('#cardDetailsLegalitiesLegacy').text(data.legalities.legacy);
+                    $('#cardDetailsLegalitiesVintage').text(data.legalities.vintage);
+                    $('#cardDetailsLegalitiesPauper').text(data.legalities.pauper);
+                    $('#cardDetailsLegalitiesPenny').text(data.legalities.penny);
+                    $('#cardDetailsLegalitiesCommander').text(data.legalities.commander);
+                    $('#cardDetailsLegalitiesBrawl').text(data.legalities.brawl);
+                    $('#cardDetailsLegalitiesDuel').text(data.legalities.duel);
+                    $('#cardDetailsLegalitiesFuture').text(data.legalities.future);
+                    $('#cardDetailsLegalitiesOldschool').text(data.legalities.oldschool);
+                    $('#cardDetailsLegalitiesGladiator').text(data.legalities.gladiator);
+                    $('#cardDetailsLegalitiesPremodern').text(data.legalities.premodern);
+                    $.each(data.colors, function (index, color) {
+                        $('#cardDetailsColors').text(color);
+                    });
+                    $.each(data.color_identity, function (index, colorId) {
+                        $('#cardDetailsIdentity').text(colorId);
+                    });
+                    displayCardRules(idScryfall);
+                }
+            });
+        }
+
+        function displayCardRules(idScryfall){
+            $.ajax({
+                url: "https://api.scryfall.com/cards/"+idScryfall+"/rulings",
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    let renderHtml = "";
+                    $.each(data.data, function (index, rule) {
+                        renderHtml += '<p><small>'+rule.comment+'</small></p>';
+                    });
+                    $('#cardDetailsRules').html(renderHtml);
+                }
+            });
+        }
     </script>
 {% endblock %}

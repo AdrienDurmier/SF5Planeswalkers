@@ -32,6 +32,9 @@ a:hover {text-decoration:none;}
 .select2-container--default .select2-results__option--highlighted[aria-selected] {background-color:transparent;text-decoration:underline;}
 .select2-container--default .select2-results__option[aria-selected="true"]{background-color:transparent;}
 
+/* Modal */
+.modal-lg {max-width:1200px;}
+
 /* Table */
 .clickable-row {cursor:pointer;}
 

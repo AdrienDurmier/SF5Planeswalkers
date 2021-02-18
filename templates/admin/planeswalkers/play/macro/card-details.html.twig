@@ -1,0 +1,126 @@
+{% macro afficher() %}
+    <div class="modal fade" id="cardDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="cardDetailsTitre"></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <figure>
+                                <img id="cardDetailsImg" src="" class="img-fluid" alt="">
+                                <figcaption class="text-center">EDHRec rank #<span id="cardDetailsEdhrecRank"></span></figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-md-7">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Type</b></td>
+                                        <td><div id="cardDetailsTypeLine"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Oracle text</b></td>
+                                        <td><div id="cardDetailsOracleText"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Rules</b></td>
+                                        <td><div id="cardDetailsRules"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Useful links</b></td>
+                                        <td>
+                                            <a id="cardDetailsRelatedUrisGatherer" href="" target="_blank">Gatherer</a>
+                                            ,&nbsp;
+                                            <a id="cardDetailsRelatedUrisTcgplayerDecks" href="" target="_blank">TCGplayer</a>
+                                            ,&nbsp;
+                                            <a id="cardDetailsRelatedUrisEdhrec" href="" target="_blank">EDHrec</a>
+                                            ,&nbsp;
+                                            <a id="cardDetailsRelatedUrisMtgtop8" href="" target="_blank">MTG Top 8</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mana</b></td>
+                                        <td>
+                                            Colors: <span id="cardDetailsColors"></span>
+                                            <br>
+                                            Identity: <span id="cardDetailsIdentity"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Price</b></td>
+                                        <td>
+                                            Normal: <span id="cardDetailsPricesUsd"></span>$ / <span id="cardDetailsPricesEur"></span>€
+                                            <br>
+                                            Foil: <span id="cardDetailsPricesUsdFoil"></span>$ / <span id="cardDetailsPricesEurFoil"></span>€
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-2">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td>Standard</td>
+                                    <td><span id="cardDetailsLegalitiesStandard"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Modern</td>
+                                    <td><span id="cardDetailsLegalitiesModern"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Legacy</td>
+                                    <td><span id="cardDetailsLegalitiesLegacy"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage</td>
+                                    <td><span id="cardDetailsLegalitiesVintage"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Pauper</td>
+                                    <td><span id="cardDetailsLegalitiesPauper"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Penny</td>
+                                    <td><span id="cardDetailsLegalitiesPenny"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Commander</td>
+                                    <td><span id="cardDetailsLegalitiesCommander"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Brawl</td>
+                                    <td><span id="cardDetailsLegalitiesBrawl"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Duel</td>
+                                    <td><span id="cardDetailsLegalitiesDuel"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Future</td>
+                                    <td><span id="cardDetailsLegalitiesFuture"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Oldschool</td>
+                                    <td><span id="cardDetailsLegalitiesOldschool"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Gladiator</td>
+                                    <td><span id="cardDetailsLegalitiesGladiator"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Premodern</td>
+                                    <td><span id="cardDetailsLegalitiesPremodern"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
