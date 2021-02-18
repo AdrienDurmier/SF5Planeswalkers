@@ -59,10 +59,10 @@ class PlayerService
     public function new(Game $game, User $user, Deck $deck): Player
     {
         $player = new Player();
+
         $player->setGame($game);
         $player->setUser($user);
         $player->setDeck($deck);
-
         $player->setLibrary($this->libraryService->new($player));
         $player->setHand($this->handService->new($player));
         $player->setBattlefield($this->battlefieldService->new($player));
@@ -76,4 +76,5 @@ class PlayerService
 
         return $player;
     }
+
 }

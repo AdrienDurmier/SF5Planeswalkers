@@ -3,6 +3,7 @@
 namespace App\Entity\Planeswalkers\Play;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Library extends Area
 {
+    public function __construct()
+    {
+        $this->gameCardsLibrary = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -43,19 +49,38 @@ class Library extends Area
         return $this;
     }
 
-    public function addGameCardLibrary(GameCardLibrary $gameCardLibrary)
-    {
-        $this->gameCardsLibrary[] = $gameCardLibrary;
-    }
-
-    public function removeGameCardLibrary(GameCardLibrary $gameCardLibrary)
-    {
-        $this->gameCardsLibrary->removeElement($gameCardLibrary);
-    }
-
-    public function getGameCardsLibrary()
+    /**
+     * @return Collection|GameCardLibrary[]
+     */
+    public function getGameCardsLibrary(): Collection
     {
         return $this->gameCardsLibrary;
+    }
+
+    public function addGameCardsLibrary(GameCardLibrary $gameCardsLibrary): self
+    {
+        if (!$this->gameCardsLibrary->contains($gameCardsLibrary)) {
+            $this->gameCardsLibrary[] = $gameCardsLibrary;
+            $gameCardsLibrary->setLibrary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameCardsLibrary(GameCardLibrary $gameCardsLibrary): self
+    {
+        if ($this->gameCardsLibrary->removeElement($gameCardsLibrary)) {
+            if ($gameCardsLibrary->getLibrary() === $this) {
+                $gameCardsLibrary->setLibrary(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function countGameCardsLibrary()
+    {
+        return $this->gameCardsLibrary->count();
     }
 
 }

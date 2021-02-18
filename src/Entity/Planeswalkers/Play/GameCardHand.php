@@ -2,15 +2,14 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
-use App\Entity\Test;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="planeswalkers_play_gamecardlibrary")
- * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\GameCardLibraryRepository::class)
+ * @ORM\Table(name="planeswalkers_play_gamecardhand")
+ * @ORM\Entity(repositoryClass=App\Repository\Planeswalkers\Play\GameCardHandRepository::class)
  * @ORM\HasLifecycleCallbacks()
  */
-class GameCardLibrary extends GameCard
+class GameCardHand extends GameCard
 {
     /**
      * @ORM\Id()
@@ -20,9 +19,9 @@ class GameCardLibrary extends GameCard
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Library::class, inversedBy="gameCardsLibrary")
+     * @ORM\ManyToOne(targetEntity=Hand::class, inversedBy="gameCardsHand")
      */
-    private $library;
+    private $hand;
 
     /**
      * @ORM\Column(type="integer")
@@ -34,14 +33,14 @@ class GameCardLibrary extends GameCard
      */
     private $reveal;
 
-    public function getLibrary(): ?Library
+    public function getHand(): ?Hand
     {
-        return $this->library;
+        return $this->hand;
     }
 
-    public function setLibrary(?Library $library): self
+    public function setHand(?Hand $hand): self
     {
-        $this->library = $library;
+        $this->hand = $hand;
 
         return $this;
     }
@@ -69,5 +68,4 @@ class GameCardLibrary extends GameCard
 
         return $this;
     }
-
 }

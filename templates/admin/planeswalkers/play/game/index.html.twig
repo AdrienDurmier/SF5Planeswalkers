@@ -46,16 +46,14 @@
                                 <td>{{ game.format }}</td>
                                 <td>
                                     {% for player in game.players %}
-                                        <p>
-                                            {{ avatar.afficher(player.user) }} {{ player }}
-                                            <br>
-                                            <small>
-                                                {% for color in player.deck.colorsDeck %}
-                                                    <span class="d-inline-block card-symbol-{{ color }}" style="width:1em;height:1em;"></span>
-                                                {% endfor %}
-                                                {{ player.deck }}
-                                            </small>
-                                        </p>
+                                        {{ avatar.afficher(player.user) }} {{ player }}
+                                        <br>
+                                        <small>
+                                            {% for color in player.deck.colorsDeck %}
+                                                <span class="d-inline-block card-symbol-{{ color }}" style="width:1em;height:1em;"></span>
+                                            {% endfor %}
+                                            {{ player.deck }}
+                                        </small>
                                     {% endfor %}
                                 </td>
                                 <td>{{ game.updated|date('d F Y') }}</td>
