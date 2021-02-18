@@ -133,12 +133,17 @@ class Game
 
     public function getOpponent(User $user): ?Player
     {
+        // Recherche des adversaires
+        $currentPlayer = null;
         foreach($this->players as $player){
             if ($player->getUser() != $user){
                 return $player;
+            }else{
+                $currentPlayer = $player;
             }
         }
-        return null;
+        // sinon le joueur s'affronte lui-meme
+        return $currentPlayer;
     }
 
 

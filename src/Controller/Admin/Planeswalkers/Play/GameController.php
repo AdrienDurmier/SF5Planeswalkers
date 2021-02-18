@@ -2,15 +2,16 @@
 
 namespace App\Controller\Admin\Planeswalkers\Play;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
 use App\Service\Planeswalkers\Play\GameService;
 use App\Service\Planeswalkers\Play\LibraryService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
@@ -37,6 +38,7 @@ class GameController extends AbstractController
      * @param GameService $gameService
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function new(GameService $gameService, Request $request)
     {
@@ -51,6 +53,7 @@ class GameController extends AbstractController
      * @param GameService $gameService
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function join(GameService $gameService, Request $request)
     {
@@ -65,11 +68,9 @@ class GameController extends AbstractController
     /**
      * @Route("/admin/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
      * @param Game $game
-     * @param LibraryService $libraryService
-     * @param Request $request
      * @return Response
      */
-    public function fight(Game $game, LibraryService $libraryService, Request $request)
+    public function fight(Game $game)
     {
         $player = $game->getPlayer($this->getUser());
         $opponent = $game->getOpponent($this->getUser());

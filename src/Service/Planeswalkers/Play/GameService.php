@@ -3,10 +3,10 @@
 namespace App\Service\Planeswalkers\Play;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
-use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\User;
 
 class GameService
@@ -30,6 +30,7 @@ class GameService
      * @param array $datas
      * @param User $user
      * @return Game
+     * @throws Exception
      */
     public function new(array $datas, User $user): Game
     {
@@ -63,6 +64,7 @@ class GameService
      * @param array $datas
      * @param User $user
      * @return Game
+     * @throws Exception
      */
     public function join(array $datas, User $user): Game
     {
