@@ -18,10 +18,16 @@
                 graveyard opponent
             </div>
             <div class="library" style="background:blue;">
-                library opponent
+                <div class="library-top-card" style="background-image:url('{{ asset('images/planeswalkers/mtg_card_back.jpg') }}');">
+                    <div>{{ opponent.library.countGameCardsLibrary }}</div>
+                </div>
             </div>
             <div class="hand" style="background:green;">
-                hand opponent
+                {% for cardHand in opponent.hand.gameCardsHand %}
+                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
+
+                    </div>
+                {% endfor %}
             </div>
         </div>
         <div class="row-zone-battlefield">
@@ -49,10 +55,16 @@
                 graveyard opponent
             </div>
             <div class="library" style="background:blue;">
-                library opponent
+                <div class="library-top-card" style="background-image:url('{{ asset('images/planeswalkers/mtg_card_back.jpg') }}');">
+                    {{ player.library.countGameCardsLibrary }}
+                </div>
             </div>
             <div class="hand" style="background:yellow;">
-                hand allies
+                {% for cardHand in player.hand.gameCardsHand %}
+                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
+
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

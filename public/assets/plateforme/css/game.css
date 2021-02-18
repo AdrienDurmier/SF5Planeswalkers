@@ -7,9 +7,16 @@ body {width:100%;background-repeat: repeat;background-image:url(data:image/png;b
 #opponent-area .avatar-area {position:absolute;bottom:15px;left:15px;}
 #ally-area .avatar-area {position:absolute;top:15px;left:15px;}
 
-.row-library-hand {height:15%;}
-.row-zone-battlefield {height:85%;}
+.row-library-hand {height:100px;}
+.row-zone-battlefield {height:calc(100% - 100px);}
 .library, .graveyard, .exile, .hand, .battlefield  {height:100%;float:left;}
 .library, .graveyard, .exile  {width:100px;}
 .hand  {width:calc(100% - 300px);}
 .battlefield {width:100%;}
+
+/* Library */
+.library-top-card {background-size:100% auto;background-repeat:no-repeat;background-position:center;
+    height:100%;width:100%;color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;}
+
+/* Hand */
+.hand-card {background-size:100% auto;background-repeat:no-repeat;background-position:center;width:50px;height:100%;}
