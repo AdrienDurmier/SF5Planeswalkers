@@ -8,14 +8,6 @@
         {% set url_avatar = url_uploads_heidi ~ 'tierces/' ~ user.avatar %}
     {% endif %}
 
-    {% if user.connexionStatusApps is defined or user.statut is defined %}
-        {% set userStatut = (user.connexionStatusApps is defined) ? user.connexionStatusApps : user.statut  %}
-    {% endif %}
-
-    <div class="avatar" style="background-image:url({{ url_avatar }})">
-        <div class="avatar-status avatar-user-{{ userId }}">
-            {{ userStatut|connectionStatus|raw }}
-        </div>
-    </div>
+    <div class="avatar" style="background-image:url({{ url_avatar }})" title="{{ user }}"></div>
 
 {% endmacro%}

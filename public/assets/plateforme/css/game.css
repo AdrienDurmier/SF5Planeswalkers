@@ -1,26 +1,32 @@
 html,body {padding:0;margin:0;height:100%;}
-body {width:100%;background-repeat: repeat;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQImWNgYGA4g4b/M2AROMOARQAu+B9d5X90IwAw1xVScR1jOgAAAABJRU5ErkJggg==);}
+body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQImWNgYGA4g4b/M2AROMOARQAu+B9d5X90IwAw1xVScR1jOgAAAABJRU5ErkJggg==);}
 
 #opponent-area, #ally-area {height:50%;position:relative;}
 
 /* Avatar */
-#opponent-area .avatar-area {position:absolute;bottom:15px;left:15px;}
-#ally-area .avatar-area {position:absolute;top:15px;left:15px;}
+.avatar-area {position:absolute;background-color:rgba(255,255,255,0.5);padding: 10px;border-radius:10px;left:15px;}
+#opponent-area .avatar-area {bottom:10px;}
+#ally-area .avatar-area {top:10px;}
 
+/* Zones de jeux  */
+#opponent-area .row-library-hand {border-bottom:2px solid #000;}
+#ally-area .row-library-hand {border-top:2px solid #000;}
+#opponent-area {border-bottom:1px solid #000;}
+#ally{border-bottom:1px solid #000;}
 .row-library-hand {height:100px;}
-.row-zone-battlefield {height:calc(100% - 100px);}
+.row-zone-battlefield {height:calc(100% - 106px);}
 .library, .graveyard, .exile, .hand, .battlefield  {height:100%;float:left;}
-.library, .graveyard, .exile  {width:100px;}
-.hand  {width:calc(100% - 300px);}
+.library, .graveyard, .exile  {width:90px;}
+.hand  {width:calc(100% - 270px);}
 .battlefield {width:100%;}
 
 /* Card */
 #cardDetailsTitre {font-weight:bold;}
 
 /* Library */
-.library-top-card {background-size:100% auto;background-repeat:no-repeat;background-position:center;
+.library-top-card {background-size:65px auto;background-repeat:no-repeat;background-position:center;
     height:100%;width:100%;color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;}
 
 /* Hand */
 .hand {text-align:center;}
-.hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:50px;height:100%;}
+.hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}

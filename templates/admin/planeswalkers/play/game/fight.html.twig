@@ -9,7 +9,8 @@
     {# Opponent area #}
     <div id="opponent-area">
         <div class="avatar-area">
-            {{ avatar.afficher(opponent.user) }} {{ opponent.user }}
+            <span id="opponent-lifepoint" class="badge badge-primary">20</span>
+            {{ avatar.afficher(opponent.user) }}
         </div>
         <div class="row-library-hand">
             <div class="exile" style="background:silver;">
@@ -23,16 +24,16 @@
                     <div>{{ opponent.library.countGameCardsLibrary }}</div>
                 </div>
             </div>
-            <div class="hand" style="background:green;">
+            <div class="hand">
                 {% for cardHand in opponent.hand.gameCardsHand %}
-                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
+                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
 
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="row-zone-battlefield">
-            <div class="battlefield" style="background:yellow;">
+            <div class="battlefield">
 
             </div>
         </div>
@@ -41,10 +42,11 @@
     {# Allies area #}
     <div id="ally-area">
         <div class="avatar-area">
-            {{ avatar.afficher(player.user) }} {{ player.user }}
+            <span id="ally-lifepoint" class="badge badge-primary">20</span>
+            {{ avatar.afficher(player.user) }}
         </div>
         <div class="row-zone-battlefield">
-            <div class="battlefield" style="background:green;">
+            <div class="battlefield">
 
             </div>
         </div>
@@ -60,10 +62,10 @@
                     {{ player.library.countGameCardsLibrary }}
                 </div>
             </div>
-            <div class="hand" style="background:yellow;">
+            <div class="hand">
                 {% for cardHand in player.hand.gameCardsHand %}
                     <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
-                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisSmall }}');">
+                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
 
                         </div>
                     </a>
