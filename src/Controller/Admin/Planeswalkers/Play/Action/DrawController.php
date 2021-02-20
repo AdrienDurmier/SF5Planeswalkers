@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Planeswalkers\Play;
+namespace App\Controller\Admin\Planeswalkers\Play\Action;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -8,12 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FightController extends AbstractController
+class DrawController extends AbstractController
 {
     /**
-     * @Route("/planeswalkers/play/games/fight/draw", name="planeswalkers.play.game.fight.draw", methods="POST")
+     * @Route("/planeswalkers/play/action/draw", name="planeswalkers.play.action.draw", methods="POST")
      * @param Request $request
      * @param PublisherInterface $publisher
      * @return JsonResponse
@@ -21,12 +20,9 @@ class FightController extends AbstractController
     public function draw(Request $request, PublisherInterface $publisher)
     {
         $datas = $request->request->all();
-        //$topic =  $this->generateUrl('planeswalkers.play.game.fight', [
-        //    'id' => $datas['game']
-        //], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $topic = 'test';
-
+        // Plublication à Mercure
+        $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = json_encode([
             'action' =>  'draw',
             'player' =>  $datas['player'],

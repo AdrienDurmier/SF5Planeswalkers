@@ -1,5 +1,7 @@
 {% import 'macro/avatar.html.twig' as avatar %}
 {% import 'admin/planeswalkers/play/macro/card-details.html.twig' as cardDetails %}
+{% import 'admin/planeswalkers/play/action/card-details/js.html.twig' as cardDetailsJs %}
+{% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}
 {% extends 'game.html.twig' %}
 
 {% block title "Games" %}
@@ -80,102 +82,21 @@
 
 {% block javascripts %}
     <script>
-        {# Au chargement de la page #}
-        $(document).ready(function() {
-
-        });
-
-        {#  #}
-        $(document).on('click', '.hand-card-link', function () {
-            let idScryfall = $(this).data('idsrcyfall');
-            displayCardDetails(idScryfall);
-        });
-
-        function displayCardDetails(idScryfall){
-            $.ajax({
-                url: "https://api.scryfall.com/cards/"+idScryfall,
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    $('#cardDetailsTitre').text(data.name);
-                    $('#cardDetailsImg').attr('src', data.image_uris.large);
-                    $('#cardDetailsTypeLine').text(data.type_line);
-                    $('#cardDetailsOracleText').html(data.oracle_text);
-                    $('#cardDetailsEdhrecRank').text(data.edhrec_rank);
-                    $('#cardDetailsRelatedUrisGatherer').attr('href', data.related_uris.gatherer);
-                    $('#cardDetailsRelatedUrisTcgplayerDecks').attr('href', data.related_uris.tcgplayer_decks);
-                    $('#cardDetailsRelatedUrisEdhrec').attr('href', data.related_uris.edhrec);
-                    $('#cardDetailsRelatedUrisMtgtop8').attr('href', data.related_uris.mtgtop8);
-                    $('#cardDetailsPricesUsd').text(data.prices.usd);
-                    $('#cardDetailsPricesEur').text(data.prices.eur);
-                    $('#cardDetailsPricesUsdFoil').text(data.prices.usd_foil);
-                    $('#cardDetailsPricesEurFoil').text(data.prices.eur_foil);
-                    $('#cardDetailsLegalitiesStandard').text(data.legalities.standard);
-                    $('#cardDetailsLegalitiesModern').text(data.legalities.modern);
-                    $('#cardDetailsLegalitiesLegacy').text(data.legalities.legacy);
-                    $('#cardDetailsLegalitiesVintage').text(data.legalities.vintage);
-                    $('#cardDetailsLegalitiesPauper').text(data.legalities.pauper);
-                    $('#cardDetailsLegalitiesPenny').text(data.legalities.penny);
-                    $('#cardDetailsLegalitiesCommander').text(data.legalities.commander);
-                    $('#cardDetailsLegalitiesBrawl').text(data.legalities.brawl);
-                    $('#cardDetailsLegalitiesDuel').text(data.legalities.duel);
-                    $('#cardDetailsLegalitiesFuture').text(data.legalities.future);
-                    $('#cardDetailsLegalitiesOldschool').text(data.legalities.oldschool);
-                    $('#cardDetailsLegalitiesGladiator').text(data.legalities.gladiator);
-                    $('#cardDetailsLegalitiesPremodern').text(data.legalities.premodern);
-                    $.each(data.colors, function (index, color) {
-                        $('#cardDetailsColors').text(color);
-                    });
-                    $.each(data.color_identity, function (index, colorId) {
-                        $('#cardDetailsIdentity').text(colorId);
-                    });
-                    displayCardRules(idScryfall);
-                }
-            });
-        }
-
-        function displayCardRules(idScryfall){
-            $.ajax({
-                url: "https://api.scryfall.com/cards/"+idScryfall+"/rulings",
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    let renderHtml = "";
-                    $.each(data.data, function (index, rule) {
-                        renderHtml += '<p><small>'+rule.comment+'</small></p>';
-                    });
-                    $('#cardDetailsRules').html(renderHtml);
-                }
-            });
-        }
-
         {# Mercure #}
         // URL is a built-in JavaScript class to manipulate URLs
         const url = new URL('{{mercure_publish_url}}');
         console.log(url);
-        url.searchParams.append('topic', "test");
+        url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             console.log(JSON.parse(event.data));
         }
-
-        {# Draw #}
-        $("body").on('dblclick', '.library', function(e) {
-            let player = $(this).closest('.player-area').data('player');
-            let parametres = {
-                game: {{ game.id }},
-                player: player,
-            };
-            $.ajax({
-                url: "{{ path('planeswalkers.play.game.fight.draw') }}",
-                type: 'post',
-                data: parametres,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                }
-            });
-        });
     </script>
+
+    {# Card details #}
+    {{ cardDetailsJs.script() }}
+
+    {# Draw #}
+    {{ actionDrawJs.script(game, path('planeswalkers.play.action.draw')) }}
+
 {% endblock %}

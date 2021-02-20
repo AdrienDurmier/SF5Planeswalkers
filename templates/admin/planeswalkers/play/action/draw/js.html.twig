@@ -1,0 +1,21 @@
+{# Draw #}
+{% macro script(game, ajaxUrl) %}
+    <script>
+        $("body").on('dblclick', '.library', function(e) {
+            let player = $(this).closest('.player-area').data('player');
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+            };
+            $.ajax({
+                url: "{{ ajaxUrl }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    </script>
+{% endmacro %}
