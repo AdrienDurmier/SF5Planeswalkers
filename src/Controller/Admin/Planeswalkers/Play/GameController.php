@@ -81,6 +81,13 @@ class GameController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/planeswalkers/play/games/help", name="planeswalkers.play.game.help")
+     * @return Response
+     */
+    public function help()
+    {
+        return $this->render('admin/planeswalkers/play/game/help.html.twig');
+    }
     
 }
