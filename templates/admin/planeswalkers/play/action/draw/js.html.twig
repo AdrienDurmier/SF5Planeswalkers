@@ -21,23 +21,23 @@
         {# Mise à jour du jeu lors d'une pioche #}
         function updateGameAfterDraw(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);
-
-            // Mise à jour de la library
+            // Mise à jour du nombre de carte dans la library
             player_area.find('.library-top-card').text(retourMercure.library.count);
-
             // Mise à jour de la main
-            // \ Mise à jour de la main - 1. nettoyage
-            player_area.find('.hand').html("");
-            // \ Mise à jour de la main - 2. ajout des cartes piochées
+            player_area.find('.hand').html(""); // nettoyage
+            player_area.find('.hand').html(renderHand(retourMercure)); // ajout des cartes piochées
+        }
+
+        {# Rendu de la main #}
+        function renderHand(retourMercure){
             let results_html = "";
             $.each(retourMercure.gameCardsHand, function (index, gameCardHand) {
-                console.log(gameCardHand);
                 results_html += '<a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
                 results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
                 results_html +=     '</div>';
                 results_html += '</a>';
-            });
-            player_area.find('.hand').html(results_html);
+            })
+            return results_html;
         }
     </script>
 {% endmacro %}
