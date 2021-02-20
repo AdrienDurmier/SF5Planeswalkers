@@ -11,7 +11,7 @@
     {# Opponent area #}
     <div id="opponent-area" class="player-area" data-player="{{ opponent.id }}">
         <div class="avatar-area">
-            <span id="opponent-lifepoint" class="badge badge-primary">20</span>
+            <div id="opponent-lifepoint" class="lifepoint" title="Lifepoints">20</div>
             {{ avatar.afficher(opponent.user) }}
         </div>
         <div class="row-library-hand">
@@ -44,7 +44,7 @@
     {# Allies area #}
     <div id="ally-area" class="player-area" data-player="{{ player.id }}">
         <div class="avatar-area">
-            <span id="ally-lifepoint" class="badge badge-primary">20</span>
+            <div id="ally-lifepoint" class="lifepoint" title="Lifepoints">20</div>
             {{ avatar.afficher(player.user) }}
         </div>
         <div class="row-zone-battlefield">

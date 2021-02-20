@@ -7,6 +7,8 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .avatar-area {position:absolute;background-color:rgba(255,255,255,0.5);padding: 10px;border-radius:10px;left:15px;}
 #opponent-area .avatar-area {bottom:10px;}
 #ally-area .avatar-area {top:10px;}
+.avatar {width:50px;height:50px;background-size:50px;}
+.avatar-area .lifepoint {font-size: 30px;font-weight: bold;display: inline-block;background-color: rgba(0,0,0,0.3);border-radius: 50%;width: 50px;height: 50px;text-align: center;color: #fff;}
 
 /* Zones de jeux  */
 #opponent-area .row-library-hand {border-bottom:2px solid #000;}
