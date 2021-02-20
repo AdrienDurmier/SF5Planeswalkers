@@ -9,7 +9,7 @@
 {% block body %}
 
     {# Opponent area #}
-    <div id="opponent-area" class="player-area" data-player="{{ opponent.id }}">
+    <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
         <div class="avatar-area">
             <div id="opponent-lifepoint" class="lifepoint" title="Lifepoints">20</div>
             {{ avatar.afficher(opponent.user) }}
@@ -42,7 +42,7 @@
     </div>
 
     {# Allies area #}
-    <div id="ally-area" class="player-area" data-player="{{ player.id }}">
+    <div id="ally-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
         <div class="avatar-area">
             <div id="ally-lifepoint" class="lifepoint" title="Lifepoints">20</div>
             {{ avatar.afficher(player.user) }}
@@ -83,13 +83,20 @@
 {% block javascripts %}
     <script>
         {# Mercure #}
-        // URL is a built-in JavaScript class to manipulate URLs
         const url = new URL('{{mercure_publish_url}}');
         console.log(url);
         url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             console.log(JSON.parse(event.data));
+            retourMercure = JSON.parse(event.data);
+
+            switch (retourMercure.action) {
+                case 'draw':
+                    updateGameAfterDraw(retourMercure);
+                    break;
+                default:
+            }
         }
     </script>
 

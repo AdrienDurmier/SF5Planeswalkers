@@ -27,14 +27,27 @@ class DrawController extends AbstractController
 
         // Action
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
-        $drawService->draw($player, $datas['quantity']);
+        $hand = $drawService->draw($player, $datas['quantity']);
         $em->flush();
+
+        // Réponse
+        $gameCardsHand = array();
+        foreach ($hand->getGameCardsHand() as $gameCardHand){
+            $gameCardsHand[] = [
+                'idScryfall' => $gameCardHand->getCard()->getIdScryfall(),
+                'imageUrisPng' => $gameCardHand->getCard()->getImageUrisPng(),
+            ];
+        }
 
         // Plublication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = json_encode([
-            'action' =>  'draw',
-            'player' =>  $datas['player'],
+            'action'        =>  'draw',
+            'player'        =>  $datas['player'],
+            'library'       =>  [
+                'count'  => $player->getLibrary()->countGameCardsLibrary()
+            ],
+            'gameCardsHand' =>  $gameCardsHand,
         ]);
         $update = new Update($topic, $datasMercure);
         $publisher($update);

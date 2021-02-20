@@ -31,7 +31,7 @@ class HandService
         $hand = new Hand();
         $hand->setPlayer($player);
 
-        // Pioche 7 cartes de la librairie par défaut
+        // Pioche 7 cartes dans library au début d'une partie
         $this->drawService->draw($player, 7);
 
         $this->em->persist($hand);
