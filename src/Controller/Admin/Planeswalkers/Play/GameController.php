@@ -11,7 +11,6 @@ use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
 use App\Service\Planeswalkers\Play\GameService;
-use App\Service\Planeswalkers\Play\LibraryService;
 
 class GameController extends AbstractController
 {
@@ -34,7 +33,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/admin/planeswalkers/play/games/new", name="planeswalkers.play.game.new", methods="POST")
+     * @Route("/planeswalkers/play/games/new", name="planeswalkers.play.game.new", methods="POST")
      * @param GameService $gameService
      * @param Request $request
      * @return Response
@@ -49,7 +48,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/admin/planeswalkers/play/games/join", name="planeswalkers.play.game.join", methods="POST")
+     * @Route("/planeswalkers/play/games/join", name="planeswalkers.play.game.join", methods="POST")
      * @param GameService $gameService
      * @param Request $request
      * @return Response
@@ -66,7 +65,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/admin/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
+     * @Route("/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
      * @param Game $game
      * @return Response
      */
@@ -81,5 +80,7 @@ class GameController extends AbstractController
             'opponent'  =>  $opponent,
         ]);
     }
+
+
     
 }

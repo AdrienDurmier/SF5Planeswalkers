@@ -7,7 +7,7 @@
 {% block body %}
 
     {# Opponent area #}
-    <div id="opponent-area">
+    <div id="opponent-area" class="player-area" data-player="{{ opponent.id }}">
         <div class="avatar-area">
             <span id="opponent-lifepoint" class="badge badge-primary">20</span>
             {{ avatar.afficher(opponent.user) }}
@@ -40,7 +40,7 @@
     </div>
 
     {# Allies area #}
-    <div id="ally-area">
+    <div id="ally-area" class="player-area" data-player="{{ player.id }}">
         <div class="avatar-area">
             <span id="ally-lifepoint" class="badge badge-primary">20</span>
             {{ avatar.afficher(player.user) }}
@@ -149,5 +149,33 @@
                 }
             });
         }
+
+        {# Mercure #}
+        // URL is a built-in JavaScript class to manipulate URLs
+        const url = new URL('{{mercure_publish_url}}');
+        console.log(url);
+        url.searchParams.append('topic', "test");
+        const eventSource = new EventSource(url);
+        eventSource.onmessage = event => {
+            console.log(JSON.parse(event.data));
+        }
+
+        {# Draw #}
+        $("body").on('dblclick', '.library', function(e) {
+            let player = $(this).closest('.player-area').data('player');
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.game.fight.draw') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        });
     </script>
 {% endblock %}

@@ -8,6 +8,7 @@ parameters:
     url_api_scryfall: '%env(string:URL_API_SCRYFALL)%'
     url_api_heidi: '%env(HEIDI_API_URL)%'
     url_uploads_heidi: '%env(HEIDI_UPLOADS_URL)%'
+    mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
 
 services:
     _defaults:

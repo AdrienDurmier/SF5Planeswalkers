@@ -5,3 +5,4 @@ twig:
     globals:
         url_api_heidi: '%url_api_heidi%'
         url_uploads_heidi: '%url_uploads_heidi%'
+        mercure_publish_url: '%mercure_publish_url%'
