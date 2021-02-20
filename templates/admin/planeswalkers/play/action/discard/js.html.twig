@@ -1,0 +1,57 @@
+{# Discard : le joueur se défausse d'une carte depuis sa main vers son cimetière #}
+{% macro script(game, ajaxUrl) %}
+    <script>
+        {# Lorsque le joueur fait glisser de la main vers le cimetière#}
+        $(".graveyard").on("dragover", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).addClass('dragging');
+        });
+        $(".graveyard").on("dragleave", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).removeClass('dragging');
+        });
+        $(".graveyard").on("drop", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (draggableELement.attr('class').includes("hand-card-link")){
+                let player = draggableELement.data('player');
+                let idsrcyfall = draggableELement.data('idsrcyfall'); {# fixme ne change pas après le premier drag&drop #}
+                launchDiscard(player, idsrcyfall);
+            }
+        });
+
+        {# Lancement de la défausse #}
+        function launchDiscard(player, idsrcyfall){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                idScryfall: idsrcyfall,
+            };
+            $.ajax({
+                url: "{{ ajaxUrl }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Mise à jour du jeu après la pioche #}
+        function updateGameAfterDiscard(retourMercure){
+            let player_area = $('.player-area-' + retourMercure.player);
+            // Mise à jour du nombre de carte dans le graveyard
+            player_area.find('.graveyard-top-card').text(retourMercure.graveyard.count);
+            // Mise à jour de la carte du dessus du graveyard
+            if (retourMercure.graveyard.count > 0){
+                player_area.find('.graveyard-top-card').css({'background-image':'url('+retourMercure.graveyard.topCard.imageUrisPng+')'});
+            }else{
+                player_area.find('.graveyard-top-card').css({'background-image':'none'});
+            }
+            // Mise à jour de la main
+            player_area.find('.hand').html(""); // nettoyage
+            player_area.find('.hand').html(renderHand(retourMercure));
+        }
+
+    </script>
+{% endmacro %}

@@ -17,7 +17,7 @@ class Hand extends Area
     {
         $this->gameCardsHand = new ArrayCollection();
     }
-    
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -46,18 +46,6 @@ class Hand extends Area
             $player->setHand($this);
         }
         $this->player = $player;
-        return $this;
-    }
-
-    public function getHand(): ?Hand
-    {
-        return $this->hand;
-    }
-
-    public function setHand(Hand $hand): self
-    {
-        $this->hand = $hand;
-
         return $this;
     }
 
@@ -92,6 +80,8 @@ class Hand extends Area
 
     public function countGameCardsHand()
     {
+        if ($this->gameCardsHand == null) return 0;
         return $this->gameCardsHand->count();
     }
+
 }

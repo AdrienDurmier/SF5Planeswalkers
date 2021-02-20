@@ -4,11 +4,14 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 #opponent-area, #player-area {height:50%;position:relative;}
 
 /* Avatar */
-.avatar-area {position:absolute;background-color:rgba(255,255,255,0.5);padding: 10px;border-radius:10px;left:15px;}
+.avatar-area {position:absolute;background-color:rgba(0,0,0,0.4);padding: 10px;border-radius:10px;left:15px;}
 #opponent-area .avatar-area {bottom:10px;}
 #player-area .avatar-area {top:10px;}
 .avatar {width:50px;height:50px;background-size:50px;}
 .avatar-area .lifepoint {font-size: 30px;font-weight: bold;display: inline-block;background-color: rgba(0,0,0,0.3);border-radius: 50%;width: 50px;height: 50px;text-align: center;color: #fff;}
+
+/* Card */
+#cardDetailsTitre {font-weight:bold;}
 
 /* Zones de jeux  */
 #opponent-area .row-library-hand {border-bottom:2px solid #000;}
@@ -18,18 +21,29 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .row-library-hand {height:100px;}
 .row-zone-battlefield {height:calc(100% - 106px);}
 .library, .graveyard, .exile, .hand, .battlefield  {height:100%;float:left;}
-.library, .graveyard, .exile  {width:90px;}
+.library, .graveyard, .exile  {width:90px;background-color:rgba(0,0,0,0.4);}
+.library-top-card, .graveyard-top-card, .exile-top-card  {color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;
+    background-size:65px auto;background-repeat:no-repeat;background-position:center;height:100%;width:100%;}
 .hand  {width:calc(100% - 270px);}
 .battlefield {width:100%;}
+
+/* Zones de jeux - library */
 .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
 
-/* Card */
-#cardDetailsTitre {font-weight:bold;}
+/* Zones de jeux - graveyard */
+.graveyard {position:relative;border-left:2px solid #000;border-right:2px solid #000;}
+.graveyard:before {content:"\f714";font-weight:900;font-family:"Font Awesome 5 Free";color:rgba(255,255,255,0.1);font-size:60px;text-align:center;margin:auto;position:absolute;left:0;right:0;height:100%;width:100%;}
+#opponent-area .graveyard:before {bottom:0px;}
+#player-area .graveyard:before   {top:0;}
 
-/* Library */
-.library-top-card {background-size:65px auto;background-repeat:no-repeat;background-position:center;
-    height:100%;width:100%;color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;}
+/* Zones de jeux - exile */
+.exile {position:relative;}
+.exile:before {content:"\f00d";font-weight:900;font-family:"Font Awesome 5 Free";color:rgba(255,255,255,0.1);font-size:60px;text-align:center;margin:auto;position:absolute;left:0;right:0;height:100%;width:100%;}
+#opponent-area .exile:before {bottom:0px;}
+#player-area .exile:before   {top:0;}
 
-/* Hand */
+/* Zones de jeux - hand */
 .hand {text-align:center;}
 .hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}
+
+

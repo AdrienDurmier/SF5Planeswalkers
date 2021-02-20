@@ -11,8 +11,10 @@ use App\Entity\Planeswalkers\Card;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorMap({
- *  "library" = "GameCardLibrary",
  *  "hand" = "GameCardHand",
+ *  "library" = "GameCardLibrary",
+ *  "graveyard" = "GameCardGraveyard",
+ *  "exile" = "GameCardExile",
  *  "battlefield" = "GameCardBattlefield"
  * })
  */

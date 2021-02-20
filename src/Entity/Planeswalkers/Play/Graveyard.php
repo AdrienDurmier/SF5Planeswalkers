@@ -2,6 +2,8 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Graveyard extends Area
 {
+    public function __construct()
+    {
+        $this->gameCardsGraveyard = new ArrayCollection();
+    }
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,6 +29,11 @@ class Graveyard extends Area
      * @ORM\OneToOne(targetEntity=Player::class, mappedBy="graveyard", cascade={"persist", "remove"})
      */
     private $player;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\Play\GameCardGraveyard", mappedBy="graveyard", cascade={"persist", "remove"})
+     */
+    private $gameCardsGraveyard;
 
     public function getPlayer(): ?Player
     {
@@ -35,5 +47,40 @@ class Graveyard extends Area
         }
         $this->player = $player;
         return $this;
+    }
+
+    /**
+     * @return Collection|GameCardGraveyard[]
+     */
+    public function getGameCardsGraveyard(): Collection
+    {
+        return $this->gameCardsGraveyard;
+    }
+
+    public function addGameCardsGraveyard(GameCardGraveyard $gameCardsGraveyard): self
+    {
+        if (!$this->gameCardsGraveyard->contains($gameCardsGraveyard)) {
+            $this->gameCardsGraveyard[] = $gameCardsGraveyard;
+            $gameCardsGraveyard->setGraveyard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameCardsGraveyard(GameCardGraveyard $gameCardsGraveyard): self
+    {
+        if ($this->gameCardsGraveyard->removeElement($gameCardsGraveyard)) {
+            if ($gameCardsGraveyard->getGraveyard() === $this) {
+                $gameCardsGraveyard->setGraveyard(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function countGameCardsGraveyard()
+    {
+        if ($this->gameCardsGraveyard == null) return 0;
+        return $this->gameCardsGraveyard->count();
     }
 }

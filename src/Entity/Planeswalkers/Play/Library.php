@@ -80,6 +80,7 @@ class Library extends Area
 
     public function countGameCardsLibrary()
     {
+        if ($this->gameCardsLibrary == null) return 0;
         return $this->gameCardsLibrary->count();
     }
 

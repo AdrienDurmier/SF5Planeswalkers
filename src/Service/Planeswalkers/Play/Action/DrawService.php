@@ -33,8 +33,8 @@ class DrawService
      */
     public function draw(Player $player, int $quantity): Hand
     {
-        $hand = $player->getHand();
         $library = $player->getLibrary();
+        $hand = $player->getHand();
 
         for($i=0; $i<$quantity; $i++){
             // Récupération de la carte du dessus

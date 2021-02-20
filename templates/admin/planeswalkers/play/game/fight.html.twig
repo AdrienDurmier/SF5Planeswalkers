@@ -12,22 +12,25 @@
             {{ avatar.afficher(opponent.user) }}
         </div>
         <div class="row-library-hand">
-            <div class="exile" style="background:silver;">
-                exile opponent
+            <div class="exile" draggable="true" title="Exile">
+                <div id="opponent-exile-top-card" class="exile-top-card">
+                    {{ opponent.exile.countGameCardsExile }}
+                </div>
             </div>
-            <div class="graveyard" style="background:black;">
-                graveyard opponent
+            <div class="graveyard" draggable="true" title="Graveyard">
+                <div id="opponent-graveyard-top-card" class="graveyard-top-card">
+                    {{ opponent.graveyard.countGameCardsGraveyard }}
+                </div>
             </div>
-            <div class="library" style="background-color:rgba(0,0,0,0.2);">
-                <div class="library-top-card" draggable="true">
-                    <div>{{ opponent.library.countGameCardsLibrary }}</div>
+            <div class="library" title="Library">
+                <div id="opponent-library-top-card" class="library-top-card">
+                    {{ opponent.library.countGameCardsLibrary }}
                 </div>
             </div>
             <div class="hand">
                 {% for cardHand in opponent.hand.gameCardsHand %}
                     <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
-                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
-
+                        <div class="hand-card" style="background-image:url({{ asset('images/planeswalkers/mtg_card_back.jpg') }});">
                         </div>
                     </a>
                 {% endfor %}
@@ -52,20 +55,24 @@
             </div>
         </div>
         <div class="row-library-hand">
-            <div class="exile" style="background:silver;">
-                exile opponent
+            <div class="exile" draggable="true" title="Exile">
+                <div id="player-exile-top-card" class="exile-top-card" draggable="true">
+                    {{ player.exile.countGameCardsExile }}
+                </div>
             </div>
-            <div class="graveyard" style="background:black;">
-                graveyard opponent
+            <div class="graveyard" draggable="true" title="Graveyard">
+                <div id="player-graveyard-top-card" class="graveyard-top-card" draggable="true">
+                    {{ player.graveyard.countGameCardsGraveyard }}
+                </div>
             </div>
-            <div class="library" style="background-color:rgba(0,0,0,0.2);">
+            <div class="library" title="Library">
                 <div id="player-library-top-card" class="library-top-card" draggable="true">
                     {{ player.library.countGameCardsLibrary }}
                 </div>
             </div>
             <div class="hand">
                 {% for cardHand in player.hand.gameCardsHand %}
-                    <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                    <a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
                         <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
 
                         </div>
@@ -90,6 +97,11 @@
             event.stopPropagation();
             draggableELement = $(this);
         });
+        $(".hand-card-link").on("drag", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            draggableELement = $(this);
+        });
 
         {# Mercure #}
         const url = new URL('{{mercure_publish_url}}');
@@ -102,6 +114,9 @@
             switch (retourMercure.action) {
                 case 'draw':
                     updateGameAfterDraw(retourMercure);
+                    break;
+                case 'discard':
+                    updateGameAfterDiscard(retourMercure);
                     break;
                 default:
             }
@@ -116,5 +131,9 @@
     {# Draw #}
     {% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game, path('planeswalkers.play.action.draw')) }}
+
+    {# Discard #}
+    {% import 'admin/planeswalkers/play/action/discard/js.html.twig' as actionDiscardJs %}
+    {{ actionDiscardJs.script(game, path('planeswalkers.play.action.discard')) }}
 
 {% endblock %}

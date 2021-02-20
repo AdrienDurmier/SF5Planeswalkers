@@ -1,4 +1,4 @@
-{# Draw #}
+{# Draw : le joueur pioche une carte depuis sa bibliothèque (library) vers sa main (hand) #}
 {% macro script(game, ajaxUrl) %}
     <script>
         {# Lorque le joueur pioche une carte en double cliquant sur la bibliothèque #}
@@ -63,7 +63,7 @@
         {# Rendu d'une main #}
         function renderHand(retourMercure){
             let results_html = "";
-            $.each(retourMercure.gameCardsHand, function (index, gameCardHand) {
+            $.each(retourMercure.hand.cards, function (index, gameCardHand) {
                 results_html += '<a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
                 results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
                 results_html +=     '</div>';

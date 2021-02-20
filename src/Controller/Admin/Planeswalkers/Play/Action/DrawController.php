@@ -45,9 +45,12 @@ class DrawController extends AbstractController
             'action'        =>  'draw',
             'player'        =>  $datas['player'],
             'library'       =>  [
-                'count'  => $player->getLibrary()->countGameCardsLibrary()
+                'count'  => $player->getLibrary()->countGameCardsLibrary(),
             ],
-            'gameCardsHand' =>  $gameCardsHand,
+            'hand'       =>  [
+                'count'  => $player->getHand()->countGameCardsHand(),
+                'cards'  => $gameCardsHand,
+            ],
         ]);
         $update = new Update($topic, $datasMercure);
         $publisher($update);
