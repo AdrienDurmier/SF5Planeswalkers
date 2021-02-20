@@ -3,8 +3,20 @@
     <script>
         {# Lorque le joueur pioche une carte en double cliquant sur la bibliothèque #}
         $("body").on('dblclick', '.library', function(e) {
-            let player_area = $(this).closest('.player-area');
-            let player = player_area.data('player');
+            let player = $(this).closest('.player-area').data('player');
+            launchDraw(player);
+        });
+
+        {# Lorsque le joueur utilise le raccourci clavier D #}
+        $('body').bind('keypress', function(e) {
+            if(e.keyCode==100){
+                let player = $('#ally-area').data('player');
+                launchDraw(player);
+            }
+        });
+
+        {# Lancement de la pioche #}
+        function launchDraw(player){
             let parametres = {
                 game: {{ game.id }},
                 player: player,
@@ -16,9 +28,9 @@
                 data: parametres,
                 dataType: 'json'
             });
-        });
+        }
 
-        {# Mise à jour du jeu lors d'une pioche #}
+        {# Mise à jour du jeu après la pioche #}
         function updateGameAfterDraw(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);
             // Mise à jour du nombre de carte dans la library
@@ -28,7 +40,7 @@
             player_area.find('.hand').html(renderHand(retourMercure)); // ajout des cartes piochées
         }
 
-        {# Rendu de la main #}
+        {# Rendu d'une main #}
         function renderHand(retourMercure){
             let results_html = "";
             $.each(retourMercure.gameCardsHand, function (index, gameCardHand) {
