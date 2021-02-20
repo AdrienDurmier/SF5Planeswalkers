@@ -1,9 +1,5 @@
-{% import 'macro/avatar.html.twig' as avatar %}
-{% import 'admin/planeswalkers/play/macro/card-details.html.twig' as cardDetails %}
-{% import 'admin/planeswalkers/play/action/card-details/js.html.twig' as cardDetailsJs %}
-{% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}
-
 {% extends 'game.html.twig' %}
+{% import 'macro/avatar.html.twig' as avatar %}
 
 {% block title "Games" %}
 
@@ -22,16 +18,18 @@
             <div class="graveyard" style="background:black;">
                 graveyard opponent
             </div>
-            <div class="library" style="background:blue;">
-                <div class="library-top-card" style="background-image:url('{{ asset('images/planeswalkers/mtg_card_back.jpg') }}');">
+            <div class="library" style="background-color:rgba(0,0,0,0.2);">
+                <div class="library-top-card" draggable="true">
                     <div>{{ opponent.library.countGameCardsLibrary }}</div>
                 </div>
             </div>
             <div class="hand">
                 {% for cardHand in opponent.hand.gameCardsHand %}
-                    <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
+                    <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
 
-                    </div>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>
@@ -43,9 +41,9 @@
     </div>
 
     {# Allies area #}
-    <div id="ally-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
+    <div id="player-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
         <div class="avatar-area">
-            <div id="ally-lifepoint" class="lifepoint" title="Lifepoints">20</div>
+            <div id="player-lifepoint" class="lifepoint" title="Lifepoints">20</div>
             {{ avatar.afficher(player.user) }}
         </div>
         <div class="row-zone-battlefield">
@@ -60,8 +58,8 @@
             <div class="graveyard" style="background:black;">
                 graveyard opponent
             </div>
-            <div class="library" style="background:blue;">
-                <div class="library-top-card" style="background-image:url('{{ asset('images/planeswalkers/mtg_card_back.jpg') }}');">
+            <div class="library" style="background-color:rgba(0,0,0,0.2);">
+                <div id="player-library-top-card" class="library-top-card" draggable="true">
                     {{ player.library.countGameCardsLibrary }}
                 </div>
             </div>
@@ -77,21 +75,30 @@
         </div>
     </div>
 
+    {# Modale : détails d'une carte #}
+    {% import 'admin/planeswalkers/play/macro/card-details.html.twig' as cardDetails %}
     {{ cardDetails.afficher() }}
 
 {% endblock %}
 
 {% block javascripts %}
     <script>
+        {# Draggable #}
+        let draggableELement = null;
+        $(".library-top-card").on("drag", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            draggableELement = $(this);
+        });
+
         {# Mercure #}
         const url = new URL('{{mercure_publish_url}}');
-        console.log(url);
         url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
-            console.log(JSON.parse(event.data));
             retourMercure = JSON.parse(event.data);
 
+            {# Mise à jour du jeu en fonction de l'action #}
             switch (retourMercure.action) {
                 case 'draw':
                     updateGameAfterDraw(retourMercure);
@@ -99,12 +106,15 @@
                 default:
             }
         }
+
     </script>
 
     {# Card details #}
+    {% import 'admin/planeswalkers/play/action/card-details/js.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
 
     {# Draw #}
+    {% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game, path('planeswalkers.play.action.draw')) }}
 
 {% endblock %}
