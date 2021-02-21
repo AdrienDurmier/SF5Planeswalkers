@@ -1,7 +1,7 @@
 {% macro script() %}
     <script>
         {# Rendu d'une main #}
-        function renderHand(retourMercure){
+        function renderHand(retourMercure, player_area){
             let results_html = "";
             $.each(retourMercure.hand.cards, function (index, gameCardHand) {
                 results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+retourMercure.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
@@ -9,7 +9,7 @@
                 results_html +=     '</div>';
                 results_html += '</a>';
             })
-            return results_html;
+            player_area.find('.hand').html(results_html);
         }
     </script>
 {% endmacro %}

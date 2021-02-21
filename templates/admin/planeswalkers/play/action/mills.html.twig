@@ -1,20 +1,14 @@
+{# Mills: Mise à jour du jeu après une meule #}
 {% macro script(game) %}
     <script>
-        {# Mise à jour du jeu après une meule #}
         function updateGameAfterMills(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);
 
             // Mise à jour du nombre de carte dans le graveyard
-            player_area.find('.graveyard-top-card').text(retourMercure.graveyard.count);
-            // Mise à jour de la carte du dessus du graveyard
-            if (retourMercure.graveyard.count > 0){
-                player_area.find('.graveyard-top-card').css({'background-image':'url('+retourMercure.graveyard.topCard.imageUrisPng+')'});
-            }else{
-                player_area.find('.graveyard-top-card').css({'background-image':'none'});
-            }
+            renderGraveyard(retourMercure, player_area);
 
             // Mise à jour du nombre de carte dans la library
-            player_area.find('.library-top-card').text(retourMercure.library.count);
+            renderLibrary(retourMercure, player_area);
         }
     </script>
 {% endmacro %}

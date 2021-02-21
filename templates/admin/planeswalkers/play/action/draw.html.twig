@@ -18,11 +18,12 @@
         {# Mise à jour du jeu après la pioche #}
         function updateGameAfterDraw(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);
-            // Mise à jour du nombre de carte dans la library
-            player_area.find('.library-top-card').text(retourMercure.library.count);
+
+            // Mise à jour du nombre de la library
+            renderLibrary(retourMercure, player_area);
+
             // Mise à jour de la main
-            player_area.find('.hand').html(""); // nettoyage
-            player_area.find('.hand').html(renderHand(retourMercure)); // ajout des cartes piochées
+            renderHand(retourMercure, player_area);
         }
     </script>
 {% endmacro %}

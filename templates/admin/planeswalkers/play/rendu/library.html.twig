@@ -1,0 +1,9 @@
+{% macro script() %}
+    <script>
+        {# Rendu de la library #}
+        function renderLibrary(retourMercure, player_area){
+            // Mise à jour du nombre de carte dans la library
+            player_area.find('.library-top-card').text(retourMercure.library.count);
+        }
+    </script>
+{% endmacro %}

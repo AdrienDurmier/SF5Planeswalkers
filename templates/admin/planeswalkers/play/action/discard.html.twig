@@ -1,21 +1,14 @@
 {# Discard : le joueur se défausse d'une carte depuis sa main vers son cimetière #}
 {% macro script(game, ajaxUrl) %}
     <script>
-        {# Mise à jour du jeu après la pioche #}
         function updateGameAfterDiscard(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);
-            // Mise à jour du nombre de carte dans le graveyard
-            player_area.find('.graveyard-top-card').text(retourMercure.graveyard.count);
-            // Mise à jour de la carte du dessus du graveyard
-            if (retourMercure.graveyard.count > 0){
-                player_area.find('.graveyard-top-card').css({'background-image':'url('+retourMercure.graveyard.topCard.imageUrisPng+')'});
-            }else{
-                player_area.find('.graveyard-top-card').css({'background-image':'none'});
-            }
-            // Mise à jour de la main
-            player_area.find('.hand').html(""); // nettoyage
-            player_area.find('.hand').html(renderHand(retourMercure));
-        }
 
+            // Mise à jour du nombre de carte dans le graveyard
+            renderGraveyard(retourMercure, player_area);
+
+            // Mise à jour de la main
+            renderHand(retourMercure, player_area);
+        }
     </script>
 {% endmacro %}

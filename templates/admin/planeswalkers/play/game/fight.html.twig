@@ -136,6 +136,10 @@
     {# Rendu #}
     {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/graveyard.html.twig' as graveyardJs %}
+    {{ graveyardJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/library.html.twig' as libraryJs %}
+    {{ libraryJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/hand.html.twig' as handJs %}
     {{ handJs.script() }}
 
