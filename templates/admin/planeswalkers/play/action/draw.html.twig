@@ -14,16 +14,5 @@
                 launchMove('library', 'hand', player);
             }
         });
-
-        {# Mise à jour du jeu après la pioche #}
-        function updateGameAfterDraw(retourMercure){
-            let player_area = $('.player-area-' + retourMercure.player);
-
-            // Mise à jour du nombre de la library
-            renderLibrary(retourMercure, player_area);
-
-            // Mise à jour de la main
-            renderHand(retourMercure, player_area);
-        }
     </script>
 {% endmacro %}

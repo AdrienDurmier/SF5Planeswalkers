@@ -78,16 +78,20 @@ class GameController extends AbstractController
     public function fight(Game $game, ExileService $exileService, GraveyardService $graveyardService, BattlefieldService $battlefieldService)
     {
         $player = $game->getPlayer($this->getUser());
+        $playerExileTopCard = $exileService->topCard($player->getExile());
         $playerGraveyardTopCard = $graveyardService->topCard($player->getGraveyard());
 
         $opponent = $game->getOpponent($this->getUser());
+        $opponentExileTopCard = $exileService->topCard($opponent->getExile());
         $opponentGraveyardTopCard = $graveyardService->topCard($opponent->getGraveyard());
 
         return $this->render('admin/planeswalkers/play/game/fight.html.twig', [
             'game'                      =>  $game,
             'player'                    =>  $player,
+            'playerExileTopCard'    =>  $playerExileTopCard,
             'playerGraveyardTopCard'    =>  $playerGraveyardTopCard,
             'opponent'                  =>  $opponent,
+            'opponentExileTopCard'  =>  $opponentExileTopCard,
             'opponentGraveyardTopCard'  =>  $opponentGraveyardTopCard,
         ]);
     }

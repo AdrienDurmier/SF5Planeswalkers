@@ -13,13 +13,12 @@
         </div>
         <div class="row-library-hand">
             <div class="exile" title="Exile">
-                <div id="opponent-exile-top-card" class="exile-top-card">
+                <div id="opponent-exile-top-card" class="exile-top-card" {% if opponentExileTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ opponent.exile.countGameCardsExile }}
                 </div>
             </div>
             <div class="graveyard" title="Graveyard">
-                <div id="opponent-graveyard-top-card" class="graveyard-top-card"
-                     {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
+                <div id="opponent-graveyard-top-card" class="graveyard-top-card" {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ opponent.graveyard.countGameCardsGraveyard }}
                 </div>
             </div>
@@ -57,13 +56,12 @@
         </div>
         <div class="row-library-hand">
             <div data-area="exile" class="exile" title="Exile">
-                <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}">
+                <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}" {% if playerExileTopCard %}style="background-image:url('{{ playerExileTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ player.exile.countGameCardsExile }}
                 </div>
             </div>
-            <div data-area="graveyard" class="graveyard" title="Graveyard">
-                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}"
-                     {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
+            <div data-area="graveyard" class="graveyard">
+                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}" {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ player.graveyard.countGameCardsGraveyard }}
                 </div>
             </div>
@@ -94,7 +92,7 @@
     <script>
         {# Draggable #}
         let draggableELement = null;
-        $("body").on("drag",'.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link', function(event) {
+        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link', function(event) {
             event.preventDefault();
             event.stopPropagation();
             draggableELement = $(this);
@@ -155,13 +153,5 @@
     {# Draw #}
     {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game) }}
-
-    {# Mills #}
-    {% import 'admin/planeswalkers/play/action/mills.html.twig' as actionMillsJs %}
-    {{ actionMillsJs.script(game) }}
-
-    {# Discard #}
-    {% import 'admin/planeswalkers/play/action/discard.html.twig' as actionDiscardJs %}
-    {{ actionDiscardJs.script(game) }}
 
 {% endblock %}

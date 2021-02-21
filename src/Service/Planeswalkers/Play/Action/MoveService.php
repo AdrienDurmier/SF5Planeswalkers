@@ -5,6 +5,8 @@ namespace App\Service\Planeswalkers\Play\Action;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\Planeswalkers\Play\GameCardHand;
+use App\Service\Planeswalkers\Play\ExileService;
+use App\Service\Planeswalkers\Play\GraveyardService;
 use App\Service\Planeswalkers\Play\LibraryService;
 use App\Service\Planeswalkers\Play\GameCardExileService;
 use App\Service\Planeswalkers\Play\GameCardGraveyardService;
@@ -14,6 +16,8 @@ use App\Service\Planeswalkers\Play\GameCardHandService;
 class MoveService
 {
     private $em;
+    private $exileService;
+    private $graveyardService;
     private $libraryService;
     private $gameCardExileService;
     private $gameCardGraveyardService;
@@ -22,6 +26,8 @@ class MoveService
 
     /**
      * @param EntityManagerInterface $em
+     * @param ExileService $exileService
+     * @param GraveyardService $graveyardService
      * @param LibraryService $libraryService
      * @param GameCardExileService $gameCardExileService
      * @param GameCardGraveyardService $gameCardGraveyardService
@@ -29,6 +35,8 @@ class MoveService
      * @param GameCardHandService $gameCardHandService
      */
     public function __construct(EntityManagerInterface $em,
+                                ExileService $exileService,
+                                GraveyardService $graveyardService,
                                 LibraryService $libraryService,
                                 GameCardExileService $gameCardExileService,
                                 GameCardGraveyardService $gameCardGraveyardService,
@@ -36,6 +44,8 @@ class MoveService
                                 GameCardHandService $gameCardHandService)
     {
         $this->em = $em;
+        $this->exileService = $exileService;
+        $this->graveyardService = $graveyardService;
         $this->libraryService = $libraryService;
         $this->gameCardExileService = $gameCardExileService;
         $this->gameCardGraveyardService = $gameCardGraveyardService;
@@ -44,6 +54,7 @@ class MoveService
     }
 
     /**
+     * todo à intégrer dans le move mais en ajoutant la quantité (idem meule) ??
      * @param Player $player
      * @param int $quantity
      * @return bool
@@ -70,55 +81,6 @@ class MoveService
 
     /**
      * @param Player $player
-     * @param int $quantity
-     * @return bool
-     */
-    public function mills(Player $player, int $quantity = 1)
-    {
-        $library = $player->getLibrary();
-        $graveyard = $player->getGraveyard();
-
-        for($i=0; $i<$quantity; $i++){
-            // Récupération de la carte du dessus
-            $gameCardLibrary = $this->libraryService->topCard($library);
-            if ($gameCardLibrary){
-                // Ajout dans le cimetière
-                $gameCard = $this->gameCardGraveyardService->new($gameCardLibrary->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
-                $graveyard->addGameCardsGraveyard($gameCard);
-                // Suppression dans la librairie
-                $library->removeGameCardsLibrary($gameCardLibrary);
-            }
-        }
-        $this->em->persist($library);
-        return 'mills';
-    }
-
-    /**
-     * @param Player $player
-     * @param int $card
-     * @return bool
-     */
-    public function discard(Player $player, int $card)
-    {
-        $hand = $player->getHand();
-        $graveyard = $player->getGraveyard();
-
-        $cardHand = $this->em->getRepository(GameCardHand::class)->find($card);
-        if ($cardHand){
-            // Ajout dans le cimetière
-            $gameCardGraveyard = $this->gameCardGraveyardService->new($cardHand->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
-            $graveyard->addGameCardsGraveyard($gameCardGraveyard);
-            // Suppression dans la main
-            $hand->removeGameCardsHand($cardHand);
-        }
-
-        $this->em->persist($graveyard);
-
-        return 'discard';
-    }
-
-    /**
-     * @param Player $player
      * @param array $datas
      * @return bool
      */
@@ -128,53 +90,48 @@ class MoveService
         $graveyard = $player->getGraveyard();
         $library = $player->getLibrary();
         $hand = $player->getHand();
+        $card = null;
 
-        // Depuis la main
+        if($datas['from'] == 'graveyard'){
+            $card = $this->graveyardService->topCard($library);
+            if ($card){
+                $library->removeGameCardsLibrary($card);
+            }
+        }
+
+        if($datas['from'] == 'library'){
+            $card = $this->libraryService->topCard($library);
+            if ($card){
+                $library->removeGameCardsLibrary($card);
+            }
+        }
+
         if($datas['from'] == 'hand'){
-            $cardHand = $this->em->getRepository(GameCardHand::class)->find($datas['card']);
-            // Exile
+            $card = $this->em->getRepository(GameCardHand::class)->find($datas['card']);
+            if ($card){
+                $hand->removeGameCardsHand($card);
+            }
+        }
+
+        if ($card){
             if ($datas['to'] == 'exile'){
-                $gameCardExile = $this->gameCardExileService->new($cardHand->getCard(), $exile->countGameCardsExile() + 1 );
+                $gameCardExile = $this->gameCardExileService->new($card->getCard(), $exile->countGameCardsExile() + 1 );
                 $exile->addGameCardsExile($gameCardExile);
                 $this->em->persist($exile);
             }
-            // Discard (Défausse)
             if ($datas['to'] == 'graveyard'){
-                $gameCardGraveyard = $this->gameCardGraveyardService->new($cardHand->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
+                $gameCardGraveyard = $this->gameCardGraveyardService->new($card->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
                 $graveyard->addGameCardsGraveyard($gameCardGraveyard);
                 $this->em->persist($graveyard);
             }
-            // from hand on top of library
             if ($datas['to'] == 'library'){
-                $gameCardLibrary = $this->gameCardLibraryService->new($cardHand->getCard(), $library->countGameCardsLibrary() + 1 );
+                $gameCardLibrary = $this->gameCardLibraryService->new($card->getCard(), $library->countGameCardsLibrary() + 1 );
                 $library->addGameCardsLibrary($gameCardLibrary);
                 $this->em->persist($library);
             }
-            // Suppression de la carte dans la main
-            $hand->removeGameCardsHand($cardHand);
-        }
-        // Depuis la library
-        if($datas['from'] == 'library'){
-            // Récupération de la carte du dessus de la library
-            $gameCardLibrary = $this->libraryService->topCard($library);
-            if ($gameCardLibrary){
-                // Exile
-                if ($datas['to'] == 'exile'){
-                    $gameCardExile = $this->gameCardExileService->new($gameCardLibrary->getCard(), $exile->countGameCardsExile() + 1 );
-                    $exile->addGameCardsExile($gameCardExile);
-                }
-                // Mills (Meulle)
-                if ($datas['to'] == 'graveyard'){
-                    $gameCardGraveyard = $this->gameCardGraveyardService->new($gameCardLibrary->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
-                    $graveyard->addGameCardsGraveyard($gameCardGraveyard);
-                }
-                // Draw (Pioche)
-                if ($datas['to'] == 'hand'){
-                    $gameCardHand = $this->gameCardHandService->new($gameCardLibrary->getCard(), $hand->countGameCardsHand() + 1 );
-                    $hand->addGameCardsHand($gameCardHand);
-                }
-                // Suppression dans la librairie
-                $library->removeGameCardsLibrary($gameCardLibrary);
+            if ($datas['to'] == 'hand'){
+                $gameCardHand = $this->gameCardHandService->new($card->getCard(), $hand->countGameCardsHand() + 1 );
+                $hand->addGameCardsHand($gameCardHand);
             }
         }
 
