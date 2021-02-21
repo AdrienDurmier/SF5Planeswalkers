@@ -18,7 +18,8 @@
                 </div>
             </div>
             <div class="graveyard" title="Graveyard">
-                <div id="opponent-graveyard-top-card" class="graveyard-top-card">
+                <div id="opponent-graveyard-top-card" class="graveyard-top-card"
+                     {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ opponent.graveyard.countGameCardsGraveyard }}
                 </div>
             </div>
@@ -61,7 +62,8 @@
                 </div>
             </div>
             <div data-area="graveyard" class="graveyard" title="Graveyard">
-                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}">
+                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}"
+                     {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ player.graveyard.countGameCardsGraveyard }}
                 </div>
             </div>

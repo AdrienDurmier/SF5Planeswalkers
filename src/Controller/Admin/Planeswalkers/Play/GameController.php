@@ -11,6 +11,9 @@ use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\Legality;
 use App\Entity\Planeswalkers\Play\Game;
 use App\Service\Planeswalkers\Play\GameService;
+use App\Service\Planeswalkers\Play\ExileService;
+use App\Service\Planeswalkers\Play\GraveyardService;
+use App\Service\Planeswalkers\Play\BattlefieldService;
 
 class GameController extends AbstractController
 {
@@ -67,17 +70,25 @@ class GameController extends AbstractController
     /**
      * @Route("/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
      * @param Game $game
+     * @param ExileService $exileService
+     * @param GraveyardService $graveyardService
+     * @param BattlefieldService $battlefieldService
      * @return Response
      */
-    public function fight(Game $game)
+    public function fight(Game $game, ExileService $exileService, GraveyardService $graveyardService, BattlefieldService $battlefieldService)
     {
         $player = $game->getPlayer($this->getUser());
+        $playerGraveyardTopCard = $graveyardService->topCard($player->getGraveyard());
+
         $opponent = $game->getOpponent($this->getUser());
+        $opponentGraveyardTopCard = $graveyardService->topCard($opponent->getGraveyard());
 
         return $this->render('admin/planeswalkers/play/game/fight.html.twig', [
-            'game'      =>  $game,
-            'player'    =>  $player,
-            'opponent'  =>  $opponent,
+            'game'                      =>  $game,
+            'player'                    =>  $player,
+            'playerGraveyardTopCard'    =>  $playerGraveyardTopCard,
+            'opponent'                  =>  $opponent,
+            'opponentGraveyardTopCard'  =>  $opponentGraveyardTopCard,
         ]);
     }
 
