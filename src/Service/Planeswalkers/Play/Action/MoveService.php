@@ -57,6 +57,31 @@ class MoveService
 
     /**
      * @param Player $player
+     * @param int $quantity
+     * @return bool
+     */
+    public function mills(Player $player, int $quantity = 1)
+    {
+        $library = $player->getLibrary();
+        $graveyard = $player->getGraveyard();
+
+        for($i=0; $i<$quantity; $i++){
+            // Récupération de la carte du dessus
+            $top_card = $this->libraryService->topCard($library);
+            if ($top_card){
+                // Ajout dans le cimetière
+                $gameCard = $this->gameCardGraveyardService->new($top_card->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
+                $graveyard->addGameCardsGraveyard($gameCard);
+                // Suppression dans la librairie
+                $library->removeGameCardsLibrary($top_card);
+            }
+        }
+        $this->em->persist($library);
+        return true;
+    }
+
+    /**
+     * @param Player $player
      * @param int $card
      * @return bool
      */

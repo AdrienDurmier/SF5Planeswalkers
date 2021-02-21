@@ -44,6 +44,11 @@ class MoveController extends AbstractController
             $action = 'draw';
             $moveService->draw($player, 1);
         }
+        // Scénario Mills: le joueur meule une carte de sa librairie vers le cimetière
+        if ($datas['from'] == 'library' && $datas['to'] == 'graveyard'){
+            $action = 'mills';
+            $moveService->mills($player, 1);
+        }
         // Scénario Discard: le joueur se defausse d'une carte
         if ($datas['from'] == 'hand' && $datas['to'] == 'graveyard'){
             $action = 'discard';

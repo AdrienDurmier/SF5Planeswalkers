@@ -1,5 +1,5 @@
 {# Draw : le joueur pioche une carte depuis sa bibliothèque (library) vers sa main (hand) #}
-{% macro script(game, ajaxUrl) %}
+{% macro script() %}
     <script>
         {# Lorque le joueur pioche une carte en double cliquant sur la bibliothèque #}
         $("body").on('dblclick', '.library', function(e) {

@@ -121,6 +121,9 @@
                 case 'draw':
                     updateGameAfterDraw(retourMercure);
                     break;
+                case 'mills':
+                    updateGameAfterMills(retourMercure);
+                    break;
                 case 'discard':
                     updateGameAfterDiscard(retourMercure);
                     break;
@@ -143,6 +146,10 @@
     {# Draw #}
     {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game) }}
+
+    {# Mills #}
+    {% import 'admin/planeswalkers/play/action/mills.html.twig' as actionMillsJs %}
+    {{ actionMillsJs.script(game) }}
 
     {# Discard #}
     {% import 'admin/planeswalkers/play/action/discard.html.twig' as actionDiscardJs %}
