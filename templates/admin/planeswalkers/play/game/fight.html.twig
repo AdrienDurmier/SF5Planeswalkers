@@ -115,20 +115,23 @@
         url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
-            retourMercure = JSON.parse(event.data);
-            {# Mise à jour du jeu en fonction de l'action #}
-            switch (retourMercure.action) {
-                case 'draw':
-                    updateGameAfterDraw(retourMercure);
-                    break;
-                case 'mills':
-                    updateGameAfterMills(retourMercure);
-                    break;
-                case 'discard':
-                    updateGameAfterDiscard(retourMercure);
-                    break;
-                default:
+            let retourMercure = JSON.parse(event.data);
+            let player_area = $('.player-area-' + retourMercure.player);
+
+            {# Mise à jour des zones de jeu liées à l'action #}
+            if (retourMercure.action.from == 'exile' || retourMercure.action.to == 'exile'){
+                renderExile(retourMercure, player_area);
             }
+            if (retourMercure.action.from == 'library' || retourMercure.action.to == 'library'){
+                renderLibrary(retourMercure, player_area);
+            }
+            if (retourMercure.action.from == 'graveyard' || retourMercure.action.to == 'graveyard'){
+                renderGraveyard(retourMercure, player_area);
+            }
+            if (retourMercure.action.from == 'hand' || retourMercure.action.to == 'hand'){
+                renderHand(retourMercure, player_area);
+            }
+
         }
 
     </script>
@@ -136,6 +139,8 @@
     {# Rendu #}
     {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/exile.html.twig' as exileJs %}
+    {{ exileJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/graveyard.html.twig' as graveyardJs %}
     {{ graveyardJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/library.html.twig' as libraryJs %}

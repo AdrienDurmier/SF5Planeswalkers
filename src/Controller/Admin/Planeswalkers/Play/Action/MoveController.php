@@ -38,27 +38,8 @@ class MoveController extends AbstractController
         $action = null;
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
 
-        // Scénarios
-        // Scénario Draw: le joueur pioche une carte
-        if ($datas['from'] == 'library' && $datas['to'] == 'hand'){
-            $action = 'draw';
-            $moveService->draw($player, 1);
-        }
-        // Scénario Mills: le joueur meule une carte de sa librairie vers le cimetière
-        if ($datas['from'] == 'library' && $datas['to'] == 'graveyard'){
-            $action = 'mills';
-            $moveService->mills($player, 1);
-        }
-        // Scénario Discard: le joueur se defausse d'une carte
-        if ($datas['from'] == 'hand' && $datas['to'] == 'graveyard'){
-            $action = 'discard';
-            $moveService->discard($player, $datas['card']);
-        }
-        // Scénario Bounce: une carte du champs de bataille est renvoyée dans la main
-        if ($datas['from'] == 'battlefield' && $datas['to'] == 'hand'){
-            $action = 'bounce';
-        }
-
+        // Ensemble des scénarios lors du déplacement d'une carte
+        $moveService->move($player, $datas);
         $em->flush();
 
         // Réponse
@@ -96,7 +77,10 @@ class MoveController extends AbstractController
         // Plublication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = json_encode([
-            'action'       =>  $action,
+            'action'       =>  [
+                'from'     =>  $datas['from'],
+                'to'       =>  $datas['to'],
+            ],
             'player'       =>  $datas['player'],
             'exile'        =>  [
                 'count'    =>  $player->getExile()->countGameCardsExile(),
