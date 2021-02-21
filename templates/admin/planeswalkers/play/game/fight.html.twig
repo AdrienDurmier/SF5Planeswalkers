@@ -83,7 +83,7 @@
     </div>
 
     {# Modale : détails d'une carte #}
-    {% import 'admin/planeswalkers/play/macro/card-details.html.twig' as cardDetails %}
+    {% import 'admin/planeswalkers/play/rendu/card-details.html.twig' as cardDetails %}
     {{ cardDetails.afficher() }}
 
 {% endblock %}
@@ -128,20 +128,22 @@
 
     </script>
 
-    {# Card details #}
-    {% import 'admin/planeswalkers/play/action/card-details/js.html.twig' as cardDetailsJs %}
+    {# Rendu #}
+    {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/hand.html.twig' as handJs %}
+    {{ handJs.script() }}
 
     {# Move #}
     {% import 'admin/planeswalkers/play/action/move.html.twig' as actionMoveJs %}
     {{ actionMoveJs.script(game) }}
 
     {# Draw #}
-    {% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}
-    {{ actionDrawJs.script(game, path('planeswalkers.play.action.draw')) }}
+    {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
+    {{ actionDrawJs.script(game) }}
 
     {# Discard #}
-    {% import 'admin/planeswalkers/play/action/discard/js.html.twig' as actionDiscardJs %}
-    {{ actionDiscardJs.script(game, path('planeswalkers.play.action.discard')) }}
+    {% import 'admin/planeswalkers/play/action/discard.html.twig' as actionDiscardJs %}
+    {{ actionDiscardJs.script(game) }}
 
 {% endblock %}
