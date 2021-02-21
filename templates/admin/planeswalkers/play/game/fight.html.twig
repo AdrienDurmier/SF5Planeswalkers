@@ -12,12 +12,12 @@
             {{ avatar.afficher(opponent.user) }}
         </div>
         <div class="row-library-hand">
-            <div class="exile" draggable="true" title="Exile">
+            <div class="exile" title="Exile">
                 <div id="opponent-exile-top-card" class="exile-top-card">
                     {{ opponent.exile.countGameCardsExile }}
                 </div>
             </div>
-            <div class="graveyard" draggable="true" title="Graveyard">
+            <div class="graveyard" title="Graveyard">
                 <div id="opponent-graveyard-top-card" class="graveyard-top-card">
                     {{ opponent.graveyard.countGameCardsGraveyard }}
                 </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="hand">
                 {% for cardHand in opponent.hand.gameCardsHand %}
-                    <a href="#" class="hand-card-link" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                    <a href="#" class="hand-card-link">
                         <div class="hand-card" style="background-image:url({{ asset('images/planeswalkers/mtg_card_back.jpg') }});">
                         </div>
                     </a>
@@ -50,29 +50,29 @@
             {{ avatar.afficher(player.user) }}
         </div>
         <div class="row-zone-battlefield">
-            <div class="battlefield">
+            <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}">
 
             </div>
         </div>
         <div class="row-library-hand">
-            <div class="exile" draggable="true" title="Exile">
-                <div id="player-exile-top-card" class="exile-top-card" draggable="true">
+            <div data-area="exile" class="exile" title="Exile">
+                <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}">
                     {{ player.exile.countGameCardsExile }}
                 </div>
             </div>
-            <div class="graveyard" draggable="true" title="Graveyard">
-                <div id="player-graveyard-top-card" class="graveyard-top-card" draggable="true">
+            <div data-area="graveyard" class="graveyard" title="Graveyard">
+                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}">
                     {{ player.graveyard.countGameCardsGraveyard }}
                 </div>
             </div>
-            <div class="library" title="Library">
-                <div id="player-library-top-card" class="library-top-card" draggable="true">
+            <div data-area="library" class="library" title="Library">
+                <div id="player-library-top-card" class="library-top-card" data-area="library" draggable="true" data-player="{{ player.id }}">
                     {{ player.library.countGameCardsLibrary }}
                 </div>
             </div>
-            <div class="hand">
+            <div data-area="hand" class="hand">
                 {% for cardHand in player.hand.gameCardsHand %}
-                    <a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardHand.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                    <a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardHand.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
                         <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
 
                         </div>
@@ -92,10 +92,20 @@
     <script>
         {# Draggable #}
         let draggableELement = null;
-        $("body").on("drag",'.library-top-card, .hand-card-link', function(event) {
+        $("body").on("drag",'.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link', function(event) {
             event.preventDefault();
             event.stopPropagation();
             draggableELement = $(this);
+        });
+        $("body").on("dragover", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).addClass('dragging');
+        });
+        $("body").on("dragleave", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).removeClass('dragging');
         });
 
         {# Mercure #}
@@ -104,7 +114,6 @@
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             retourMercure = JSON.parse(event.data);
-
             {# Mise à jour du jeu en fonction de l'action #}
             switch (retourMercure.action) {
                 case 'draw':
@@ -122,6 +131,10 @@
     {# Card details #}
     {% import 'admin/planeswalkers/play/action/card-details/js.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
+
+    {# Move #}
+    {% import 'admin/planeswalkers/play/action/move.html.twig' as actionMoveJs %}
+    {{ actionMoveJs.script(game) }}
 
     {# Draw #}
     {% import 'admin/planeswalkers/play/action/draw/js.html.twig' as actionDrawJs %}

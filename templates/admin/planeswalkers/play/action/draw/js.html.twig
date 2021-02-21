@@ -4,51 +4,16 @@
         {# Lorque le joueur pioche une carte en double cliquant sur la bibliothèque #}
         $("body").on('dblclick', '.library', function(e) {
             let player = $(this).closest('.player-area').data('player');
-            launchDraw(player);
+            launchMove(player);
         });
 
         {# Lorsque le joueur utilise le raccourci clavier D #}
         $('body').bind('keypress', function(e) {
             if(e.keyCode==100){
                 let player = $('#player-area').data('player');
-                launchDraw(player);
+                launchMove(player);
             }
         });
-
-        {# Lorsque le joueur fait glisser de la library vers la main #}
-        $(".hand").on("dragover", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).addClass('dragging');
-        });
-        $(".hand").on("dragleave", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).removeClass('dragging');
-        });
-        $(".hand").on("drop", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            if (draggableELement.attr('id') === 'player-library-top-card'){
-                let player = draggableELement.closest('.player-area').data('player');
-                launchDraw(player);
-            }
-        });
-
-        {# Lancement de la pioche #}
-        function launchDraw(player){
-            let parametres = {
-                game: {{ game.id }},
-                player: player,
-                quantity: 1,
-            };
-            $.ajax({
-                url: "{{ ajaxUrl }}",
-                type: 'post',
-                data: parametres,
-                dataType: 'json'
-            });
-        }
 
         {# Mise à jour du jeu après la pioche #}
         function updateGameAfterDraw(retourMercure){
@@ -64,7 +29,7 @@
         function renderHand(retourMercure){
             let results_html = "";
             $.each(retourMercure.hand.cards, function (index, gameCardHand) {
-                results_html += '<a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+retourMercure.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
+                results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+retourMercure.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
                 results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
                 results_html +=     '</div>';
                 results_html += '</a>';

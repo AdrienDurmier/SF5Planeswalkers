@@ -49,10 +49,7 @@ class Exile extends Area
         return $this;
     }
 
-    /**
-     * @return Collection|GameCardExile[]
-     */
-    public function getGameCardsExile(): Collection
+    public function getGameCardsExile(): ?Collection
     {
         return $this->gameCardsExile;
     }

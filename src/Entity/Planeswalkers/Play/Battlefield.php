@@ -2,6 +2,8 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Battlefield extends Area
 {
+    public function __construct()
+    {
+        $this->gameCardsBattlefield = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,6 +29,11 @@ class Battlefield extends Area
      * @ORM\OneToOne(targetEntity=Player::class, mappedBy="battlefield", cascade={"persist", "remove"})
      */
     private $player;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\Play\GameCardBattlefield", mappedBy="battlefield", cascade={"persist", "remove"})
+     */
+    private $gameCardsBattlefield;
 
     public function getPlayer(): ?Player
     {
@@ -35,5 +47,37 @@ class Battlefield extends Area
         }
         $this->player = $player;
         return $this;
+    }
+
+    public function getGameCardsBattlefield(): ?Collection
+    {
+        return $this->gameCardsBattlefield;
+    }
+
+    public function addGameCardsBattlefield(GameCardBattlefield $gameCardsBattlefield): self
+    {
+        if (!$this->gameCardsBattlefield->contains($gameCardsBattlefield)) {
+            $this->gameCardsBattlefield[] = $gameCardsBattlefield;
+            $gameCardsBattlefield->setBattlefield($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameCardsBattlefield(GameCardBattlefield $gameCardsBattlefield): self
+    {
+        if ($this->gameCardsBattlefield->removeElement($gameCardsBattlefield)) {
+            if ($gameCardsBattlefield->getBattlefield() === $this) {
+                $gameCardsBattlefield->setBattlefield(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function countGameCardsBattlefield()
+    {
+        if ($this->gameCardsBattlefield == null) return 0;
+        return $this->gameCardsBattlefield->count();
     }
 }

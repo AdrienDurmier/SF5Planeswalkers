@@ -49,10 +49,7 @@ class Library extends Area
         return $this;
     }
 
-    /**
-     * @return Collection|GameCardLibrary[]
-     */
-    public function getGameCardsLibrary(): Collection
+    public function getGameCardsLibrary(): ?Collection
     {
         return $this->gameCardsLibrary;
     }

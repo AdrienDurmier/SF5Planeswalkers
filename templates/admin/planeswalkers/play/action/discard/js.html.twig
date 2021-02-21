@@ -1,42 +1,6 @@
 {# Discard : le joueur se défausse d'une carte depuis sa main vers son cimetière #}
 {% macro script(game, ajaxUrl) %}
     <script>
-        {# Lorsque le joueur fait glisser de la main vers le cimetière#}
-        $(".graveyard").on("dragover", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).addClass('dragging');
-        });
-        $(".graveyard").on("dragleave", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            $(this).removeClass('dragging');
-        });
-        $(".graveyard").on("drop", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            if (draggableELement.attr('class').includes("hand-card-link")){
-                let player = draggableELement.data('player');
-                let card = draggableELement.data('id');
-                launchDiscard(player, card);
-            }
-        });
-
-        {# Lancement de la défausse #}
-        function launchDiscard(player, card){
-            let parametres = {
-                game: {{ game.id }},
-                player: player,
-                card: card,
-            };
-            $.ajax({
-                url: "{{ ajaxUrl }}",
-                type: 'post',
-                data: parametres,
-                dataType: 'json'
-            });
-        }
-
         {# Mise à jour du jeu après la pioche #}
         function updateGameAfterDiscard(retourMercure){
             let player_area = $('.player-area-' + retourMercure.player);

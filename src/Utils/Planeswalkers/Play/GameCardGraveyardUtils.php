@@ -6,8 +6,10 @@ use App\Entity\Planeswalkers\Play\GameCardGraveyard;
 
 class GameCardGraveyardUtils
 {
-    public static function formatJson(GameCardGraveyard $gameCardGraveyard)
+    public static function formatJson(?GameCardGraveyard $gameCardGraveyard)
     {
+        if ($gameCardGraveyard == null)
+            return null;
         return [
             'id'            => $gameCardGraveyard->getId(),
             'idScryfall'    => $gameCardGraveyard->getCard()->getIdScryfall(),

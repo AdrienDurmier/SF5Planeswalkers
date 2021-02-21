@@ -19,6 +19,11 @@ class GameCardBattlefield extends GameCard
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Battlefield::class, inversedBy="gameCardsBattlefield")
+     */
+    private $battlefield;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $faceDown;
@@ -27,6 +32,18 @@ class GameCardBattlefield extends GameCard
      * @ORM\Column(type="integer")
      */
     private $counter;
+
+    public function getBattlefield(): ?Battlefield
+    {
+        return $this->battlefield;
+    }
+
+    public function setBattlefield(?Battlefield $battlefield): self
+    {
+        $this->battlefield = $battlefield;
+
+        return $this;
+    }
 
     public function getFaceDown(): ?bool
     {

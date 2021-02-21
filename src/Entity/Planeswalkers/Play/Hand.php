@@ -49,10 +49,7 @@ class Hand extends Area
         return $this;
     }
 
-    /**
-     * @return Collection|GameCardHand[]
-     */
-    public function getGameCardsHand(): Collection
+    public function getGameCardsHand(): ?Collection
     {
         return $this->gameCardsHand;
     }

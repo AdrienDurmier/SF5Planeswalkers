@@ -1,0 +1,34 @@
+{# Move #}
+{% macro script(game) %}
+    <script>
+        {# Lorsque le joueur déplace une carte #}
+        $("body").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            let from = draggableELement.data('area');
+            let to = $(this).data('area');
+            let player = draggableELement.data('player');
+            let card = draggableELement.data('id');
+            console.log('From : ' + from);
+            console.log('To : ' + to);
+            launchMove(from, to, player, card);
+        });
+
+        function launchMove(from, to, player, card){
+            let parametres = {
+                from: from,
+                to: to,
+                game: {{ game.id }},
+                player: player,
+                card: card,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.action.move') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+    </script>
+{% endmacro %}
