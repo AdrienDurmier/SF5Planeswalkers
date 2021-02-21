@@ -92,10 +92,17 @@ class MoveService
         $hand = $player->getHand();
         $card = null;
 
-        if($datas['from'] == 'graveyard'){
-            $card = $this->graveyardService->topCard($library);
+        if($datas['from'] == 'exile'){
+            $card = $this->exileService->topCard($exile);
             if ($card){
-                $library->removeGameCardsLibrary($card);
+                $exile->removeGameCardsExile($card);
+            }
+        }
+
+        if($datas['from'] == 'graveyard'){
+            $card = $this->graveyardService->topCard($graveyard);
+            if ($card){
+                $graveyard->removeGameCardsGraveyard($card);
             }
         }
 

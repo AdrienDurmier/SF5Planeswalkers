@@ -60,7 +60,7 @@
                     {{ player.exile.countGameCardsExile }}
                 </div>
             </div>
-            <div data-area="graveyard" class="graveyard">
+            <div data-area="graveyard" class="graveyard" title="Graveyard">
                 <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}" {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
                     {{ player.graveyard.countGameCardsGraveyard }}
                 </div>
