@@ -2,14 +2,15 @@
 
 namespace App\Controller\Admin\Planeswalkers\Play\Action;
 
-use App\Entity\Planeswalkers\Play\Player;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
+use App\Entity\Planeswalkers\Play\Player;
 use App\Service\Planeswalkers\Play\Action\DrawService;
+use App\Utils\Planeswalkers\Play\GameCardHandUtils;
 
 class DrawController extends AbstractController
 {
@@ -33,11 +34,7 @@ class DrawController extends AbstractController
         // Réponse
         $gameCardsHand = array();
         foreach ($hand->getGameCardsHand() as $gameCardHand){
-            $gameCardsHand[] = [
-                'id'            => $gameCardHand->getId(),
-                'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
-                'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
-            ];
+            $gameCardsHand[] = GameCardHandUtils::formatJson($gameCardHand);
         }
 
         // Plublication à Mercure

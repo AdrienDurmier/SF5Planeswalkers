@@ -8,9 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
-use App\Service\Planeswalkers\Play\Action\DiscardService;
 use App\Entity\Planeswalkers\Play\Player;
+use App\Service\Planeswalkers\Play\Action\DiscardService;
 use App\Service\Planeswalkers\Play\GraveyardService;
+use App\Utils\Planeswalkers\Play\GameCardGraveyardUtils;
+use App\Utils\Planeswalkers\Play\GameCardHandUtils;
 
 class DiscardController extends AbstractController
 {
@@ -35,19 +37,11 @@ class DiscardController extends AbstractController
         // Réponse
         $gameCardsGraveyard = array();
         foreach ($player->getGraveyard()->getGameCardsGraveyard() as $gameCardGraveyard){
-            $gameCardsGraveyard[] = [
-                'id'            => $gameCardGraveyard->getId(),
-                'idScryfall'    => $gameCardGraveyard->getCard()->getIdScryfall(),
-                'imageUrisPng'  => $gameCardGraveyard->getCard()->getImageUrisPng(),
-            ];
+            $gameCardsGraveyard[] = GameCardGraveyardUtils::formatJson($gameCardGraveyard);
         }
         $gameCardsHand = array();
         foreach ($player->getHand()->getGameCardsHand() as $gameCardHand){
-            $gameCardsHand[] = [
-                'id'            => $gameCardHand->getId(),
-                'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
-                'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
-            ];
+            $gameCardsHand[] = GameCardHandUtils::formatJson($gameCardHand);
         }
 
         // Plublication à Mercure
