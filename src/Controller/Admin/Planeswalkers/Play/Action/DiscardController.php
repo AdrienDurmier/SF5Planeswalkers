@@ -29,22 +29,24 @@ class DiscardController extends AbstractController
 
         // Action
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
-        $discardService->discard($player, $datas['idScryfall']);
+        $discardService->discard($player, $datas['card']);
         $em->flush();
 
         // Réponse
         $gameCardsGraveyard = array();
         foreach ($player->getGraveyard()->getGameCardsGraveyard() as $gameCardGraveyard){
             $gameCardsGraveyard[] = [
-                'idScryfall' => $gameCardGraveyard->getCard()->getIdScryfall(),
-                'imageUrisPng' => $gameCardGraveyard->getCard()->getImageUrisPng(),
+                'id'            => $gameCardGraveyard->getId(),
+                'idScryfall'    => $gameCardGraveyard->getCard()->getIdScryfall(),
+                'imageUrisPng'  => $gameCardGraveyard->getCard()->getImageUrisPng(),
             ];
         }
         $gameCardsHand = array();
         foreach ($player->getHand()->getGameCardsHand() as $gameCardHand){
             $gameCardsHand[] = [
-                'idScryfall' => $gameCardHand->getCard()->getIdScryfall(),
-                'imageUrisPng' => $gameCardHand->getCard()->getImageUrisPng(),
+                'id'            => $gameCardHand->getId(),
+                'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
+                'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
             ];
         }
 
@@ -57,8 +59,8 @@ class DiscardController extends AbstractController
                 'count'    =>  $player->getGraveyard()->countGameCardsGraveyard(),
                 'cards'     =>  $gameCardsGraveyard,
                 'topCard'  =>  [
-                    'idScryfall'   => $graveyardService->topCard($player->getGraveyard())->getCard()->getIdScryfall(),
-                    'imageUrisPng' => $graveyardService->topCard($player->getGraveyard())->getCard()->getImageUrisPng(),
+                    'idScryfall'    => $graveyardService->topCard($player->getGraveyard())->getCard()->getIdScryfall(),
+                    'imageUrisPng'  => $graveyardService->topCard($player->getGraveyard())->getCard()->getImageUrisPng(),
                 ],
             ],
             'hand'    =>  [

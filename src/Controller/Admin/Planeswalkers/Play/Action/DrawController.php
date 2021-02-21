@@ -34,8 +34,9 @@ class DrawController extends AbstractController
         $gameCardsHand = array();
         foreach ($hand->getGameCardsHand() as $gameCardHand){
             $gameCardsHand[] = [
-                'idScryfall' => $gameCardHand->getCard()->getIdScryfall(),
-                'imageUrisPng' => $gameCardHand->getCard()->getImageUrisPng(),
+                'id'            => $gameCardHand->getId(),
+                'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
+                'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
             ];
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
+use App\Entity\Test;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,4 +69,5 @@ class GameCardHand extends GameCard
 
         return $this;
     }
+
 }

@@ -64,7 +64,7 @@
         function renderHand(retourMercure){
             let results_html = "";
             $.each(retourMercure.hand.cards, function (index, gameCardHand) {
-                results_html += '<a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
+                results_html += '<a href="#" class="hand-card-link" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+retourMercure.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
                 results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
                 results_html +=     '</div>';
                 results_html += '</a>';

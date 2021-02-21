@@ -17,18 +17,19 @@
             event.stopPropagation();
             if (draggableELement.attr('class').includes("hand-card-link")){
                 let player = draggableELement.data('player');
-                let idsrcyfall = draggableELement.data('idsrcyfall'); {# fixme ne change pas après le premier drag&drop #}
-                launchDiscard(player, idsrcyfall);
+                let card = draggableELement.data('id');
+                launchDiscard(player, card);
             }
         });
 
         {# Lancement de la défausse #}
-        function launchDiscard(player, idsrcyfall){
+        function launchDiscard(player, card){
             let parametres = {
                 game: {{ game.id }},
                 player: player,
-                idScryfall: idsrcyfall,
+                card: card,
             };
+            console.log(parametres);
             $.ajax({
                 url: "{{ ajaxUrl }}",
                 type: 'post',

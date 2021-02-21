@@ -25,15 +25,15 @@ class DiscardService
 
     /**
      * @param Player $player
-     * @param string $idScryfall
+     * @param int $card
      * @return Graveyard
      */
-    public function discard(Player $player, string $idScryfall): Graveyard
+    public function discard(Player $player, int $card): Graveyard
     {
         $hand = $player->getHand();
         $graveyard = $player->getGraveyard();
 
-        $cardHand = $this->em->getRepository(GameCardHand::class)->searchOneByIdScryfall($idScryfall);
+        $cardHand = $this->em->getRepository(GameCardHand::class)->find($card);
         if ($cardHand){
             // Ajout dans le cimetière
             $gameCardGraveyard = $this->gameCardGraveyardService->new($cardHand->getCard(), $graveyard->countGameCardsGraveyard() + 1 );
