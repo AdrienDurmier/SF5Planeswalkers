@@ -10,6 +10,9 @@
             <a href="{{ path('planeswalkers.deck.new') }}" class="d-sm-inline-block btn btn-sm btn-success shadow-sm">
                 <i class="fas fa-plus fa-sm text-white-50"></i> New deck
             </a>
+            <a href="#" data-toggle="modal" data-target="#deckImportModal" class="d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                <i class="fas fa-file-download fa-sm text-white-50"></i> Import deck
+            </a>
         </div>
     </div>
 
@@ -48,5 +51,9 @@
             </div>
         </div>
     </div>
+
+    {# Modale : Import d'un #}
+    {% import 'admin/planeswalkers/deck/import.html.twig' as importModal %}
+    {{ importModal.afficher() }}
 
 {% endblock %}

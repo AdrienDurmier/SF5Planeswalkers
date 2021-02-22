@@ -190,9 +190,11 @@ class Deck
     public function colorsDeck(){
         $colors = array();
         foreach($this->cards as $deck_card){
-            foreach($deck_card->getCard()->getColors() as $color){
-                if (!in_array($color, $colors)) {
-                    $colors[] = $color;
+            if ($deck_card->getCard()->getColors()){
+                foreach($deck_card->getCard()->getColors() as $color){
+                    if (!in_array($color, $colors)) {
+                        $colors[] = $color;
+                    }
                 }
             }
         }

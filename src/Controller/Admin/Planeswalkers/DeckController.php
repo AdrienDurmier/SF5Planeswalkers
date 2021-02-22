@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Planeswalkers;
 
+use App\Service\Planeswalkers\Play\DeckService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,21 +36,37 @@ class DeckController extends AbstractController
     }
 
     /**
+     * @Route("/planeswalkers/decks/import", name="planeswalkers.deck.import", methods="POST")
+     * @param DeckService $deckService
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function import(DeckService $deckService, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+
+        // Création du deck
+        $deck = $deckService->new($this->getUser(), $datas);
+        // Remplit le deck
+        $deckService->import($deck, preg_split('/\r\n|[\r\n]/', $datas['contentLines']));
+        $em->flush();
+
+        return $this->redirectToRoute('planeswalkers.deck.index');
+    }
+
+    /**
      * @Route("/admin/planeswalkers/decks/new", name="planeswalkers.deck.new")
+     * @param DeckService $deckService
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request)
+    public function new(DeckService $deckService, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         if ($request->isMethod('POST')) {
             $datas = $request->request->all();
-            $deck = new Deck();
-            $deck->setTitle($datas['title']);
-            $deck->setContent($datas['content']);
-            $deck->setPublic(isset($datas['public'])?$datas['public']:0);
-            $deck->setAuthor($this->getUser());
-            $em->persist($deck);
+            $deck = $deckService->new($this->getUser(), $datas);
             $em->flush();
             return $this->redirectToRoute('planeswalkers.deck.edit', [
                 'id' => $deck->getId()

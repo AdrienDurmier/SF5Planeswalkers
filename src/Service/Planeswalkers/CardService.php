@@ -30,17 +30,39 @@ class CardService
         }
         $card->setIdScryfall($response_card->body->id);
         $card->setName($response_card->body->name);
-        $card->setLayout($response_card->body->layout);
-        $card->setImageUrisSmall($response_card->body->image_uris->small);
-        $card->setImageUrisNormal($response_card->body->image_uris->normal);
-        $card->setImageUrisLarge($response_card->body->image_uris->large);
-        $card->setImageUrisPng($response_card->body->image_uris->png);
-        $card->setImageUrisArtCrop($response_card->body->image_uris->art_crop);
-        $card->setManaCost($response_card->body->mana_cost);
-        $card->setCmc($response_card->body->cmc);
-        $card->setTypeLine($response_card->body->type_line);
-        $card->setRarity($response_card->body->rarity);
-        $card->setColors($response_card->body->colors);
+        if(isset($response_card->body->layout)){
+            $card->setLayout($response_card->body->layout);
+        }
+        if(isset($response_card->body->image_uris->small)){
+            $card->setImageUrisSmall($response_card->body->image_uris->small);
+        }
+        if(isset($response_card->body->image_uris->normal)){
+            $card->setImageUrisNormal($response_card->body->image_uris->normal);
+        }
+        if(isset($response_card->body->image_uris->large)){
+            $card->setImageUrisLarge($response_card->body->image_uris->large);
+        }
+        if(isset($response_card->body->image_uris->png)){
+            $card->setImageUrisPng($response_card->body->image_uris->png);
+        }
+        if(isset($response_card->body->image_uris->art_crop)){
+            $card->setImageUrisArtCrop($response_card->body->image_uris->art_crop);
+        }
+        if(isset($response_card->body->mana_cost)){
+            $card->setManaCost($response_card->body->mana_cost);
+        }
+        if(isset($response_card->body->cmc)){
+            $card->setCmc($response_card->body->cmc);
+        }
+        if(isset($response_card->body->type_line)){
+            $card->setTypeLine($response_card->body->type_line);
+        }
+        if(isset($response_card->body->rarity)){
+            $card->setRarity($response_card->body->rarity);
+        }
+        if(isset($response_card->body->colors)){
+            $card->setColors($response_card->body->colors);
+        }
 
         $this->em->persist($card);
 

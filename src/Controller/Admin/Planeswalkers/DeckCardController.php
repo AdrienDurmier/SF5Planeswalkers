@@ -9,46 +9,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\Planeswalkers\DeckCard;
-use App\Service\Planeswalkers\CardService;
-use App\Service\Planeswalkers\APIScryfall;
+use App\Service\Planeswalkers\Play\DeckCardService;
 
 class DeckCardController extends AbstractController
 {
     /**
      * @Route("/planeswalkers/deckcard/new", name="planeswalkers.deckcard.new")
-     * @param APIScryfall $apiScryfall
-     * @param CardService $cardService
+     * @param DeckCardService $deckCardService
      * @param Request $request
      * @return Response
      */
-    public function new(APIScryfall $apiScryfall, CardService $cardService, Request $request)
+    public function new(DeckCardService $deckCardService, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         if ($request->isMethod('POST')) {
             $datas = $request->request->all();
-            // Création de la card en local
             $deck = $this->getDoctrine()->getRepository(Deck::class)->find($datas['deck']);
-            $deckcard = null;
-            foreach($deck->getCards() as $deck_card){
-                if($deck_card->getCard()->getIdScryfall() == $datas['id_scryfall']){
-                    $deckcard = $deck_card;
-                }
-            }
-            if($deckcard === null){
-                $deckcard = new DeckCard();
-                $response_card = $apiScryfall->interroger('get', 'cards/'.$datas['id_scryfall']);
-                $card = $cardService->updateOrCreateCard($response_card);
-                $deckcard->setCard($card);
-            }
-            if(isset($datas['reserve'])){
-                $quantite = $deckcard->getQuantiteReserve() + $datas['quantite'];
-                $deckcard->setQuantiteReserve($quantite);
-            }else{
-                $quantite = $deckcard->getQuantite() + $datas['quantite'];
-                $deckcard->setQuantite($quantite);
-            }
-            $deckcard->setDeck($deck);
-            $em->persist($deckcard);
+            // Création de la card en local
+            $deckCardService->new($deck, $datas);
             $em->flush();
             return $this->redirectToRoute('planeswalkers.deck.edit', [
                 'id' => $deck->getId()
