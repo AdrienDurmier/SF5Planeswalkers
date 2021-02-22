@@ -49,17 +49,31 @@
 
     <div class="row mb-4">
         <div class="col-md-3">
-            <img src="{{ card.image_uris.border_crop }}" class="img-fluid" alt="">
+            {% if card.card_faces is defined %}
+                <img src="{{ card.card_faces[0].image_uris.border_crop }}" class="img-fluid" alt="{{ card.card_faces[0].name }}">
+                <hr>
+                <img src="{{ card.card_faces[1].image_uris.border_crop }}" class="img-fluid" alt="{{ card.card_faces[1].name }}">
+            {% else %}
+                <img src="{{ card.image_uris.border_crop }}" class="img-fluid" alt="{{ card.name }}">
+            {% endif %}
         </div>
         <div class="col-md-7">
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <b>{{ card.type_line }}</b>
                     <hr>
-                    {{ card.oracle_text|cardsymbol|raw }}
-                    {% if card.flavor_text is defined %}
+                    {% if card.card_faces is defined %}
+                        {{ card.card_faces[0].oracle_text|cardsymbol|raw }}
+                        <br>
+                        <i>{{ card.card_faces[0].flavor_text }}</i>
                         <hr>
-                        <i>{{ card.flavor_text }}</i>
+                        {{ card.card_faces[1].oracle_text|cardsymbol|raw }}
+                        <br>
+                        <i>{{ card.card_faces[1].flavor_text }}</i>
+                    {% else %}
+                        {{ card.oracle_text|cardsymbol|raw }}
+                        <hr>
+                        {{ card.flavor_text }}
                     {% endif %}
                 </div>
             </div>
@@ -138,36 +152,72 @@
                 </div>
                 <div class="card-body">
                     <table class="table table-sm table-striped">
-                        <tr>
-                            <td>Cost</td>
-                            <td>{{ card.mana_cost|cardsymbol|raw }}</td>
-                        </tr>
-                        <tr>
-                            <td>Colors</td>
-                            <td>
-                                {% for color in card.colors %}
-                                    <div class="card-symbol card-symbol-{{ color }}"></div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Identity</td>
-                            <td>
-                                {% for color in card.color_identity %}
-                                    <div class="card-symbol card-symbol-{{ color }}"></div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        {% if produced_mana is defined %}
+                        {% if card.card_faces is defined %}
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><small>{{ card.card_faces[0].name }}</small></th>
+                                    <th><small>{{ card.card_faces[1].name }}</small></th>
+                                </tr>
+                            </thead>
+                        {% endif %}
+                        <tbody>
                             <tr>
-                                <td>Produced</td>
+                                <td>Cost</td>
+                                {% if card.card_faces is defined %}
+                                    <td>{{ card.card_faces[0].mana_cost|cardsymbol|raw }}</td>
+                                    <td>{{ card.card_faces[1].mana_cost|cardsymbol|raw }}</td>
+                                {% else %}
+                                    <td>{{ card.mana_cost|cardsymbol|raw }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Colors</td>
+                                {% if card.card_faces is defined %}
+                                    <td>
+                                        {% for color in card.card_faces[0].colors %}
+                                            <div class="card-symbol card-symbol-{{ color }}"></div>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for color in card.card_faces[1].colors %}
+                                            <div class="card-symbol card-symbol-{{ color }}"></div>
+                                        {% endfor %}
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        {% for color in card.colors %}
+                                            <div class="card-symbol card-symbol-{{ color }}"></div>
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Identity</td>
                                 <td>
-                                    {% for produced_mana in card.produced_mana %}
-                                        <div class="card-symbol card-symbol-{{ produced_mana }}"></div>
+                                    {% for color in card.color_identity %}
+                                        <div class="card-symbol card-symbol-{{ color }}"></div>
                                     {% endfor %}
                                 </td>
+                                {% if card.card_faces is defined %} {# l'identité est un attribut concernant les deux côtés de la carte #}
+                                    <td>
+                                        {% for color in card.color_identity %}
+                                            <div class="card-symbol card-symbol-{{ color }}"></div>
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
                             </tr>
-                        {% endif %}
+                            {% if produced_mana is defined %}
+                                <tr>
+                                    <td>Produced</td>
+                                    <td>
+                                        {% for produced_mana in card.produced_mana %}
+                                            <div class="card-symbol card-symbol-{{ produced_mana }}"></div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
                     </table>
                 </div>
             </div>
