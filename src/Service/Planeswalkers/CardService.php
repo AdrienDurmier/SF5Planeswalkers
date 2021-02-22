@@ -30,29 +30,58 @@ class CardService
         }
         $card->setIdScryfall($response_card->body->id);
         $card->setName($response_card->body->name);
+
+        // si c'est une carte double
+        if(isset($response_card->body->card_faces)){
+            if(isset($response_card->body->card_faces[0]->image_uris->small)){
+                $card->setImageUrisSmall($response_card->body->card_faces[0]->image_uris->small);
+            }
+            if(isset($response_card->body->card_faces[0]->image_uris->normal)){
+                $card->setImageUrisNormal($response_card->body->card_faces[0]->image_uris->normal);
+            }
+            if(isset($response_card->body->card_faces[0]->image_uris->large)){
+                $card->setImageUrisLarge($response_card->body->card_faces[0]->image_uris->large);
+            }
+            if(isset($response_card->body->card_faces[0]->image_uris->png)){
+                $card->setImageUrisPng($response_card->body->card_faces[0]->image_uris->png);
+            }
+            if(isset($response_card->body->card_faces[0]->image_uris->art_crop)){
+                $card->setImageUrisArtCrop($response_card->body->card_faces[0]->image_uris->art_crop);
+            }
+            if(isset($response_card->body->card_faces[0]->mana_cost)){
+                $card->setManaCost($response_card->body->card_faces[0]->mana_cost);
+            }
+            if(isset($response_card->body->card_faces[0]->cmc)){
+                $card->setCmc($response_card->body->card_faces[0]->cmc);
+            }
+        }
+        // si c'est une carte normale
+        else{
+            if(isset($response_card->body->image_uris->small)){
+                $card->setImageUrisSmall($response_card->body->image_uris->small);
+            }
+            if(isset($response_card->body->image_uris->normal)){
+                $card->setImageUrisNormal($response_card->body->image_uris->normal);
+            }
+            if(isset($response_card->body->image_uris->large)){
+                $card->setImageUrisLarge($response_card->body->image_uris->large);
+            }
+            if(isset($response_card->body->image_uris->png)){
+                $card->setImageUrisPng($response_card->body->image_uris->png);
+            }
+            if(isset($response_card->body->image_uris->art_crop)){
+                $card->setImageUrisArtCrop($response_card->body->image_uris->art_crop);
+            }
+            if(isset($response_card->body->mana_cost)){
+                $card->setManaCost($response_card->body->mana_cost);
+            }
+            if(isset($response_card->body->cmc)){
+                $card->setCmc($response_card->body->cmc);
+            }
+        }
+
         if(isset($response_card->body->layout)){
             $card->setLayout($response_card->body->layout);
-        }
-        if(isset($response_card->body->image_uris->small)){
-            $card->setImageUrisSmall($response_card->body->image_uris->small);
-        }
-        if(isset($response_card->body->image_uris->normal)){
-            $card->setImageUrisNormal($response_card->body->image_uris->normal);
-        }
-        if(isset($response_card->body->image_uris->large)){
-            $card->setImageUrisLarge($response_card->body->image_uris->large);
-        }
-        if(isset($response_card->body->image_uris->png)){
-            $card->setImageUrisPng($response_card->body->image_uris->png);
-        }
-        if(isset($response_card->body->image_uris->art_crop)){
-            $card->setImageUrisArtCrop($response_card->body->image_uris->art_crop);
-        }
-        if(isset($response_card->body->mana_cost)){
-            $card->setManaCost($response_card->body->mana_cost);
-        }
-        if(isset($response_card->body->cmc)){
-            $card->setCmc($response_card->body->cmc);
         }
         if(isset($response_card->body->type_line)){
             $card->setTypeLine($response_card->body->type_line);
