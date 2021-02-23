@@ -18,13 +18,16 @@
             {{ deck.title }}
         </h1>
         <div class="d-sm-inline-block">
-            <a href="{{ path('planeswalkers.deck.index') }}" class="btn btn-sm btn-secondary shadow-sm">
-                <i class="fas fa-reply fa-sm text-white-50"></i>
+            <a href="{{ path('planeswalkers.deck.index') }}" class="btn btn-sm btn-secondary shadow-sm" title="Back to my decks list">
+                <i class="fas fa-reply fa-sm"></i>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#deckExportModal"  data-deck="{{ deck.id }}" class="btn btn-sm btn-primary shadow-sm deck-export-link" title="Export Deck to Magic: the Gathering Arena">
+                <i class="fas fa-file-export"></i>
             </a>
             <form method="post" style="display:inline-block;"action="{{ path('planeswalkers.deck.delete', {id: deck.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?')">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete_deck') }}">
-                <button class="btn btn-sm btn-danger" title="Delete this deck"><i class="fas fa-trash fa-sm text-white-50"></i> Delete this deck</button>
+                <button class="btn btn-sm btn-danger" title="Delete this deck"><i class="fas fa-trash fa-sm"></i></button>
             </form>
         </div>
     </div>
@@ -304,9 +307,17 @@
         </div>
     </div>
 
+    {# Modale : Export d'un deck #}
+    {% import 'admin/planeswalkers/deck/export.html.twig' as exportModal %}
+    {{ exportModal.afficher() }}
+
 {% endblock %}
 
 {% block javascripts %}
+    {# Script : Export d'un deck #}
+    {% import 'admin/planeswalkers/deck/export-js.html.twig' as exportJs %}
+    {{ exportJs.script() }}
+
     <script src="{{ asset('assets/chart/chart.min.js') }}"></script>
     <script>
         // Courbe de mana
