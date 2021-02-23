@@ -29,10 +29,10 @@ class CardService
             $card = new Card();
         }
         $card->setIdScryfall($response_card->body->id);
-        $card->setName($response_card->body->name);
 
         // si c'est une carte double
         if(isset($response_card->body->card_faces)){
+            $card->setName($response_card->body->card_faces[0]->name);
             if(isset($response_card->body->card_faces[0]->image_uris->small)){
                 $card->setImageUrisSmall($response_card->body->card_faces[0]->image_uris->small);
             }
@@ -57,6 +57,7 @@ class CardService
         }
         // si c'est une carte normale
         else{
+            $card->setName($response_card->body->name);
             if(isset($response_card->body->image_uris->small)){
                 $card->setImageUrisSmall($response_card->body->image_uris->small);
             }
