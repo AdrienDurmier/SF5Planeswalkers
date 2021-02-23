@@ -56,6 +56,20 @@ class DeckController extends AbstractController
     }
 
     /**
+     * @Route("/planeswalkers/decks/export", name="planeswalkers.deck.export", methods="POST")
+     * @param DeckService $deckService
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function export(DeckService $deckService, Request $request)
+    {
+        $datas = $request->request->all();
+        $deck = $this->getDoctrine()->getRepository(Deck::class)->find($datas['deck']);
+        $response = $deckService->export($deck);
+        return new JsonResponse($response);
+    }
+
+    /**
      * @Route("/admin/planeswalkers/decks/new", name="planeswalkers.deck.new")
      * @param DeckService $deckService
      * @param Request $request

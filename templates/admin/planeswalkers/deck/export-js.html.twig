@@ -1,0 +1,30 @@
+{% macro script() %}
+    <script>
+        $(".deck-export-link").on('click', function(e) {
+            let deck = $(this).data('deck');
+            let parametres = {
+                deck: deck,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.deck.export') }}",
+                type: 'post',
+                dataType: 'json',
+                data: parametres,
+                beforeSend: function () {
+                    $('#deckExportContent').val('');
+                },
+                success: function (data) {
+                    let result = '';
+                    $.each(data, function (index, item) {
+                        if (index == 0){
+                            result += item;
+                        }else{
+                            result += '\r\n' + item;
+                        }
+                    })
+                    $('#deckExportContent').val(result);
+                }
+            });
+        });
+    </script>
+{% endmacro %}

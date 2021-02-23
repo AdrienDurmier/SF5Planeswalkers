@@ -86,4 +86,33 @@ class DeckService
         return $deck;
     }
 
+    /**
+     * @param Deck $deck
+     * @return array
+     */
+    public function export(Deck $deck): array
+    {
+        $deckContent = array();
+
+        // Partie deck
+        $deckContent[] = 'Deck';
+        foreach($deck->getCards() as $deckcard){
+            if($deckcard->getQuantite() > 0){
+                $deckContent[] = $deckcard->getQuantite() . ' '. $deckcard->getCard()->getName();
+            }
+        }
+
+        $deckContent[] = '';
+
+        // Partie sideboard
+        $deckContent[] = 'Sideboard';
+        foreach($deck->getCards() as $deckcard){
+            if($deckcard->getQuantiteReserve() > 0){
+                $deckContent[] = $deckcard->getQuantiteReserve() . ' '. $deckcard->getCard()->getName();
+            }
+        }
+
+        return $deckContent;
+    }
+
 }
