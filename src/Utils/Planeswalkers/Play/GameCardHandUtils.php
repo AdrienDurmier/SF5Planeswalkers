@@ -14,6 +14,7 @@ class GameCardHandUtils
             'id'            => $gameCardHand->getId(),
             'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
             'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
+            'reveal'        => $gameCardHand->getReveal(),
         ];
     }
 }

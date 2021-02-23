@@ -29,7 +29,7 @@ class GameCardBattlefield extends GameCard
     private $faceDown;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $counter;
 
@@ -62,7 +62,7 @@ class GameCardBattlefield extends GameCard
         return $this->counter;
     }
 
-    public function setCounter(int $counter): self
+    public function setCounter(?int $counter): self
     {
         $this->counter = $counter;
 

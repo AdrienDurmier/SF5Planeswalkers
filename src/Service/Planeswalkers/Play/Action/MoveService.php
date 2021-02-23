@@ -5,6 +5,7 @@ namespace App\Service\Planeswalkers\Play\Action;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\Planeswalkers\Play\GameCardHand;
+use App\Entity\Planeswalkers\Play\GameCardBattlefield;
 use App\Service\Planeswalkers\Play\ExileService;
 use App\Service\Planeswalkers\Play\GraveyardService;
 use App\Service\Planeswalkers\Play\LibraryService;
@@ -12,6 +13,7 @@ use App\Service\Planeswalkers\Play\GameCardExileService;
 use App\Service\Planeswalkers\Play\GameCardGraveyardService;
 use App\Service\Planeswalkers\Play\GameCardLibraryService;
 use App\Service\Planeswalkers\Play\GameCardHandService;
+use App\Service\Planeswalkers\Play\GameCardBattlefieldService;
 
 class MoveService
 {
@@ -33,6 +35,7 @@ class MoveService
      * @param GameCardGraveyardService $gameCardGraveyardService
      * @param GameCardLibraryService $gameCardLibraryService
      * @param GameCardHandService $gameCardHandService
+     * @param GameCardBattlefieldService $gameCardBattlefieldService
      */
     public function __construct(EntityManagerInterface $em,
                                 ExileService $exileService,
@@ -41,7 +44,8 @@ class MoveService
                                 GameCardExileService $gameCardExileService,
                                 GameCardGraveyardService $gameCardGraveyardService,
                                 GameCardLibraryService $gameCardLibraryService,
-                                GameCardHandService $gameCardHandService)
+                                GameCardHandService $gameCardHandService,
+                                GameCardBattlefieldService $gameCardBattlefieldService)
     {
         $this->em = $em;
         $this->exileService = $exileService;
@@ -51,6 +55,7 @@ class MoveService
         $this->gameCardGraveyardService = $gameCardGraveyardService;
         $this->gameCardLibraryService = $gameCardLibraryService;
         $this->gameCardHandService = $gameCardHandService;
+        $this->gameCardBattlefieldService = $gameCardBattlefieldService;
     }
 
     /**
@@ -90,6 +95,7 @@ class MoveService
         $graveyard = $player->getGraveyard();
         $library = $player->getLibrary();
         $hand = $player->getHand();
+        $battlefield = $player->getBattlefield();
         $card = null;
 
         if($datas['from'] == 'exile'){
@@ -120,6 +126,13 @@ class MoveService
             }
         }
 
+        if($datas['from'] == 'battlefield'){
+            $card = $this->em->getRepository(GameCardBattlefield::class)->find($datas['card']);
+            if ($card){
+                $battlefield->removeGameCardsBattlefield($card);
+            }
+        }
+
         if ($card){
             if ($datas['to'] == 'exile'){
                 $gameCardExile = $this->gameCardExileService->new($card->getCard(), $exile->countGameCardsExile() + 1 );
@@ -139,6 +152,10 @@ class MoveService
             if ($datas['to'] == 'hand'){
                 $gameCardHand = $this->gameCardHandService->new($card->getCard(), $hand->countGameCardsHand() + 1 );
                 $hand->addGameCardsHand($gameCardHand);
+            }
+            if ($datas['to'] == 'battlefield'){
+                $gameCardBattlefield = $this->gameCardBattlefieldService->new($card->getCard());
+                $battlefield->addGameCardsBattlefield($gameCardBattlefield);
             }
         }
 

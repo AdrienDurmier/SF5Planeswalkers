@@ -51,7 +51,13 @@
         </div>
         <div class="row-zone-battlefield">
             <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}">
+                {% for cardBattlefield in player.battlefield.gameCardsBattlefield %}
+                    <a href="#" class="battlefield-card-link" data-area="battlefield" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardBattlefield.id }}" data-idsrcyfall="{{ cardBattlefield.card.idScryfall }}">
+                        <div class="battlefield-card" style="background-image:url('{{ cardBattlefield.card.imageUrisPng }}');">
 
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
         </div>
         <div class="row-library-hand">
@@ -92,7 +98,7 @@
     <script>
         {# Draggable #}
         let draggableELement = null;
-        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link', function(event) {
+        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(event) {
             event.preventDefault();
             event.stopPropagation();
             draggableELement = $(this);
@@ -129,9 +135,10 @@
             if (retourMercure.action.from == 'hand' || retourMercure.action.to == 'hand'){
                 renderHand(retourMercure, player_area);
             }
-
+            if (retourMercure.action.from == 'battlefield' || retourMercure.action.to == 'battlefield'){
+                renderBattlefield(retourMercure, player_area);
+            }
         }
-
     </script>
 
     {# Rendu #}
@@ -145,6 +152,8 @@
     {{ libraryJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/hand.html.twig' as handJs %}
     {{ handJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/battlefield.html.twig' as battlefieldJs %}
+    {{ battlefieldJs.script() }}
 
     {# Move #}
     {% import 'admin/planeswalkers/play/action/move.html.twig' as actionMoveJs %}

@@ -14,6 +14,8 @@ class GameCardBattlefieldUtils
             'id'            => $gameCardBattlefield->getId(),
             'idScryfall'    => $gameCardBattlefield->getCard()->getIdScryfall(),
             'imageUrisPng'  => $gameCardBattlefield->getCard()->getImageUrisPng(),
+            'faceDown'      => $gameCardBattlefield->getFaceDown(),
+            'counter'       => $gameCardBattlefield->getCounter(),
         ];
     }
 }

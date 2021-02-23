@@ -14,6 +14,7 @@ class GameCardLibraryUtils
             'id'            => $gameCardLibrary->getId(),
             'idScryfall'    => $gameCardLibrary->getCard()->getIdScryfall(),
             'imageUrisPng'  => $gameCardLibrary->getCard()->getImageUrisPng(),
+            'reveal'        => $gameCardLibrary->getReveal(),
         ];
     }
 }

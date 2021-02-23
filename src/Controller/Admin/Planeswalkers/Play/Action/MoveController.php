@@ -31,7 +31,12 @@ class MoveController extends AbstractController
      * @param LibraryService $libraryService
      * @return JsonResponse
      */
-    public function move( Request $request, PublisherInterface $publisher, MoveService $moveService, ExileService $exileService, GraveyardService $graveyardService, LibraryService $libraryService)
+    public function move(Request $request,
+                         PublisherInterface $publisher,
+                         MoveService $moveService,
+                         ExileService $exileService,
+                         GraveyardService $graveyardService,
+                         LibraryService $libraryService)
     {
         $em = $this->getDoctrine()->getManager();
         $datas = $request->request->all();

@@ -1,0 +1,15 @@
+{% macro script() %}
+    <script>
+        function renderBattlefield(retourMercure, player_area){
+            let results_html = "";
+            $.each(retourMercure.battlefield.cards, function (index, gameCardBattlefield) {
+                console.log(gameCardBattlefield);
+                results_html += '<a href="#" class="battlefield-card-link" data-area="battlefield" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+retourMercure.player+'" data-id="'+gameCardBattlefield.id+'" data-idsrcyfall="'+gameCardBattlefield.idScryfall+'">';
+                results_html +=     '<div class="battlefield-card" style="background-image:url('+gameCardBattlefield.imageUrisPng+');">';
+                results_html +=     '</div>';
+                results_html += '</a>';
+            })
+            player_area.find('.battlefield').html(results_html);
+        }
+    </script>
+{% endmacro %}

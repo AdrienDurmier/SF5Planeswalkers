@@ -27,18 +27,20 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .hand  {width:calc(100% - 270px);}
 .battlefield {width:100%;}
 
-/* Zones de jeux - library */
-.library {background-image:url("/images/planeswalkers/inbox-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
-.library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
+/* Zones de jeux - exile */
+.exile {background-image:url("/images/planeswalkers/times-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
 
 /* Zones de jeux - graveyard */
 .graveyard {border-left:2px solid #000;border-right:2px solid #000;background-image:url("/images/planeswalkers/skull-crossbones-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
 
-/* Zones de jeux - exile */
-.exile {background-image:url("/images/planeswalkers/times-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
+/* Zones de jeux - library */
+.library {background-image:url("/images/planeswalkers/inbox-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
+.library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
 
 /* Zones de jeux - hand */
 .hand {text-align:center;}
 .hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}
 
-
+/* Zones de jeux - battlefield */
+.battlefield {text-align:center;}
+.battlefield-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}
