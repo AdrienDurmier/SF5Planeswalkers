@@ -33,6 +33,16 @@ class GameCardBattlefield extends GameCard
      */
     private $counter;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $offsetX;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $offsetY;
+
     public function getBattlefield(): ?Battlefield
     {
         return $this->battlefield;
@@ -65,6 +75,30 @@ class GameCardBattlefield extends GameCard
     public function setCounter(?int $counter): self
     {
         $this->counter = $counter;
+
+        return $this;
+    }
+
+    public function getOffsetX(): ?int
+    {
+        return $this->offsetX;
+    }
+
+    public function setOffsetX(?int $offsetX): self
+    {
+        $this->offsetX = $offsetX;
+
+        return $this;
+    }
+
+    public function getOffsetY(): ?int
+    {
+        return $this->offsetY;
+    }
+
+    public function setOffsetY(?int $offsetY): self
+    {
+        $this->offsetY = $offsetY;
 
         return $this;
     }

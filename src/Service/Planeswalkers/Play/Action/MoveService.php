@@ -154,7 +154,7 @@ class MoveService
                 $hand->addGameCardsHand($gameCardHand);
             }
             if ($datas['to'] == 'battlefield'){
-                $gameCardBattlefield = $this->gameCardBattlefieldService->new($card->getCard());
+                $gameCardBattlefield = $this->gameCardBattlefieldService->new($card->getCard(), $datas);
                 $battlefield->addGameCardsBattlefield($gameCardBattlefield);
             }
         }

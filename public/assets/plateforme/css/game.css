@@ -39,8 +39,8 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 
 /* Zones de jeux - hand */
 .hand {text-align:center;}
-.hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}
+.hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100px;}
 
 /* Zones de jeux - battlefield */
-.battlefield {text-align:center;}
-.battlefield-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100%;}
+.battlefield {text-align:center;position:relative;}
+.battlefield-card {position:absolute;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:100px;}

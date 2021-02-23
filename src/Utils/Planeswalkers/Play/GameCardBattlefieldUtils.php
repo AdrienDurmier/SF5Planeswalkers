@@ -16,6 +16,8 @@ class GameCardBattlefieldUtils
             'imageUrisPng'  => $gameCardBattlefield->getCard()->getImageUrisPng(),
             'faceDown'      => $gameCardBattlefield->getFaceDown(),
             'counter'       => $gameCardBattlefield->getCounter(),
+            'offsetX'       => $gameCardBattlefield->getOffsetX(),
+            'offsetY'       => $gameCardBattlefield->getOffsetY(),
         ];
     }
 }

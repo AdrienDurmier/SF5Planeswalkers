@@ -98,19 +98,19 @@
     <script>
         {# Draggable #}
         let draggableELement = null;
-        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             draggableELement = $(this);
         });
-        $("body").on("dragover", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+        $("body").on("dragover", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             $(this).addClass('dragging');
         });
-        $("body").on("dragleave", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+        $("body").on("dragleave", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             $(this).removeClass('dragging');
         });
 

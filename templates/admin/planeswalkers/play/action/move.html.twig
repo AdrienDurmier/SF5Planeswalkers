@@ -2,23 +2,35 @@
 {% macro script(game) %}
     <script>
         {# Lorsque le joueur déplace une carte #}
-        $("body").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+        $("body").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             let from = draggableELement.data('area');
             let to = $(this).data('area');
             let player = draggableELement.data('player');
             let card = draggableELement.data('id');
-            launchMove(from, to, player, card);
+
+            let offsetX = Math.round(e.pageX / 100); {# Position horizontale de la carte sur la ligne du battlefield #}
+            let offsetY = Math.round((e.pageY - $(this).offset().top) / 100); {# Position verticale de la carte sur la ligne du battlefield #}
+
+            //let battlefieldWidth = $(this).width(); {# largeur du battlefield #}
+            //let battlefieldHeight = $(this).height(); {# hauteur du battlefield #}
+            //let battlefieldGridX = Math.round(battlefieldWidth / 100); {# Nombre de carte posable sur une ligne du battlefield #}
+            //let battlefieldGridY = Math.round(battlefieldHeight / 100); {# Nombre de carte posable sur une colone du battlefield #}
+            //console.log("(e.pageX:" + e.pageX + ", e.pageY:" + e.pageY + ")");
+
+            launchMove(from, to, player, card, offsetX, offsetY);
         });
 
-        function launchMove(from, to, player, card){
+        function launchMove(from, to, player, card, offsetX, offsetY){
             let parametres = {
                 from: from,
                 to: to,
                 game: {{ game.id }},
                 player: player,
                 card: card,
+                offsetX: offsetX,
+                offsetY: offsetY,
             };
             $.ajax({
                 url: "{{ path('planeswalkers.play.action.move') }}",
