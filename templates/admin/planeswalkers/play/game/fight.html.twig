@@ -97,6 +97,7 @@
 {% block javascripts %}
     <script>
         {# Draggable #}
+        let grid = 15;
         let draggableELement = null;
         $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(e) {
             e.preventDefault();

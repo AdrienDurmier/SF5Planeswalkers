@@ -4,8 +4,8 @@
             let results_html = "";
             $.each(retourMercure.battlefield.cards, function (index, gameCardBattlefield) {
                 
-                let offsetX = gameCardBattlefield.offsetX * 100;
-                let offsetY = gameCardBattlefield.offsetY * 100;
+                let offsetX = gameCardBattlefield.offsetX * grid;
+                let offsetY = gameCardBattlefield.offsetY * grid;
 
                 results_html += '<a href="#" ' +
                     'class="battlefield-card-link" ' +

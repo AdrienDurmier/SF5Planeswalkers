@@ -10,8 +10,11 @@
             let player = draggableELement.data('player');
             let card = draggableELement.data('id');
 
-            let offsetX = Math.round(e.pageX / 100); {# Position horizontale de la carte sur la ligne du battlefield #}
-            let offsetY = Math.round((e.pageY - $(this).offset().top) / 100); {# Position verticale de la carte sur la ligne du battlefield #}
+            console.log('e.pageX ->' + e.pageX);
+            console.log('e.pageY ->' + e.pageY);
+            console.log(e.helper);
+            let offsetX = Math.round(e.pageX / grid); {# Position horizontale de la carte sur la ligne du battlefield #}
+            let offsetY = Math.round((e.pageY - $(this).offset().top) / grid); {# Position verticale de la carte sur la ligne du battlefield #}
 
             //let battlefieldWidth = $(this).width(); {# largeur du battlefield #}
             //let battlefieldHeight = $(this).height(); {# hauteur du battlefield #}
