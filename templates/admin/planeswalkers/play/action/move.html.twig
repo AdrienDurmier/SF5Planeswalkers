@@ -1,6 +1,16 @@
 {# Move #}
 {% macro script(game) %}
     <script>
+
+        {# Récupération des coordonnées du curseur lors du click (lorsque l'on drop une carte elle est positionnée sur son coin haut gauche et non au curseur) #}
+        let selectionOffsetX = null;
+        let selectionOffsetY = null;
+        $('body').on("mousedown", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card, .battlefield-card', function(e) {
+            selectionOffsetX = Math.round((e.clientX - $(this).offset().left));
+            selectionOffsetY = Math.round((e.clientY - $(this).offset().top));
+            console.log("Left: " + selectionOffsetX + " Top: " + selectionOffsetY);
+        });
+
         {# Lorsque le joueur déplace une carte #}
         $("body").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(e) {
             e.preventDefault();
@@ -10,17 +20,9 @@
             let player = draggableELement.data('player');
             let card = draggableELement.data('id');
 
-            console.log('e.pageX ->' + e.pageX);
-            console.log('e.pageY ->' + e.pageY);
-            console.log(e.helper);
-            let offsetX = Math.round(e.pageX / grid); {# Position horizontale de la carte sur la ligne du battlefield #}
-            let offsetY = Math.round((e.pageY - $(this).offset().top) / grid); {# Position verticale de la carte sur la ligne du battlefield #}
-
-            //let battlefieldWidth = $(this).width(); {# largeur du battlefield #}
-            //let battlefieldHeight = $(this).height(); {# hauteur du battlefield #}
-            //let battlefieldGridX = Math.round(battlefieldWidth / 100); {# Nombre de carte posable sur une ligne du battlefield #}
-            //let battlefieldGridY = Math.round(battlefieldHeight / 100); {# Nombre de carte posable sur une colone du battlefield #}
-            //console.log("(e.pageX:" + e.pageX + ", e.pageY:" + e.pageY + ")");
+            {# Position horizontale de la carte sur la ligne du battlefield (moins le décalage de la position du curseur sur le coin haut gauche de la carte ) #}
+            let offsetX = Math.round((e.pageX - selectionOffsetX) / grid);
+            let offsetY = Math.round(((e.pageY - selectionOffsetY) - $(this).offset().top) / grid);
 
             launchMove(from, to, player, card, offsetX, offsetY);
         });
