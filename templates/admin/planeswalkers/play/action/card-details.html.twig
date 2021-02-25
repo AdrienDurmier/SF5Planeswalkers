@@ -1,7 +1,7 @@
 {# Draw #}
 {% macro script() %}
     <script>
-        $(document).on('click', '.hand-card-link', function () {
+        $(document).on('click', '.hand-card-link, .battlefield-card-link', function () {
             let idScryfall = $(this).data('idsrcyfall');
             displayCardDetails(idScryfall);
         });
