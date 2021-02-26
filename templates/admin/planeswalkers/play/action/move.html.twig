@@ -8,7 +8,6 @@
         $('body').on("mousedown", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card, .battlefield-card', function(e) {
             selectionOffsetX = Math.round((e.clientX - $(this).offset().left));
             selectionOffsetY = Math.round((e.clientY - $(this).offset().top));
-            console.log("Left: " + selectionOffsetX + " Top: " + selectionOffsetY);
         });
 
         {# Lorsque le joueur déplace une carte #}

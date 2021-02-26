@@ -1,9 +1,28 @@
-{% macro script() %}
+{% macro script(game) %}
     <script>
         {# Rendu de la library #}
         function renderLibrary(retourMercure, player_area){
             // Mise à jour du nombre de carte dans la library
             player_area.find('.library-top-card').text(retourMercure.library.count);
+        }
+
+        {# Shuffle la library #}
+        $('#menu-contextual').on('click', '.shuffle-link', function() {
+            let player = $(this).data('player');
+            launchShuffle(player);
+        });
+
+        function launchShuffle(player){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.action.library.shuffle') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
         }
     </script>
 {% endmacro %}

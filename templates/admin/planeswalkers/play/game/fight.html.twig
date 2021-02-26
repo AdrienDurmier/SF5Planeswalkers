@@ -5,92 +5,100 @@
 
 {% block body %}
 
-    {# Opponent area #}
-    <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
-        <div class="avatar-area">
-            <div id="opponent-lifepoint" class="lifepoint" title="Lifepoints">20</div>
-            {{ avatar.afficher(opponent.user) }}
-        </div>
-        <div class="row-library-hand">
-            <div class="exile" title="Exile">
-                <div id="opponent-exile-top-card" class="exile-top-card" {% if opponentExileTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                    {{ opponent.exile.countGameCardsExile }}
+    <div id="game-main-area">
+        {# Opponent area #}
+        <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
+            <div class="avatar-area">
+                <div id="opponent-lifepoint" class="lifepoint" title="Lifepoints">20</div>
+                {{ avatar.afficher(opponent.user) }}
+            </div>
+            <div class="row-library-hand">
+                <div class="exile" title="Exile">
+                    <div id="opponent-exile-top-card" class="exile-top-card" {% if opponentExileTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
+                        {{ opponent.exile.countGameCardsExile }}
+                    </div>
+                </div>
+                <div class="graveyard" title="Graveyard">
+                    <div id="opponent-graveyard-top-card" class="graveyard-top-card" {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
+                        {{ opponent.graveyard.countGameCardsGraveyard }}
+                    </div>
+                </div>
+                <div class="library" title="Library">
+                    <div id="opponent-library-top-card" class="library-top-card">
+                        {{ opponent.library.countGameCardsLibrary }}
+                    </div>
+                </div>
+                <div class="hand">
+                    {% for cardHand in opponent.hand.gameCardsHand %}
+                        <a href="#" class="hand-card-link">
+                            <div class="hand-card" style="background-image:url({{ asset('images/planeswalkers/mtg_card_back.jpg') }});">
+                            </div>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="graveyard" title="Graveyard">
-                <div id="opponent-graveyard-top-card" class="graveyard-top-card" {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                    {{ opponent.graveyard.countGameCardsGraveyard }}
-                </div>
-            </div>
-            <div class="library" title="Library">
-                <div id="opponent-library-top-card" class="library-top-card">
-                    {{ opponent.library.countGameCardsLibrary }}
-                </div>
-            </div>
-            <div class="hand">
-                {% for cardHand in opponent.hand.gameCardsHand %}
-                    <a href="#" class="hand-card-link">
-                        <div class="hand-card" style="background-image:url({{ asset('images/planeswalkers/mtg_card_back.jpg') }});">
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="row-zone-battlefield">
-            <div class="battlefield">
+            <div class="row-zone-battlefield">
+                <div class="battlefield">
 
+                </div>
+            </div>
+        </div>
+        {# Allies area #}
+        <div id="player-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
+            <div class="avatar-area">
+                <div id="player-lifepoint" class="lifepoint" title="Lifepoints">20</div>
+                {{ avatar.afficher(player.user) }}
+            </div>
+            <div class="row-zone-battlefield">
+                <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}">
+                    {% for cardBattlefield in player.battlefield.gameCardsBattlefield %}
+                        <a href="#" class="battlefield-card-link" data-area="battlefield" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardBattlefield.id }}" data-idsrcyfall="{{ cardBattlefield.card.idScryfall }}">
+                            <div class="battlefield-card" style="background-image:url('{{ cardBattlefield.card.imageUrisPng }}');">
+
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row-library-hand">
+                <div data-area="exile" class="exile" title="Exile">
+                    <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}" {% if playerExileTopCard %}style="background-image:url('{{ playerExileTopCard.card.imageUrisPng }}');"{% endif %}>
+                        {{ player.exile.countGameCardsExile }}
+                    </div>
+                </div>
+                <div data-area="graveyard" class="graveyard" title="Graveyard">
+                    <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}" {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
+                        {{ player.graveyard.countGameCardsGraveyard }}
+                    </div>
+                </div>
+                <div data-area="library" class="library" title="Library">
+                    <div id="player-library-top-card" class="library-top-card" data-area="library" draggable="true" data-player="{{ player.id }}">
+                        {{ player.library.countGameCardsLibrary }}
+                    </div>
+                </div>
+                <div data-area="hand" class="hand">
+                    {% for cardHand in player.hand.gameCardsHand %}
+                        <a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardHand.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
+                            <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
+
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
+    <div id="game-sidebar-area">
 
-    {# Allies area #}
-    <div id="player-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
-        <div class="avatar-area">
-            <div id="player-lifepoint" class="lifepoint" title="Lifepoints">20</div>
-            {{ avatar.afficher(player.user) }}
-        </div>
-        <div class="row-zone-battlefield">
-            <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}">
-                {% for cardBattlefield in player.battlefield.gameCardsBattlefield %}
-                    <a href="#" class="battlefield-card-link" data-area="battlefield" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardBattlefield.id }}" data-idsrcyfall="{{ cardBattlefield.card.idScryfall }}">
-                        <div class="battlefield-card" style="background-image:url('{{ cardBattlefield.card.imageUrisPng }}');">
-
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="row-library-hand">
-            <div data-area="exile" class="exile" title="Exile">
-                <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}" {% if playerExileTopCard %}style="background-image:url('{{ playerExileTopCard.card.imageUrisPng }}');"{% endif %}>
-                    {{ player.exile.countGameCardsExile }}
-                </div>
-            </div>
-            <div data-area="graveyard" class="graveyard" title="Graveyard">
-                <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}" {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                    {{ player.graveyard.countGameCardsGraveyard }}
-                </div>
-            </div>
-            <div data-area="library" class="library" title="Library">
-                <div id="player-library-top-card" class="library-top-card" data-area="library" draggable="true" data-player="{{ player.id }}">
-                    {{ player.library.countGameCardsLibrary }}
-                </div>
-            </div>
-            <div data-area="hand" class="hand">
-                {% for cardHand in player.hand.gameCardsHand %}
-                    <a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardHand.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
-                        <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
-
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
     </div>
+
 
     {# Modale : détails d'une carte #}
     {% import 'admin/planeswalkers/play/rendu/card-details.html.twig' as cardDetails %}
     {{ cardDetails.afficher() }}
+
+    {# Menu contextual #}
+    <div id="menu-contextual" class="menu"></div>
 
 {% endblock %}
 
@@ -140,7 +148,22 @@
                 renderBattlefield(retourMercure, player_area);
             }
         }
+
+        {# Chargement de la partie #}
+        $(document).ready(function() {
+            {# Lancer de dé pour déterminer qui commence #}
+
+            {# Préparation des phases #}
+
+            {# Les joueurs pioches 7 cartes #}
+
+            {# Mulligan éventuel #}
+
+            {# Début de la partie #}
+
+        });
     </script>
+
 
     {# Rendu #}
     {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
@@ -150,11 +173,15 @@
     {% import 'admin/planeswalkers/play/rendu/graveyard.html.twig' as graveyardJs %}
     {{ graveyardJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/library.html.twig' as libraryJs %}
-    {{ libraryJs.script() }}
+    {{ libraryJs.script(game) }}
     {% import 'admin/planeswalkers/play/rendu/hand.html.twig' as handJs %}
     {{ handJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/battlefield.html.twig' as battlefieldJs %}
     {{ battlefieldJs.script() }}
+
+    {# Menu contextuel #}
+    {% import 'admin/planeswalkers/play/action/menu-contextual.html.twig' as actionMenuContextualJs %}
+    {{ actionMenuContextualJs.script() }}
 
     {# Move #}
     {% import 'admin/planeswalkers/play/action/move.html.twig' as actionMoveJs %}

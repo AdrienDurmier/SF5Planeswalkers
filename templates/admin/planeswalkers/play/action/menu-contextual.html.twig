@@ -1,0 +1,61 @@
+{% macro script() %}
+    <script>
+        {# Base du menu contextuel #}
+        var menuStyle = document.getElementById("menu-contextual").style;
+        if (document.addEventListener) {
+            document.addEventListener('click', function(e) {
+                menuStyle.opacity = "0";
+                setTimeout(function() {
+                    menuStyle.visibility = "hidden";
+                }, 501);
+            }, false);
+        }
+
+        function menuContextual(e) {
+            let x = e.clientX;
+            let y = e.clientY;
+            menuStyle.top = y + "px";
+            menuStyle.left = x + "px";
+            menuStyle.visibility = "visible";
+            menuStyle.opacity = "1";
+        }
+
+        {# Rendu du menu si c'est un clic droit sur une carte #}
+        $(".hand-card-link").contextmenu(function(e) {
+            menuContextual(e);
+            let id = $(this).data('id');
+            let idscryfall = $(this).data('idsrcyfall');
+            let player = $(this).data('player');
+            renderMenuContextualHandCard(id, idscryfall, player);
+            e.preventDefault();
+        });
+        function renderMenuContextualHandCard(id, idscryfall, player){
+            let result_hmtl = '';
+            result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
+            result_hmtl +=      '<i class="fas fa-eye"></i> Reveal this card</span>';
+            result_hmtl += '</a>';
+            $('#menu-contextual').html(result_hmtl);
+        }
+
+        {# Rendu du menu si c'est un clic droit sur la library #}
+        $("#player-library-top-card").contextmenu(function(e) {
+            menuContextual(e);
+            let player = $(this).data('player');
+            renderMenuContextualLibrary(player);
+            e.preventDefault();
+        });
+        function renderMenuContextualLibrary(player){
+            let result_hmtl = '';
+            result_hmtl += '<a href="#" class="draw-link" data-player="'+player+'">';
+            result_hmtl +=      '<i class="far fa-hand-lizard"></i> Draw</span>';
+            result_hmtl += '</a>';
+            result_hmtl += '<a href="#" class="shuffle-link" data-player="'+player+'">';
+            result_hmtl +=      '<i class="fas fa-random"></i> Shuffle</span>';
+            result_hmtl += '</a>';
+            result_hmtl += '<a href="#" data-player="'+player+'">';
+            result_hmtl +=      '<i class="fas fa-eye"></i> Reveal top card</span>';
+            result_hmtl += '</a>';
+            $('#menu-contextual').html(result_hmtl);
+        }
+    </script>
+{% endmacro %}

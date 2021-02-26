@@ -65,6 +65,7 @@ class LibraryService
             $this->em->persist($gameCardLibrary);
             $positionKey++;
         }
+        $this->em->persist($library);
 
         return $library;
     }
