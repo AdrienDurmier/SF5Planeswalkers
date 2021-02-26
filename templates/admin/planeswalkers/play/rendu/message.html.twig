@@ -1,0 +1,10 @@
+{% macro script() %}
+    <script>
+        function renderMessage(retourMercure){
+            let result_hmtl  = '<div class="game-tchat-message">';
+                result_hmtl +=      retourMercure.message;
+                result_hmtl += '</div>';
+            $('#tchat-messages-area').append(result_hmtl);
+        }
+    </script>
+{% endmacro %}

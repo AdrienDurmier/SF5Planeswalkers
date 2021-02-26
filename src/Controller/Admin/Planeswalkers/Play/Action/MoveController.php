@@ -79,10 +79,10 @@ class MoveController extends AbstractController
             }
         }
 
-        // Plublication à Mercure
+        // Publication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = json_encode([
-            'action'       =>  [
+            'move'       =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],
             ],

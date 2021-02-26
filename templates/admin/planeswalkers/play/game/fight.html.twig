@@ -89,7 +89,28 @@
         </div>
     </div>
     <div id="game-sidebar-area">
-
+        {# Zones contenants les messages #}
+        <div id="tchat-messages-area" class="tchat-messages-content">
+        </div>
+        {# Zone de rédaction des messages #}
+        <div id="tchat-rediger-area">
+            {# Formulaire de rédaction des messages #}
+            <form id="tchat-rediger-form" action="#" enctype="multipart/form-data">
+                <input type="file" name="fichier_tchat" id="tchat_fichier_input" aria-hidden="true" style="display:none;">
+                <div class="d-flex align-items-end">
+                    {# Zone de saisie #}
+                    <div id="tchat-message-contenu-area" class="flex-grow-1">
+                        <textarea class="form-control rounded-0" name="contenu" id="tchat-message-contenu" rows="1"></textarea>
+                    </div>
+                    {# Soumission #}
+                    <div class="btn-group">
+                        <button id="tchat-rediger-submit" class="tchat-rediger-btn btn btn-success" type="submit">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
 
@@ -132,20 +153,27 @@
             let player_area = $('.player-area-' + retourMercure.player);
 
             {# Mise à jour des zones de jeu liées à l'action #}
-            if (retourMercure.action.from == 'exile' || retourMercure.action.to == 'exile'){
-                renderExile(retourMercure, player_area);
+            if (typeof retourMercure.move !== 'undefined'){
+                if (retourMercure.move.from === 'exile' || retourMercure.move.to === 'exile'){
+                    renderExile(retourMercure, player_area);
+                }
+                if (retourMercure.move.from === 'library' || retourMercure.move.to === 'library'){
+                    renderLibrary(retourMercure, player_area);
+                }
+                if (retourMercure.move.from === 'graveyard' || retourMercure.move.to === 'graveyard'){
+                    renderGraveyard(retourMercure, player_area);
+                }
+                if (retourMercure.move.from === 'hand' || retourMercure.move.to === 'hand'){
+                    renderHand(retourMercure, player_area);
+                }
+                if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
+                    renderBattlefield(retourMercure, player_area);
+                }
             }
-            if (retourMercure.action.from == 'library' || retourMercure.action.to == 'library'){
-                renderLibrary(retourMercure, player_area);
-            }
-            if (retourMercure.action.from == 'graveyard' || retourMercure.action.to == 'graveyard'){
-                renderGraveyard(retourMercure, player_area);
-            }
-            if (retourMercure.action.from == 'hand' || retourMercure.action.to == 'hand'){
-                renderHand(retourMercure, player_area);
-            }
-            if (retourMercure.action.from == 'battlefield' || retourMercure.action.to == 'battlefield'){
-                renderBattlefield(retourMercure, player_area);
+
+            {# Messages #}
+            if (retourMercure.message){
+                renderMessage(retourMercure);
             }
         }
 
@@ -164,7 +192,6 @@
         });
     </script>
 
-
     {# Rendu #}
     {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
@@ -178,6 +205,8 @@
     {{ handJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/battlefield.html.twig' as battlefieldJs %}
     {{ battlefieldJs.script() }}
+    {% import 'admin/planeswalkers/play/rendu/message.html.twig' as messageJs %}
+    {{ messageJs.script() }}
 
     {# Menu contextuel #}
     {% import 'admin/planeswalkers/play/action/menu-contextual.html.twig' as actionMenuContextualJs %}
@@ -190,5 +219,6 @@
     {# Draw #}
     {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game) }}
+
 
 {% endblock %}
