@@ -82,7 +82,8 @@ class MoveController extends AbstractController
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = json_encode([
-            'move'       =>  [
+            'message'      => $this->getMoveMessage($player, $datas['from'], $datas['to']),
+            'move'         =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],
             ],
@@ -116,6 +117,20 @@ class MoveController extends AbstractController
         $publisher($update);
 
         return new JsonResponse($datasMercure);
+    }
+
+    /**
+     * @param $player
+     * @param $from
+     * @param $to
+     * @return null
+     */
+    public function getMoveMessage($player, $from, $to){
+        $message = null;
+        if ($from == 'library' && $to == 'hand'){
+            $message = $player->getUser() . " draw a card.";
+        }
+        return $message;
     }
 
 }
