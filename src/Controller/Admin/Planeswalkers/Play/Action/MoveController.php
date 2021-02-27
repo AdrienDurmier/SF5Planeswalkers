@@ -35,7 +35,7 @@ class MoveController extends AbstractController
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = [
-            'message'      => $this->getMoveMessage($player, $datas['from'], $datas['to'], 1),
+            'log'      => $this->getMoveMessage($player, $datas['from'], $datas['to'], 1),
             'move'         =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],

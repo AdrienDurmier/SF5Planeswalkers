@@ -1,10 +1,49 @@
-{% macro script() %}
+{% macro script(player) %}
     <script>
+        {# Rendu d'un log du tchat #}
+        function renderLog(retourMercure){
+            let result_hmtl  = '<div class="game-tchat-message">';
+                result_hmtl +=      '<i>'+retourMercure.log+'</i>';
+                result_hmtl += '</div>';
+            $('#tchat-messages-area').append(result_hmtl);
+        }
+
+        {# Rendu d'un message du tchat #}
         function renderMessage(retourMercure){
             let result_hmtl  = '<div class="game-tchat-message">';
+                result_hmtl +=      renderAvatar(retourMercure.author);
+                result_hmtl +=      '<b>'+retourMercure.author.firstname + ' ' + retourMercure.author.lastname + '</b>';
+                result_hmtl +=      '<br>';
                 result_hmtl +=      retourMercure.message;
                 result_hmtl += '</div>';
             $('#tchat-messages-area').append(result_hmtl);
+        }
+
+        {#  #}
+        $('#tchat-message-input').on('keypress', function (e) {
+            if(e.which === 13){
+                $(this).attr("disabled", "disabled");
+                sendMessage($(this));
+                $(this).removeAttr("disabled");
+
+            }
+        });
+
+        {# Envoie d'un message #}
+        function sendMessage(input){
+            let parametres = {
+                player: {{ player.id }},
+                content: input.val(),
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.action.message.send') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json',
+                success: function (data) {
+                    input.val('');
+                }
+            });
         }
     </script>
 {% endmacro %}

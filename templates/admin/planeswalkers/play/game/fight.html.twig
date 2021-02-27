@@ -60,22 +60,11 @@
         </div>
         {# Zone de rédaction des messages #}
         <div id="tchat-rediger-area">
-            {# Formulaire de rédaction des messages #}
-            <form id="tchat-rediger-form" action="#" enctype="multipart/form-data">
-                <input type="file" name="fichier_tchat" id="tchat_fichier_input" aria-hidden="true" style="display:none;">
-                <div class="d-flex align-items-end">
-                    {# Zone de saisie #}
-                    <div id="tchat-message-contenu-area" class="flex-grow-1">
-                        <textarea class="form-control rounded-0" name="contenu" id="tchat-message-contenu" rows="1"></textarea>
-                    </div>
-                    {# Soumission #}
-                    <div class="btn-group">
-                        <button id="tchat-rediger-submit" class="tchat-rediger-btn btn btn-success" type="submit">
-                            <i class="far fa-paper-plane"></i>
-                        </button>
-                    </div>
+            <div id="tchat-message-contenu-area" class="flex-grow-1">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="tchat-message-input" name="content">
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -167,6 +156,11 @@
                 }
             }
 
+            {# Logs #}
+            if (retourMercure.log){
+                renderLog(retourMercure);
+            }
+
             {# Messages #}
             if (retourMercure.message){
                 renderMessage(retourMercure);
@@ -175,6 +169,7 @@
     </script>
 
     {# Rendu #}
+    {{ avatar.script() }}
     {% import 'admin/planeswalkers/play/action/card-details.html.twig' as cardDetailsJs %}
     {{ cardDetailsJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/exile.html.twig' as exileJs %}
@@ -188,7 +183,7 @@
     {% import 'admin/planeswalkers/play/rendu/battlefield.html.twig' as battlefieldJs %}
     {{ battlefieldJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/message.html.twig' as messageJs %}
-    {{ messageJs.script() }}
+    {{ messageJs.script(player) }}
 
     {# Raccourcies clavier #}
     {% import 'admin/planeswalkers/play/action/keyboard-shortcuts.html.twig' as actionKeyboardShortcutsJs %}

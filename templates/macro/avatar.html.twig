@@ -11,3 +11,12 @@
     <div class="avatar" style="background-image:url({{ url_avatar }})" title="{{ user }}"></div>
 
 {% endmacro%}
+
+{% macro script() %}
+    <script>
+        function renderAvatar (userJs){
+            let url_avatar = '{{ url_uploads_heidi }}' + 'tierces/' + userJs.avatar;
+            return '<div class="avatar" style="background-image:url('+url_avatar+')"></div>';
+        }
+    </script>
+{% endmacro%}

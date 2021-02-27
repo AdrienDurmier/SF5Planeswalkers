@@ -17,6 +17,7 @@ class UserUtils
             'firstname'     =>  $user->getFirstname(),
             'lastname'      =>  $user->getLastname(),
             'email'         =>  $user->getEmail(),
+            'avatar'        =>  $user->getAvatar(),
         ];
     }
 }
