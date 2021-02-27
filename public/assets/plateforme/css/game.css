@@ -55,5 +55,6 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 
 /* Tchat */
 #tchat-messages-area {overflow-y:scroll;height:calc(100vh - 70px);}
-#tchat-message-contenu {height:38px}
-.game-tchat-message {background-color: rgba(0,0,0,0.5);color:#fff;padding:2px 5px;margin:2px 0;font-size:12px;}
+#tchat-messages-area #tchat-message-contenu {height:38px}
+#tchat-messages-area .game-tchat-message {background-color: rgba(0,0,0,0.5);color:#fff;padding:2px 5px;margin:2px 0;font-size:12px;}
+#tchat-messages-area .game-tchat-message i {width: 15px;}

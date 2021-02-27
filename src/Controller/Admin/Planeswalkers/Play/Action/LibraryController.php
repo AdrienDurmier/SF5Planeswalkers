@@ -34,11 +34,11 @@ class LibraryController extends AbstractController
 
         // Plublication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
-        $datasMercure = json_encode([
+        $datasMercure = [
             'message' => $player->getUser() .' shuffle his library.',
-        ]);
+        ];
 
-        $update = new Update($topic, $datasMercure);
+        $update = new Update($topic, json_encode($datasMercure));
         $publisher($update);
 
         return new JsonResponse($datasMercure);

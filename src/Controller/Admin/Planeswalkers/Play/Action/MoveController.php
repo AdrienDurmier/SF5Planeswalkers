@@ -81,8 +81,8 @@ class MoveController extends AbstractController
 
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
-        $datasMercure = json_encode([
-            'message'      => $this->getMoveMessage($player, $datas['from'], $datas['to']),
+        $datasMercure = [
+            'message'      => $this->getMoveMessage($player, $datas['from'], $datas['to'], 1),
             'move'         =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],
@@ -111,9 +111,9 @@ class MoveController extends AbstractController
                 'count'    =>  $player->getBattlefield()->countGameCardsBattlefield(),
                 'cards'    =>  $gameCardsBattlefield,
             ],
-        ]);
+        ];
 
-        $update = new Update($topic, $datasMercure);
+        $update = new Update($topic, json_encode($datasMercure));
         $publisher($update);
 
         return new JsonResponse($datasMercure);
@@ -125,10 +125,16 @@ class MoveController extends AbstractController
      * @param $to
      * @return null
      */
-    public function getMoveMessage($player, $from, $to){
+    public function getMoveMessage($player, $from, $to, $quantity){
         $message = null;
         if ($from == 'library' && $to == 'hand'){
-            $message = $player->getUser() . " draw a card.";
+            $message = $player->getUser() . " draw ".$quantity." card";
+        }
+        if ($from == 'library' && $to == 'graveyard'){
+            $message = $player->getUser() . " mills ".$quantity." card";
+        }
+        if ($from == 'library' && $to == 'exile'){
+            $message = $player->getUser() . " exile ".$quantity." card";
         }
         return $message;
     }
