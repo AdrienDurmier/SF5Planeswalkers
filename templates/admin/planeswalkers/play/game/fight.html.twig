@@ -7,6 +7,7 @@
 
     {# ZONE DE JEU #}
     <div id="game-main-area">
+
         {# Opponent area #}
         <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
             <div class="avatar-area">
@@ -29,8 +30,27 @@
                 <div class="battlefield"></div>
             </div>
         </div>
+
         {# Allies area #}
         <div id="player-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
+
+            <div id="phases-area">
+                <ol class="list-unstyled list-inline">
+                    <li class="list-inline-item"><div id="step-untap" class="phases-step" title="Untap step"></div></li>
+                    <li class="list-inline-item"><div id="step-upkeep" class="phases-step" title="Upkeep step"></div></li>
+                    <li class="list-inline-item"><div id="step-draw" class="phases-step" title="Draw step"></div></li>
+                    <li class="list-inline-item"><div id="step-precombat" class="phases-step" title="Precombat main phase"></div></li>
+                    <li class="list-inline-item"><div id="step-beginning-combat" class="phases-step" title="Beginning of combat step"></div></li>
+                    <li class="list-inline-item"><div id="step-declare-attackers" class="phases-step" title="Declare attackers step"></div></li>
+                    <li class="list-inline-item"><div id="step-declare-blockers" class="phases-step" title="Declare blockers step"></div></li>
+                    <li class="list-inline-item"><div id="step-combat-damage" class="phases-step" title="Combat damage step"></div></li>
+                    <li class="list-inline-item"><div id="step-combat-end" class="phases-step" title="End of combat step"></div></li>
+                    <li class="list-inline-item"><div id="step-postcombat" class="phases-step" title="Postcombat main phase"></div></li>
+                    <li class="list-inline-item"><div id="step-end-turn" class="phases-step" title="End of turn step"></div></li>
+                    <li class="list-inline-item"><div id="step-cleanup" class="phases-step" title="Cleanup step"></div></li>
+                </ol>
+            </div>
+
             <div class="avatar-area">
                 <div id="player-lifepoint" class="lifepoint" title="Lifepoints">20</div>
                 {{ avatar.afficher(player.user) }}
