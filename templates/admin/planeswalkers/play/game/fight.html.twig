@@ -208,6 +208,10 @@
     {% import 'admin/planeswalkers/play/rendu/message.html.twig' as messageJs %}
     {{ messageJs.script() }}
 
+    {# Raccourcies clavier #}
+    {% import 'admin/planeswalkers/play/action/keyboard-shortcuts.html.twig' as actionKeyboardShortcutsJs %}
+    {{ actionKeyboardShortcutsJs.script() }}
+
     {# Menu contextuel #}
     {% import 'admin/planeswalkers/play/action/menu-contextual.html.twig' as actionMenuContextualJs %}
     {{ actionMenuContextualJs.script() }}

@@ -1,0 +1,19 @@
+{% macro script(game) %}
+    <script>
+        {# Raccourcis clavier #}
+        $(window).on('keydown', function(e) {
+            let player = $('#player-area').data('player');
+            console.log(player);
+            {# CTRL + S #}
+            if(e.ctrlKey && e.keyCode === 83) {
+                launchShuffle(player);
+                e.preventDefault();
+            }
+            {# Enter #}
+            if(e.ctrlKey && e.keyCode === 13){
+                launchMove('library', 'hand', player);
+                e.preventDefault();
+            }
+        });
+    </script>
+{% endmacro %}

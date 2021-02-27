@@ -11,7 +11,8 @@
             }, false);
         }
 
-        function menuContextual(e) {
+        {# Affichage et positionnement du menu contextuel #}
+        function menuContextualDisplay(e) {
             {# Position du curseur lors du click droit #}
             let x = e.clientX;
             let y = e.clientY;
@@ -29,51 +30,69 @@
             menuStyle.opacity = "1";
         }
 
+        {# Rendu d'un lien du menu contextuel #}
+        function renderMenuContextualLink(picto, txt, shortcut){
+            let result_hmtl = '';
+            result_hmtl +=      '<div class="menu-contextual-link-area d-flex">';
+            result_hmtl +=           '<div class="menu-contextual-picto-area"><i class="'+picto+'"></i></div>';
+            result_hmtl +=           '<div class="menu-contextual-txt-area flex-grow-1">'+txt+'</div>';
+            if (shortcut !== null){
+                result_hmtl +=       '<div><span class="badge badge-secondary">'+shortcut+'</span></div>';
+            }
+            result_hmtl +=      '</div>';
+            return result_hmtl;
+        }
+
         {# Rendu du menu si c'est un clic droit sur une carte #}
         $('body').on('contextmenu', '.hand-card-link', function(e) {
             let id = $(this).data('id');
             let idscryfall = $(this).data('idsrcyfall');
             let player = $(this).data('player');
             renderMenuContextualHandCard(id, idscryfall, player);
-            menuContextual(e);
+            menuContextualDisplay(e);
             e.preventDefault();
         });
-        function renderMenuContextualHandCard(id, idscryfall, player){
-            let result_hmtl = '';
-            result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
-            result_hmtl +=      '<i class="fas fa-eye"></i> Reveal this card</span>';
-            result_hmtl += '</a>';
-            $('#menu-contextual').html(result_hmtl);
-        }
 
         {# Rendu du menu si c'est un clic droit sur la library #}
         $('body').on('contextmenu', '#player-library-top-card', function(e) {
             let player = $(this).data('player');
             renderMenuContextualLibrary(player);
-            menuContextual(e);
+            menuContextualDisplay(e);
             e.preventDefault();
         });
-        function renderMenuContextualLibrary(player){
+
+        {# Menu contextuel d'une carte de la main #}
+        function renderMenuContextualHandCard(id, idscryfall, player){
             let result_hmtl = '';
-            result_hmtl += '<a href="#" class="draw-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="far fa-hand-lizard"></i> Draw</span>';
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="library-look-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="far fa-eye"></i> Look card</span>';
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="library-shuffle-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="fas fa-random"></i> Shuffle</span>';
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="library-to-graveyard-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="fas fa-skull-crossbones"></i> Put card to graveyard</span>';
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="library-to-exile-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="fas fa-times"></i> Remove card from game</span>';
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="library-reveal-link" data-player="'+player+'">';
-            result_hmtl +=      '<i class="fas fa-meh-rolling-eyes"></i> Reveal top card</span>';
+            result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('fas fa-eye', 'Reveal this card', null);
             result_hmtl += '</a>';
             $('#menu-contextual').html(result_hmtl);
         }
+
+        {# Menu contextuel de la library #}
+        function renderMenuContextualLibrary(player){
+            let result_hmtl = '';
+            result_hmtl +=  '<a href="#" class="draw-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('far fa-hand-lizard', 'Draw', 'CTRL+Enter');
+            result_hmtl += '</a>';
+            result_hmtl +=  '<a href="#" class="library-look-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('far fa-eye', 'Look card', null);
+            result_hmtl += '</a>';
+            result_hmtl +=  '<a href="#" class="library-shuffle-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('fas fa-random', 'Shuffle', 'CTRL+S');
+            result_hmtl += '</a>';
+            result_hmtl +=  '<a href="#" class="library-to-graveyard-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('fas fa-skull-crossbones', 'Put card to graveyard', null);
+            result_hmtl += '</a>';
+            result_hmtl +=  '<a href="#" class="library-to-exile-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('fas fa-times', 'Remove card from game', null);
+            result_hmtl += '</a>';
+            result_hmtl +=  '<a href="#" class="library-reveal-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('fas fa-meh-rolling-eyes', 'Reveal top card', null);
+            result_hmtl += '</a>';
+            $('#menu-contextual').html(result_hmtl);
+        }
+
     </script>
 {% endmacro %}

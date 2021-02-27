@@ -51,7 +51,9 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 
 /* Menu contextuel */
 #menu-contextual {visibility:hidden;opacity:0;position:fixed;z-index:1;background:rgba(0,0,0,0.8);font-size:11px;border:1px solid #000;}
-#menu-contextual a {display:block;color:#fff;text-decoration:none;padding:6px 8px 6px 15px;width:250px;position:relative;font-size:13px;}
+#menu-contextual .menu-contextual-link-area {color:#fff;text-decoration:none;padding:5px 10px;font-size:13px;}
+#menu-contextual .menu-contextual-txt-area {min-width: 200px;margin: 0 10px;}
+#menu-contextual .menu-contextual-picto-area i {width:15px;}
 
 /* Tchat */
 #tchat-messages-area {overflow-y:scroll;height:calc(100vh - 70px);}

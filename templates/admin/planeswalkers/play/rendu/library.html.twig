@@ -6,11 +6,12 @@
             player_area.find('.library-top-card').text(retourMercure.library.count);
         }
 
-        {# Shuffle la library #}
+        {# Shuffle la library depuis le menu contextuel #}
         $('#menu-contextual').on('click', '.library-shuffle-link', function() {
             let player = $(this).data('player');
             launchShuffle(player);
         });
+
         function launchShuffle(player){
             let parametres = {
                 game: {{ game.id }},
