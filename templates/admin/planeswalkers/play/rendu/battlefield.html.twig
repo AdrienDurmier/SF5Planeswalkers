@@ -1,8 +1,8 @@
 {% macro script() %}
     <script>
-        function renderBattlefield(retourMercure, player_area){
+        function renderBattlefield(datas, player_area){
             let results_html = "";
-            $.each(retourMercure.battlefield.cards, function (index, gameCardBattlefield) {
+            $.each(datas.battlefield.cards, function (index, gameCardBattlefield) {
                 
                 let offsetX = gameCardBattlefield.offsetX * grid;
                 let offsetY = gameCardBattlefield.offsetY * grid;
@@ -13,7 +13,7 @@
                     'data-area="battlefield" ' +
                     'data-toggle="modal" ' +
                     'data-target="#cardDetailsModal" ' +
-                    'data-player="'+retourMercure.player+'" ' +
+                    'data-player="'+datas.player+'" ' +
                     'data-id="'+gameCardBattlefield.id+'" ' +
                     'data-idsrcyfall="'+gameCardBattlefield.idScryfall+'">';
                 results_html +=     '<div ' +

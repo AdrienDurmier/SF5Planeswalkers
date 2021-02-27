@@ -1,11 +1,11 @@
 {% macro script() %}
     <script>
         {# Rendu du graveyard #}
-        function renderGraveyard(retourMercure, player_area){
-            player_area.find('.graveyard-top-card').text(retourMercure.graveyard.count);
+        function renderGraveyard(datas, player_area){
+            player_area.find('.graveyard-top-card').text(datas.graveyard.count);
             // Mise à jour de la carte du dessus du graveyard
-            if (retourMercure.graveyard.count > 0){
-                player_area.find('.graveyard-top-card').css({'background-image':'url('+retourMercure.graveyard.topCard.imageUrisPng+')'});
+            if (datas.graveyard.count > 0){
+                player_area.find('.graveyard-top-card').css({'background-image':'url('+datas.graveyard.topCard.imageUrisPng+')'});
             }else{
                 player_area.find('.graveyard-top-card').css({'background-image':'none'});
             }

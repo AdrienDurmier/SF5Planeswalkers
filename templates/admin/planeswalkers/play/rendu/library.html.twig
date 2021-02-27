@@ -1,9 +1,8 @@
 {% macro script(game) %}
     <script>
         {# Rendu de la library #}
-        function renderLibrary(retourMercure, player_area){
-            // Mise à jour du nombre de carte dans la library
-            player_area.find('.library-top-card').text(retourMercure.library.count);
+        function renderLibrary(datas, player_area){
+            player_area.find('.library-top-card').text(datas.library.count);
         }
 
         {# Shuffle la library depuis le menu contextuel #}

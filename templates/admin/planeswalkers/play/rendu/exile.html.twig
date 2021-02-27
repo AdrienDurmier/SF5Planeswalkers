@@ -1,11 +1,11 @@
 {% macro script() %}
     <script>
         {# Rendu de la zone exile #}
-        function renderExile(retourMercure, player_area){
-            player_area.find('.exile-top-card').text(retourMercure.exile.count);
+        function renderExile(datas, player_area){
+            player_area.find('.exile-top-card').text(datas.exile.count);
             // Mise à jour de la carte du dessus du exile
-            if (retourMercure.exile.count > 0){
-                player_area.find('.exile-top-card').css({'background-image':'url('+retourMercure.exile.topCard.imageUrisPng+')'});
+            if (datas.exile.count > 0){
+                player_area.find('.exile-top-card').css({'background-image':'url('+datas.exile.topCard.imageUrisPng+')'});
             }else{
                 player_area.find('.exile-top-card').css({'background-image':'none'});
             }

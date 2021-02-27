@@ -5,6 +5,7 @@
 
 {% block body %}
 
+    {# ZONE DE JEU #}
     <div id="game-main-area">
         {# Opponent area #}
         <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
@@ -14,33 +15,18 @@
             </div>
             <div class="row-library-hand">
                 <div class="exile" title="Exile">
-                    <div id="opponent-exile-top-card" class="exile-top-card" {% if opponentExileTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                        {{ opponent.exile.countGameCardsExile }}
-                    </div>
+                    <div id="opponent-exile-top-card" class="exile-top-card"></div>
                 </div>
                 <div class="graveyard" title="Graveyard">
-                    <div id="opponent-graveyard-top-card" class="graveyard-top-card" {% if opponentGraveyardTopCard %}style="background-image:url('{{ opponentGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                        {{ opponent.graveyard.countGameCardsGraveyard }}
-                    </div>
+                    <div id="opponent-graveyard-top-card" class="graveyard-top-card"></div>
                 </div>
                 <div class="library" title="Library">
-                    <div id="opponent-library-top-card" class="library-top-card">
-                        {{ opponent.library.countGameCardsLibrary }}
-                    </div>
+                    <div id="opponent-library-top-card" class="library-top-card"></div>
                 </div>
-                <div class="hand">
-                    {% for cardHand in opponent.hand.gameCardsHand %}
-                        <a href="#" class="hand-card-link">
-                            <div class="hand-card" style="background-image:url({{ asset('images/planeswalkers/mtg_card_back.jpg') }});">
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
+                <div class="hand"></div>
             </div>
             <div class="row-zone-battlefield">
-                <div class="battlefield">
-
-                </div>
+                <div class="battlefield"></div>
             </div>
         </div>
         {# Allies area #}
@@ -50,44 +36,24 @@
                 {{ avatar.afficher(player.user) }}
             </div>
             <div class="row-zone-battlefield">
-                <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}">
-                    {% for cardBattlefield in player.battlefield.gameCardsBattlefield %}
-                        <a href="#" class="battlefield-card-link" data-area="battlefield" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardBattlefield.id }}" data-idsrcyfall="{{ cardBattlefield.card.idScryfall }}">
-                            <div class="battlefield-card" style="background-image:url('{{ cardBattlefield.card.imageUrisPng }}');">
-
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
+                <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}"></div>
             </div>
             <div class="row-library-hand">
                 <div data-area="exile" class="exile" title="Exile">
-                    <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}" {% if playerExileTopCard %}style="background-image:url('{{ playerExileTopCard.card.imageUrisPng }}');"{% endif %}>
-                        {{ player.exile.countGameCardsExile }}
-                    </div>
+                    <div id="player-exile-top-card" class="exile-top-card" data-area="exile" draggable="true" data-player="{{ player.id }}"></div>
                 </div>
                 <div data-area="graveyard" class="graveyard" title="Graveyard">
-                    <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}" {% if playerGraveyardTopCard %}style="background-image:url('{{ playerGraveyardTopCard.card.imageUrisPng }}');"{% endif %}>
-                        {{ player.graveyard.countGameCardsGraveyard }}
-                    </div>
+                    <div id="player-graveyard-top-card" class="graveyard-top-card" data-area="graveyard" draggable="true" data-player="{{ player.id }}"></div>
                 </div>
                 <div data-area="library" class="library" title="Library">
-                    <div id="player-library-top-card" class="library-top-card" data-area="library" draggable="true" data-player="{{ player.id }}">
-                        {{ player.library.countGameCardsLibrary }}
-                    </div>
+                    <div id="player-library-top-card" class="library-top-card" data-area="library" draggable="true" data-player="{{ player.id }}"></div>
                 </div>
-                <div data-area="hand" class="hand">
-                    {% for cardHand in player.hand.gameCardsHand %}
-                        <a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="{{ player.id }}" data-id="{{ cardHand.id }}" data-idsrcyfall="{{ cardHand.card.idScryfall }}">
-                            <div class="hand-card" style="background-image:url('{{ cardHand.card.imageUrisPng }}');">
-
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
+                <div data-area="hand" class="hand"></div>
             </div>
         </div>
     </div>
+
+    {# ZONE SIDEBAR #}
     <div id="game-sidebar-area">
         {# Zones contenants les messages #}
         <div id="tchat-messages-area" class="tchat-messages-content">
@@ -144,6 +110,36 @@
             $(this).removeClass('dragging');
         });
 
+        {# Chargement de la partie #}
+        $(document).ready(function() {
+            {# Chargement du jeu du joueur #}
+            let areasPlayer = JSON.parse('{{ areasPlayer|raw }}');
+            let playerArea = $('.player-area-{{ player.id }}');
+            renderExile(areasPlayer, playerArea);
+            renderLibrary(areasPlayer, playerArea);
+            renderGraveyard(areasPlayer, playerArea);
+            renderHand(areasPlayer, playerArea);
+            renderBattlefield(areasPlayer, playerArea);
+            {# Chargement du jeu de l'adversaire #}
+            let areasOpponent = JSON.parse('{{ areasOpponent|raw }}');
+            let opponentArea = $('.player-area-{{ opponent.id }}');
+            renderExile(areasOpponent, opponentArea);
+            renderLibrary(areasOpponent, opponentArea);
+            renderGraveyard(areasOpponent, opponentArea);
+            renderHand(areasOpponent, opponentArea);
+            renderBattlefield(areasOpponent, opponentArea);
+
+            {# Lancer de dé pour déterminer qui commence #}
+            {# Préparation des phases #}
+
+            {# Les joueurs pioches 7 cartes #}
+
+            {# Mulligan éventuel #}
+
+            {# Début de la partie #}
+
+        });
+
         {# Mercure #}
         const url = new URL('{{mercure_publish_url}}');
         url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
@@ -155,19 +151,19 @@
             {# Mise à jour des zones de jeu liées à l'action #}
             if (typeof retourMercure.move !== 'undefined'){
                 if (retourMercure.move.from === 'exile' || retourMercure.move.to === 'exile'){
-                    renderExile(retourMercure, player_area);
+                    renderExile(retourMercure.areas, player_area);
                 }
                 if (retourMercure.move.from === 'library' || retourMercure.move.to === 'library'){
-                    renderLibrary(retourMercure, player_area);
+                    renderLibrary(retourMercure.areas, player_area);
                 }
                 if (retourMercure.move.from === 'graveyard' || retourMercure.move.to === 'graveyard'){
-                    renderGraveyard(retourMercure, player_area);
+                    renderGraveyard(retourMercure.areas, player_area);
                 }
                 if (retourMercure.move.from === 'hand' || retourMercure.move.to === 'hand'){
-                    renderHand(retourMercure, player_area);
+                    renderHand(retourMercure.areas, player_area);
                 }
                 if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
-                    renderBattlefield(retourMercure, player_area);
+                    renderBattlefield(retourMercure.areas, player_area);
                 }
             }
 
@@ -176,20 +172,6 @@
                 renderMessage(retourMercure);
             }
         }
-
-        {# Chargement de la partie #}
-        $(document).ready(function() {
-            {# Lancer de dé pour déterminer qui commence #}
-
-            {# Préparation des phases #}
-
-            {# Les joueurs pioches 7 cartes #}
-
-            {# Mulligan éventuel #}
-
-            {# Début de la partie #}
-
-        });
     </script>
 
     {# Rendu #}

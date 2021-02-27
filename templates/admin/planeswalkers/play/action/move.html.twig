@@ -18,11 +18,9 @@
             let to = $(this).data('area');
             let player = draggableELement.data('player');
             let card = draggableELement.data('id');
-
             {# Position horizontale de la carte sur la ligne du battlefield (moins le décalage de la position du curseur sur le coin haut gauche de la carte ) #}
             let offsetX = Math.round((e.pageX - selectionOffsetX) / grid);
             let offsetY = Math.round(((e.pageY - selectionOffsetY) - $(this).offset().top) / grid);
-
             launchMove(from, to, player, card, offsetX, offsetY);
         });
 

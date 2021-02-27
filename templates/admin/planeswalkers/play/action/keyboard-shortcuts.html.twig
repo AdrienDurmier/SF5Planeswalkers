@@ -1,10 +1,8 @@
 {% macro script(game) %}
     <script>
-        {# test #}
         {# Raccourcis clavier #}
         $(window).on('keydown', function(e) {
             let player = $('#player-area').data('player');
-            console.log(player);
             {# CTRL + S #}
             if(e.ctrlKey && e.keyCode === 83) {
                 launchShuffle(player);

@@ -55,7 +55,6 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
                     let renderHtml = "";
                     $.each(data.data, function (index, rule) {
                         renderHtml += '<p><small>'+rule.comment+'</small></p>';
