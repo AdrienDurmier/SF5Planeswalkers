@@ -69,6 +69,12 @@ class Game
     private $players;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Planeswalkers\Play\Player")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $playerActive;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $turn;
@@ -145,6 +151,17 @@ class Game
     public function getPlayers()
     {
         return $this->players;
+    }
+
+    public function getPlayerActive(): ?Player
+    {
+        return $this->playerActive;
+    }
+
+    public function setPlayerActive(?Player $playerActive): self
+    {
+        $this->playerActive = $playerActive;
+        return $this;
     }
 
     public function getPlayer(User $user): ?Player
