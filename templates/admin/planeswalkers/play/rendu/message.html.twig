@@ -2,7 +2,12 @@
     <script>
         {# Rendu d'un log du tchat #}
         function renderLog(retourMercure){
+            let picto = '';
+            if (typeof retourMercure.step !== 'undefined'){
+                picto = '<div class="thumb" style="background-image:url('+retourMercure.step.picto+')"></div>';
+            }
             let result_hmtl  = '<div class="game-tchat-message">';
+                result_hmtl +=      picto;
                 result_hmtl +=      '<i>'+retourMercure.log+'</i>';
                 result_hmtl += '</div>';
             $('#tchat-messages-area').append(result_hmtl);

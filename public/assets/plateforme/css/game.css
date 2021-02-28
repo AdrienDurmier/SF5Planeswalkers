@@ -50,9 +50,11 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 
 /* Phases */
 #phases-area {position:absolute;margin:auto;text-align:center;top:-15px; left:0; bottom:0; right:0;}
-#phases-area .list-inline-item div {background-color: rgba(0,0,0,0.5);border-radius: 50%;width: 30px;height: 30px;text-align: center;padding: 10px;position: relative;}
-#phases-area .list-inline-item div i {position: absolute;left: 0;right: 0;top: 6px;bottom: 0;font-size: 17px;color: rgba(255,255,255,0.7);}
-#phases-area .phases-step {background-repeat: no-repeat;background-size:20px;background-position: center;}
+#phases-area .list-inline-item div {background-color: rgba(0,0,0,0.5);text-align: center;padding:10px;position: relative;height: 30px;}
+#phases-area .list-inline-item div.active {border: 1px solid #fff;}
+#phases-area .list-inline-item div i {position: absolute;left: 0;right: 0;top: 6px;bottom: 0;font-size:17px;color: rgba(255,255,255,0.7);}
+#phases-area #step-turn-area {color:#fff;font-weight:bold;padding:0 12px;top:-11px;border-radius:2px;}
+#phases-area .phases-step {background-repeat: no-repeat;background-size:20px;background-position: center;cursor:pointer;border-radius: 50%;width: 30px;}
 #phases-area #step-untap {background-image:url('/images/planeswalkers/game-icons-net/delapouite/anticlockwise-rotation.svg');}
 #phases-area #step-upkeep {background-image:url('/images/planeswalkers/game-icons-net/delapouite/sunrise.svg');}
 #phases-area #step-draw {background-image:url('/images/planeswalkers/game-icons-net/quoting/card-play.svg');}
@@ -65,6 +67,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 #phases-area #step-postcombat {background-image:url('/images/planeswalkers/game-icons-net/delapouite/player-time.svg');}
 #phases-area #step-end-turn {background-image:url('/images/planeswalkers/game-icons-net/skoll/halt.svg');}
 #phases-area #step-cleanup {background-image:url('/images/planeswalkers/game-icons-net/delapouite/large-paint-brush.svg');}
+#phases-area #step-next {background-image:url('/images/planeswalkers/game-icons-net/delapouite/next-button.svg');}
 
 /* Menu contextuel */
 #menu-contextual {visibility:hidden;opacity:0;position:fixed;z-index:1;background:rgba(0,0,0,0.8);font-size:11px;border:1px solid #000;}
@@ -77,3 +80,4 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 #tchat-messages-area .game-tchat-message {background-color: rgba(0,0,0,0.5);color:#fff;padding:5px 10px;margin:3px 0;font-size:12px;}
 #tchat-messages-area .game-tchat-message i {width: 15px;}
 #tchat-messages-area .game-tchat-message .avatar {width:20px;height:20px;background-size:20px;}
+#tchat-messages-area .game-tchat-message .thumb {position: relative;width:20px;height:20px;background-size:20px;float:left;background-position:center;margin:-3px 5px 0 0;}

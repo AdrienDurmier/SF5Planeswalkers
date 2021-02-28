@@ -13,9 +13,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Game
 {
+    const STEP_BEGIN_UNTAP = 0;
+    const STEP_BEGIN_UPKEEP = 1;
+    const STEP_BEGIN_DRAW = 2;
+    const STEP_MAIN_PRECOMBAT = 3;
+    const STEP_COMBAT_BEGINNING = 4;
+    const STEP_COMBAT_ATTACKERS = 5;
+    const STEP_COMBAT_BLOCKERS = 6;
+    const STEP_COMBAT_DAMAGE = 7;
+    const STEP_COMBAT_END = 8;
+    const STEP_MAIN_POSTCOMBAT = 9;
+    const STEP_END_TURN = 10;
+    const STEP_END_CLEAN = 11;
+    const STEP_NEXT = 12;
+
     public function __construct() {
         $this->created = new \Datetime();
         $this->updated = new \Datetime();
+        $this->turn = 1;
+        $this->step = self::STEP_BEGIN_UNTAP;
     }
 
     /**
@@ -51,6 +67,16 @@ class Game
      * @ORM\OneToMany(targetEntity="App\Entity\Planeswalkers\Play\Player", mappedBy="game", cascade={"persist", "remove"})
      */
     private $players;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $turn;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $step;
 
     public function getId(): ?int
     {
@@ -146,6 +172,26 @@ class Game
         return $currentPlayer;
     }
 
+    public function getTurn(): ?int
+    {
+        return $this->turn;
+    }
 
+    public function setTurn(?int $turn): self
+    {
+        $this->turn = $turn;
+        return $this;
+    }
+
+    public function getStep(): ?int
+    {
+        return $this->step;
+    }
+
+    public function setStep(?int $step): self
+    {
+        $this->step = $step;
+        return $this;
+    }
 
 }

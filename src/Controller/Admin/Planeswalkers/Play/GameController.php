@@ -4,8 +4,11 @@ namespace App\Controller\Admin\Planeswalkers\Play;
 
 use App\Service\Planeswalkers\Play\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Exception;
 use App\Entity\Planeswalkers\Deck;
@@ -104,6 +107,40 @@ class GameController extends AbstractController
     public function help()
     {
         return $this->render('admin/planeswalkers/play/game/help.html.twig');
+    }
+
+    /**
+     * @Route("/planeswalkers/play/games/step", name="planeswalkers.play.game.step", methods="POST")
+     * @param Request $request
+     * @param PublisherInterface $publisher
+     * @param GameService $gameService
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function step(Request $request, PublisherInterface $publisher, GameService $gameService)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+
+        // Changement de phase/étape
+        $step = $gameService->step($datas);
+        $log = "It is now the ".$step['phase']." phase";
+        if (isset($step['step'])){
+            $log .= ", " . $step['step'] . " step.";
+        }
+        $em->flush();
+
+        // Publication à Mercure
+        $topic = 'planeswalkers-game-'.$datas['game'];
+        $datasMercure = [
+            'log' => $log,
+            'step' => $step,
+        ];
+
+        $update = new Update($topic, json_encode($datasMercure));
+        $publisher($update);
+
+        return new JsonResponse($datasMercure);
     }
     
 }
