@@ -1,0 +1,38 @@
+{% macro script(game) %}
+    <script>
+        $('.phases-step').on('click', function () {
+            let step = $(this).data('step');
+            changeStep(step);
+        });
+
+        function changeStep(step){
+            let parametres = {
+                game: {{ game.id }},
+                step: step,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.game.step') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    {# Changement de phase/étape #}
+                    $('.phases-step').each(function(){
+                        if($(this).data('step') === step){
+                            $(this).addClass('active');
+                        }else{
+                            $(this).removeClass('active');
+                        }
+                    });
+                    if (step === 12){
+                        $('.phases-step').removeClass('active');
+                        $('#step-untap').addClass('active');
+                    }
+                    {# Mise à jour du nombre de tour #}
+                    $('#step-turn-counter').text(data.step.turn);
+                }
+            });
+        }
+    </script>
+{% endmacro %}
