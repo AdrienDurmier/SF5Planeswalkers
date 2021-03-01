@@ -6,7 +6,7 @@
             lastFace,
             timeoutId,
             transitionDuration = 500,
-            animationDuration  = 3000
+            animationDuration  = 2000
 
         function randomFace() {
             let face = Math.floor((Math.random() * sides)) + initialSide
@@ -17,8 +17,6 @@
 
         function rollTo(face) {
             clearTimeout(timeoutId)
-            /*$('ul > li > a').removeClass('active')
-            $('[href=' + face + ']').addClass('active')*/
             $dice.attr('data-face', face)
         }
 
@@ -26,20 +24,21 @@
             $dice.attr('data-face', null).removeClass('rolling')
         }
 
-        $('.dice').click(function () {
-            $dice.addClass('rolling')
-            clearTimeout(timeoutId)
+        $dice.click(function () {
+            $dice.addClass('rolling');
+            clearTimeout(timeoutId);
             timeoutId = setTimeout(function () {
-                $dice.removeClass('rolling')
-                rollTo(randomFace())
-            }, animationDuration)
+                $dice.removeClass('rolling');
+                rollTo(randomFace());
+                $dice.css('pointer-events', 'none'); {# retire le click pour que le joueur ne relance pas le dé #}
+            }, animationDuration);
             return false
-        })
+        });
 
         {# Envoie de la face du dé #}
         function sendRollDice(face){
             let parametres = {
-                player: {{ player.id }},
+                game: {{ game.id }},
                 face: face,
             };
             $.ajax({

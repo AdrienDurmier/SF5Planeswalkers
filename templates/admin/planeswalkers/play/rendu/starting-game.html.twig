@@ -25,7 +25,7 @@
         </div>
         <div id="starting-step-2" style="display:none;">
             <div id="starting-game-roll-area">
-                Roll your dice
+                <div id="starting-game-roll-message">Click for roll your die</div>
                 <div class="dice-content">
                     <div class="dice">
                         <figure class="face face-1"></figure>
@@ -50,6 +50,21 @@
                         <figure class="face face-20"></figure>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="starting-step-3" style="display:none;">
+            <div>
+                <div id="starting-game-first-player"></div>
+                <div id="starting-game-opponent-message"></div>
+            </div>
+            <div id="starting-game-hand"></div>
+            <div>
+                <a id="starting-game-mulligan" href="" class="btn btn-lg btn-danger">
+                    <i class="fas fa-random"></i> Mulligan
+                </a>
+                <a id="starting-game-keep" href="" class="btn btn-lg btn-success">
+                    <i class="fas fa-check"></i> Keep <span id="starting-game-keep-quantity">7</span>
+                </a>
             </div>
         </div>
     </div>

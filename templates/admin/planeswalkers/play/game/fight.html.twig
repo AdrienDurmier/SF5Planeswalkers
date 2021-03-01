@@ -137,7 +137,7 @@
 
     {# Starting Game #}
     {% import 'admin/planeswalkers/play/action/starting-game.html.twig' as actionStartingGameJs %}
-    {{ actionStartingGameJs.script(game) }}
+    {{ actionStartingGameJs.script(game, player, areasPlayer) }}
 
     <script>
         {# Draggable #}
@@ -206,8 +206,9 @@
                 }
             }
 
+            {# Lancé de dé au départ de la partie #}
             if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'starting-game-roll-dice'){
-                console.log(retourMercure);
+                renderStartingReponse(retourMercure);
             }
 
             {# Logs #}
@@ -245,7 +246,7 @@
 
     {# Roll dice #}
     {% import 'admin/planeswalkers/play/action/roll-dice.html.twig' as actionRollDiceJs %}
-    {{ actionRollDiceJs.script(game, player) }}
+    {{ actionRollDiceJs.script(game) }}
 
     {# Steps #}
     {% import 'admin/planeswalkers/play/action/step.html.twig' as actionStepJs %}

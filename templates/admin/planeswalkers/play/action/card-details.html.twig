@@ -13,7 +13,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#cardDetailsTitre').text(data.name);
-                    $('#cardDetailsImg').attr('src', data.image_uris.large);
+                    $('#cardDetailsImg').attr('src', data.image_uris.border_crop);
                     $('#cardDetailsTypeLine').text(data.type_line);
                     $('#cardDetailsOracleText').html(data.oracle_text);
                     $('#cardDetailsEdhrecRank').text(data.edhrec_rank);

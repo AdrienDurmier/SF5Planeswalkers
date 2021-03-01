@@ -1,7 +1,6 @@
-{% macro script(game) %}
-    <script>
-        {% if game.playerActive is null %}
-
+{% macro script(game, player, areasPlayer) %}
+    {% if game.playerActive is null %}
+        <script>
             {# Impose la fenêtre pour démarrer la partie #}
             $('#starting-game-area').show();
 
@@ -16,11 +15,43 @@
             {# 2. Choix du joueur qui commence #}
             $('#starting-step-2').fadeIn(2000);
 
+            {# 3. Main de départ #}
+            let areasPlayerJs = JSON.parse('{{ areasPlayer|raw }}');
+            renderStartingHand(areasPlayerJs);
 
-            {# 3. Mulligan #}
+            {# Rendu d'une main de départ #}
+            function renderStartingHand(datas){
+                let results_html = "";
+                $.each(datas.hand.cards, function (index, gameCardHand) {
+                    results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+datas.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
+                    results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
+                    results_html +=     '</div>';
+                    results_html += '</a>';
+                })
+                $('#starting-game-hand').html(results_html);
+            }
 
+            function renderStartingReponse(retourMercure){
+                console.log(retourMercure);
+                {# todo Your opponent is ready #}
+                $('#starting-game-opponent-message').html('<i class="fas fa-spinner fa-pulse"></i> Your opponent is choosing whether mulligan or keep 7 cards');
 
-        {% endif %}
-
-    </script>
+                if (retourMercure.egality === true){
+                    $('.dice').css('pointer-events', 'auto');
+                    $('#starting-game-roll-message').html('Egality! Dear planewalker, roll your die again.');
+                }
+                if (retourMercure.playerActive !== null){
+                    $('#starting-step-2').fadeOut(1000);
+                    $('#starting-step-3').fadeIn(1000);
+                    if (retourMercure.playerActive === '{{ player.id }}'){
+                        $('#starting-game-first-player').text("You play first");
+                    }else{
+                        $('#starting-game-first-player').text("Opponent goes first");
+                    }
+                }else{
+                    $('#starting-game-roll-message').html('<i class="fas fa-spinner fa-pulse"></i> Your opponent is not ready');
+                }
+            }
+        </script>
+    {% endif %}
 {% endmacro %}
