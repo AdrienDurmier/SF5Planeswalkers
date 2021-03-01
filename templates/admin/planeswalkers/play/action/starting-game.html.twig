@@ -31,9 +31,10 @@
                 $('#starting-game-hand').html(results_html);
             }
 
+            {# Intéraction en fonction des retours de Mercure #}
             function renderStartingReponse(retourMercure){
                 console.log(retourMercure);
-                {# todo Your opponent is ready #}
+                {# todo "Your opponent is ready" #}
                 $('#starting-game-opponent-message').html('<i class="fas fa-spinner fa-pulse"></i> Your opponent is choosing whether mulligan or keep 7 cards');
 
                 if (retourMercure.egality === true){
@@ -45,13 +46,23 @@
                     $('#starting-step-3').fadeIn(1000);
                     if (retourMercure.playerActive === '{{ player.id }}'){
                         $('#starting-game-first-player').text("You play first");
+                        $('#player-area').find('.avatar-area').addClass('pulse');
                     }else{
                         $('#starting-game-first-player').text("Opponent goes first");
+                        $('#opponent-area').find('.avatar-area').addClass('pulse');
                     }
                 }else{
                     $('#starting-game-roll-message').html('<i class="fas fa-spinner fa-pulse"></i> Your opponent is not ready');
                 }
             }
+
+            $('#starting-game-mulligan').on('click', function() {
+
+            });
+
+            $('#starting-game-keep').on('click', function() {
+                $('#starting-game-area').fadeOut(1000);
+            });
         </script>
     {% endif %}
 {% endmacro %}

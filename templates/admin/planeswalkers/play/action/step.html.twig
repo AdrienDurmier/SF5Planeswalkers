@@ -28,6 +28,13 @@
                     if (step === 12){
                         $('.phases-step').removeClass('active');
                         $('#step-untap').addClass('active');
+                        if ($('#player-area').find('.avatar-area').hasClass('pulse')){
+                            $('#player-area').find('.avatar-area').removeClass('pulse');
+                            $('#opponent-area').find('.avatar-area').addClass('pulse');
+                        }else{
+                            $('#opponent-area').find('.avatar-area').removeClass('pulse');
+                            $('#player-area').find('.avatar-area').addClass('pulse');
+                        }
                     }
                     {# Mise à jour du nombre de tour #}
                     $('#step-turn-counter').text(data.step.turn);
