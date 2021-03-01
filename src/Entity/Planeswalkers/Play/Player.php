@@ -83,6 +83,11 @@ class Player
      */
     private $sideboard;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rollDiceStartingGame;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -205,4 +210,14 @@ class Player
         return $this;
     }
 
+    public function getRollDiceStartingGame(): ?int
+    {
+        return $this->rollDiceStartingGame;
+    }
+
+    public function setRollDiceStartingGame(?int $rollDiceStartingGame): self
+    {
+        $this->rollDiceStartingGame = $rollDiceStartingGame;
+        return $this;
+    }
 }

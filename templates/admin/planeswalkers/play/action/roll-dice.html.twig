@@ -1,37 +1,52 @@
-{% macro script(game) %}
+{% macro script(game, player) %}
     <script>
-        $('.phases-step').on('click', function () {
-            let step = $(this).data('step');
-            changeStep(step);
-        });
+        let $dice = $('.dice'),
+            sides = 20,
+            initialSide = 1,
+            lastFace,
+            timeoutId,
+            transitionDuration = 500,
+            animationDuration  = 3000
 
-        function changeStep(step){
+        function randomFace() {
+            let face = Math.floor((Math.random() * sides)) + initialSide
+            lastFace = face === lastFace ? randomFace() : face
+            sendRollDice(lastFace);
+            return face;
+        }
+
+        function rollTo(face) {
+            clearTimeout(timeoutId)
+            /*$('ul > li > a').removeClass('active')
+            $('[href=' + face + ']').addClass('active')*/
+            $dice.attr('data-face', face)
+        }
+
+        function reset() {
+            $dice.attr('data-face', null).removeClass('rolling')
+        }
+
+        $('.dice').click(function () {
+            $dice.addClass('rolling')
+            clearTimeout(timeoutId)
+            timeoutId = setTimeout(function () {
+                $dice.removeClass('rolling')
+                rollTo(randomFace())
+            }, animationDuration)
+            return false
+        })
+
+        {# Envoie de la face du dé #}
+        function sendRollDice(face){
             let parametres = {
-                game: {{ game.id }},
-                step: step,
+                player: {{ player.id }},
+                face: face,
             };
             $.ajax({
-                url: "{{ path('planeswalkers.play.game.step') }}",
+                url: "{{ path('planeswalkers.play.action.rolldice.send') }}",
                 type: 'post',
                 data: parametres,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    {# Changement de phase/étape #}
-                    $('.phases-step').each(function(){
-                        if($(this).data('step') === step){
-                            $(this).addClass('active');
-                        }else{
-                            $(this).removeClass('active');
-                        }
-                    });
-                    if (step === 12){
-                        $('.phases-step').removeClass('active');
-                        $('#step-untap').addClass('active');
-                    }
-                    {# Mise à jour du nombre de tour #}
-                    $('#step-turn-counter').text(data.step.turn);
-                }
+                dataType: 'json'
             });
         }
     </script>

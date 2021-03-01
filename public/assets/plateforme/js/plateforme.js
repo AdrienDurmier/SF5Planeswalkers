@@ -3,3 +3,7 @@ jQuery(document).ready(function($) {
         window.location = $(this).data("href");
     });
 });
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}

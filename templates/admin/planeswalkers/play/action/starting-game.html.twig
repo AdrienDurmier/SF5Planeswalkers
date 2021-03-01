@@ -1,48 +1,26 @@
 {% macro script(game) %}
     <script>
         {% if game.playerActive is null %}
-            $('#first-turn-area').show();
+
+            {# Impose la fenêtre pour démarrer la partie #}
+            $('#starting-game-area').show();
+
+            {# 1. Présentation des joueurs #}
+            $('#starting-game-area').css({'background-image':'url(/images/planeswalkers/landscape-'+getRandomInt(10)+'.jpg)'});
+            $('#starting-step-1').fadeIn(3000);
+            $('#starting-step-1').fadeOut(1000);
+            setTimeout(function() {
+                $('#starting-step-1').removeClass("d-flex");
+            }, 4000);
+
+            {# 2. Choix du joueur qui commence #}
+            $('#starting-step-2').fadeIn(2000);
+
+
+            {# 3. Mulligan #}
+
+
         {% endif %}
 
-        var $dice = $('.dice'),
-            sides = 20,
-            initialSide = 1,
-            lastFace,
-            timeoutId,
-            transitionDuration = 500,
-            animationDuration  = 3000
-
-        function randomFace() {
-            var face = Math.floor((Math.random() * sides)) + initialSide
-            lastFace = face == lastFace ? randomFace() : face
-            console.log('ROLL -> '+ lastFace);
-            return face;
-        }
-
-        function rollTo(face) {
-            clearTimeout(timeoutId)
-
-            $('ul > li > a').removeClass('active')
-            $('[href=' + face + ']').addClass('active')
-
-            $dice.attr('data-face', face)
-        }
-
-        function reset() {
-            $dice.attr('data-face', null).removeClass('rolling')
-        }
-
-        $('.dice').click(function () {
-            $dice.addClass('rolling')
-            clearTimeout(timeoutId)
-
-            timeoutId = setTimeout(function () {
-                $dice.removeClass('rolling')
-
-                rollTo(randomFace())
-            }, animationDuration)
-
-            return false
-        })
     </script>
 {% endmacro %}

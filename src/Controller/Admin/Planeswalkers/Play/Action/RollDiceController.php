@@ -11,24 +11,31 @@ use Symfony\Component\Mercure\Update;
 use App\Entity\Planeswalkers\Play\Player;
 use App\Utils\UserUtils;
 
-class MessageController extends AbstractController
+class RollDiceController extends AbstractController
 {
     /**
-     * @Route("/planeswalkers/play/action/message/send", name="planeswalkers.play.action.message.send", methods="POST")
+     * @Route("/planeswalkers/play/action/rolldice/send", name="planeswalkers.play.action.rolldice.send", methods="POST")
      * @param Request $request
      * @param PublisherInterface $publisher
      * @return JsonResponse
      */
     public function send(Request $request, PublisherInterface $publisher)
     {
+        $em = $this->getDoctrine()->getManager();
         $datas = $request->request->all();
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
+        $player->setRollDiceStartingGame($datas['face']);
+        $em->persist($player);
+        $em->flush();
+
+        $opponent = $player->getGame()->getOpponent(); // fixme
 
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$player->getGame()->getId();
         $datasMercure = [
-            'message' => $datas['content'],
-            'author' => UserUtils::constructionUser($player->getUser()),
+            'action'   => 'starting-game-roll-dice',
+            'player'   => $player->getRollDiceStartingGame(),
+            'opponent' => $opponent->getRollDiceStartingGame(),
         ];
 
         $update = new Update($topic, json_encode($datasMercure));

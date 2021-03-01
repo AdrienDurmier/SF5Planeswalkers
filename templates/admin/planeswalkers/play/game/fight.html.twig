@@ -127,9 +127,18 @@
     {# Menu contextual #}
     <div id="menu-contextual" class="menu"></div>
 
+    {# Starting game #}
+    {% import 'admin/planeswalkers/play/rendu/starting-game.html.twig' as startingGame %}
+    {{ startingGame.afficher(game, player, opponent) }}
+
 {% endblock %}
 
 {% block javascripts %}
+
+    {# Starting Game #}
+    {% import 'admin/planeswalkers/play/action/starting-game.html.twig' as actionStartingGameJs %}
+    {{ actionStartingGameJs.script(game) }}
+
     <script>
         {# Draggable #}
         let grid = 15;
@@ -168,16 +177,6 @@
             renderGraveyard(areasOpponent, opponentArea);
             renderHand(areasOpponent, opponentArea);
             renderBattlefield(areasOpponent, opponentArea);
-
-            {# Lancer de dé pour déterminer qui commence #}
-            {# Préparation des phases #}
-
-            {# Les joueurs pioches 7 cartes #}
-
-            {# Mulligan éventuel #}
-
-            {# Début de la partie #}
-
         });
 
         {# Mercure #}
@@ -205,6 +204,10 @@
                 if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
                     renderBattlefield(retourMercure.areas, player_area);
                 }
+            }
+
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'starting-game-roll-dice'){
+                console.log(retourMercure);
             }
 
             {# Logs #}
@@ -239,6 +242,10 @@
     {# Raccourcies clavier #}
     {% import 'admin/planeswalkers/play/action/keyboard-shortcuts.html.twig' as actionKeyboardShortcutsJs %}
     {{ actionKeyboardShortcutsJs.script() }}
+
+    {# Roll dice #}
+    {% import 'admin/planeswalkers/play/action/roll-dice.html.twig' as actionRollDiceJs %}
+    {{ actionRollDiceJs.script(game, player) }}
 
     {# Steps #}
     {% import 'admin/planeswalkers/play/action/step.html.twig' as actionStepJs %}
