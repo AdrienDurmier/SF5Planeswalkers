@@ -28,7 +28,7 @@ class RollDiceController extends AbstractController
         $em->persist($player);
         $em->flush();
 
-        $opponent = $player->getGame()->getOpponent(); // fixme
+        $opponent = $player->getGame()->getOpponent($this->getUser());
 
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$player->getGame()->getId();
