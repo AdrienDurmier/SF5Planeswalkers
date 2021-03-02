@@ -58,7 +58,7 @@
 
         {# Opponent area #}
         <div id="opponent-area" class="player-area player-area-{{ opponent.id }}" data-player="{{ opponent.id }}">
-            <div class="avatar-area{% if game.playerActive == opponent %}pulse{% endif %}">
+            <div class="avatar-area {% if game.playerActive == opponent %}pulse{% endif %}">
                 <div id="opponent-lifepoint" class="lifepoint" title="Lifepoints">20</div>
                 {{ avatar.afficher(opponent.user) }}
             </div>
