@@ -34,7 +34,7 @@
         function renderMenuContextualLink(picto, txt, shortcut){
             let result_hmtl = '';
             result_hmtl +=      '<div class="menu-contextual-link-area d-flex">';
-            result_hmtl +=           '<div class="menu-contextual-picto-area"><i class="'+picto+'"></i></div>';
+            result_hmtl +=           '<div class="menu-contextual-picto-area"><div class="thumb" style="background-image:url('+picto+')"></div></div>';
             result_hmtl +=           '<div class="menu-contextual-txt-area flex-grow-1">'+txt+'</div>';
             if (shortcut !== null){
                 result_hmtl +=       '<div><span class="badge badge-secondary">'+shortcut+'</span></div>';
@@ -73,26 +73,34 @@
         {# Menu contextuel de la library #}
         function renderMenuContextualLibrary(player){
             let result_hmtl = '';
-            result_hmtl +=  '<a href="#" class="draw-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('far fa-hand-lizard', 'Draw', 'CTRL+Enter');
+            result_hmtl += '<a href="#" class="move-link" data-from="library" data-to="hand" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/faithtoken/card-draw.svg', 'Draw', 'CTRL+Enter');
             result_hmtl += '</a>';
-            result_hmtl +=  '<a href="#" class="library-look-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('far fa-eye', 'Look card', null);
+            result_hmtl += '<a href="#" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/look-at.svg', 'Look card', null);
             result_hmtl += '</a>';
-            result_hmtl +=  '<a href="#" class="library-shuffle-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('fas fa-random', 'Shuffle', 'CTRL+S');
+            result_hmtl += '<a href="#" class="library-shuffle-link" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/card-exchange.svg', 'Shuffle', 'CTRL+S');
             result_hmtl += '</a>';
-            result_hmtl +=  '<a href="#" class="library-to-graveyard-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('fas fa-skull-crossbones', 'Put card to graveyard', null);
+            result_hmtl += '<a href="#" class="move-link" data-from="library" data-to="graveyard" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/card-burn.svg', 'Mills (put card to graveyard)', null);
             result_hmtl += '</a>';
-            result_hmtl +=  '<a href="#" class="library-to-exile-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('fas fa-times', 'Remove card from game', null);
+            result_hmtl += '<a href="#" class="move-link" data-from="library" data-to="exile" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg', 'Remove card from game', null);
             result_hmtl += '</a>';
-            result_hmtl +=  '<a href="#" class="library-reveal-link" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('fas fa-meh-rolling-eyes', 'Reveal top card', null);
+            result_hmtl += '<a href="#" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/all-seeing-eye.svg', 'Reveal top card', null);
             result_hmtl += '</a>';
             $('#menu-contextual').html(result_hmtl);
         }
+
+        {# Lorsque le joueur déplace une carte #}
+        $('#menu-contextual').on('click', '.move-link', function() {
+            let from = $(this).data('from');
+            let to = $(this).data('to');
+            let player = $(this).data('player');
+            launchMove(from, to, player);
+        });
 
     </script>
 {% endmacro %}

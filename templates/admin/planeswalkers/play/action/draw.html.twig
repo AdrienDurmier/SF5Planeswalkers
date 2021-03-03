@@ -6,11 +6,5 @@
             let player = $('#player-area').data('player');
             launchMove('library', 'hand', player);
         });
-
-        {# pioche une carte #}
-        $('#menu-contextual').on('click', '.draw-link', function() {
-            let player = $(this).data('player');
-            launchMove('library', 'hand', player);
-        });
     </script>
 {% endmacro %}

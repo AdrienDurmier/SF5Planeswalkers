@@ -5,6 +5,9 @@
             let picto = '';
             if (typeof retourMercure.step !== 'undefined'){
                 picto = '<div class="thumb" style="background-image:url('+retourMercure.step.picto+')"></div>';
+            };
+            if (typeof retourMercure.picto !== 'undefined'){
+                picto = '<div class="thumb" style="background-image:url('+retourMercure.picto+')"></div>';
             }
             let result_hmtl  = '<div class="game-tchat-message">';
                 result_hmtl +=      picto;

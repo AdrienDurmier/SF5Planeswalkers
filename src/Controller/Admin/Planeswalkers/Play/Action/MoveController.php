@@ -36,12 +36,13 @@ class MoveController extends AbstractController
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = [
             'log'      => $this->getMoveMessage($player, $datas['from'], $datas['to'], 1),
-            'move'         =>  [
+            'picto'    => $this->getPictoMove($player, $datas['from'], $datas['to'], 1),
+            'move'     =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],
             ],
-            'player'      =>  $player->getId(),
-            'areas'       =>  $playerService->areas($player),
+            'player'   =>  $player->getId(),
+            'areas'    =>  $playerService->areas($player),
         ];
 
         $update = new Update($topic, json_encode($datasMercure));
@@ -68,6 +69,25 @@ class MoveController extends AbstractController
             $message = $player->getUser() . " exile ".$quantity." card";
         }
         return $message;
+    }
+
+    /**
+     * @param $player
+     * @param $from
+     * @param $to
+     * @return null
+     */
+    public function getPictoMove($player, $from, $to, $quantity){
+        if ($from == 'library' && $to == 'hand'){
+            return '/images/planeswalkers/game-icons-net/faithtoken/card-draw.svg';
+        }
+        if ($from == 'library' && $to == 'graveyard'){
+            return  '/images/planeswalkers/game-icons-net/delapouite/card-burn.svg';
+        }
+        if ($from == 'library' && $to == 'exile'){
+            return '/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg';
+        }
+        return null;
     }
 
 }

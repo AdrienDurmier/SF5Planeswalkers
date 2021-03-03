@@ -36,6 +36,7 @@ class LibraryController extends AbstractController
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = [
             'log' => $player->getUser() .' shuffle his library.',
+            'picto' => '/images/planeswalkers/game-icons-net/delapouite/card-exchange.svg',
         ];
 
         $update = new Update($topic, json_encode($datasMercure));
