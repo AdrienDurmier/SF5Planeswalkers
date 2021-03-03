@@ -36,7 +36,7 @@ class MoveController extends AbstractController
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = [
             'log'      => $this->getMoveMessage($player, $datas['from'], $datas['to'], 1),
-            'picto'    => $this->getPictoMove($player, $datas['from'], $datas['to'], 1),
+            'picto'    => $this->getPictoMove($datas['from'], $datas['to']),
             'move'     =>  [
                 'from'     =>  $datas['from'],
                 'to'       =>  $datas['to'],
@@ -55,9 +55,10 @@ class MoveController extends AbstractController
      * @param $player
      * @param $from
      * @param $to
+     * @param int $quantity
      * @return null
      */
-    public function getMoveMessage($player, $from, $to, $quantity){
+    public function getMoveMessage($player, $from, $to, int $quantity){
         $message = null;
         if ($from == 'library' && $to == 'hand'){
             $message = $player->getUser() . " draw ".$quantity." card";
@@ -72,18 +73,20 @@ class MoveController extends AbstractController
     }
 
     /**
-     * @param $player
      * @param $from
      * @param $to
      * @return null
      */
-    public function getPictoMove($player, $from, $to, $quantity){
+    public function getPictoMove($from, $to){
+        // Draw
         if ($from == 'library' && $to == 'hand'){
             return '/images/planeswalkers/game-icons-net/faithtoken/card-draw.svg';
         }
+        // Mills
         if ($from == 'library' && $to == 'graveyard'){
             return  '/images/planeswalkers/game-icons-net/delapouite/card-burn.svg';
         }
+        // Exile
         if ($from == 'library' && $to == 'exile'){
             return '/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg';
         }

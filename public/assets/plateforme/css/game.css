@@ -37,7 +37,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .graveyard {border-left:2px solid #000;border-right:2px solid #000;background-image:url("/images/planeswalkers/game-icons-net/lorc/tombstone.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
 
 /* Zones de jeux - library */
-.library {background-image:url("/images/planeswalkers/inbox-solid.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
+.library {background-image:url("/images/planeswalkers/game-icons-net/delapouite/spell-book.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
 .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
 
 /* Zones de jeux - hand */

@@ -65,7 +65,10 @@
         function renderMenuContextualHandCard(id, idscryfall, player){
             let result_hmtl = '';
             result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('fas fa-eye', 'Reveal this card', null);
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/look-at.svg', 'Reveal this card', null);
+            result_hmtl += '</a>';
+            result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="hand" data-to="graveyard" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/faithtoken/card-discard.svg', 'Discard this card', null);
             result_hmtl += '</a>';
             $('#menu-contextual').html(result_hmtl);
         }
@@ -99,7 +102,8 @@
             let from = $(this).data('from');
             let to = $(this).data('to');
             let player = $(this).data('player');
-            launchMove(from, to, player);
+            let card = $(this).data('id');
+            launchMove(from, to, player, card);
         });
 
     </script>
