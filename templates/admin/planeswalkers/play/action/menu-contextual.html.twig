@@ -43,6 +43,14 @@
             return result_hmtl;
         }
 
+        {# Rendu du menu si c'est un clic droit sur la library #}
+        $('body').on('contextmenu', '#player-library-top-card', function(e) {
+            let player = $(this).data('player');
+            renderMenuContextualLibrary(player);
+            menuContextualDisplay(e);
+            e.preventDefault();
+        });
+
         {# Rendu du menu si c'est un clic droit sur une carte #}
         $('body').on('contextmenu', '.hand-card-link', function(e) {
             let id = $(this).data('id');
@@ -53,25 +61,15 @@
             e.preventDefault();
         });
 
-        {# Rendu du menu si c'est un clic droit sur la library #}
-        $('body').on('contextmenu', '#player-library-top-card', function(e) {
+        {# Rendu du menu si c'est un clic droit sur une carte du battlefield #}
+        $('body').on('contextmenu', '.battlefield-card-link', function(e) {
+            let id = $(this).data('id');
+            let idscryfall = $(this).data('idsrcyfall');
             let player = $(this).data('player');
-            renderMenuContextualLibrary(player);
+            renderMenuContextualBattlefieldCard(id, idscryfall, player);
             menuContextualDisplay(e);
             e.preventDefault();
         });
-
-        {# Menu contextuel d'une carte de la main #}
-        function renderMenuContextualHandCard(id, idscryfall, player){
-            let result_hmtl = '';
-            result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/look-at.svg', 'Reveal this card', null);
-            result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="hand" data-to="graveyard" data-player="'+player+'">';
-            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/faithtoken/card-discard.svg', 'Discard this card', null);
-            result_hmtl += '</a>';
-            $('#menu-contextual').html(result_hmtl);
-        }
 
         {# Menu contextuel de la library #}
         function renderMenuContextualLibrary(player){
@@ -93,6 +91,27 @@
             result_hmtl += '</a>';
             result_hmtl += '<a href="#" data-player="'+player+'">';
             result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/all-seeing-eye.svg', 'Reveal top card', null);
+            result_hmtl += '</a>';
+            $('#menu-contextual').html(result_hmtl);
+        }
+
+        {# Menu contextuel d'une carte de la main #}
+        function renderMenuContextualHandCard(id, idscryfall, player){
+            let result_hmtl = '';
+            result_hmtl += '<a href="#" data-id="'+id+'" data-idscryfall="'+idscryfall+'" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/look-at.svg', 'Reveal this card', null);
+            result_hmtl += '</a>';
+            result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="hand" data-to="graveyard" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/faithtoken/card-discard.svg', 'Discard this card', null);
+            result_hmtl += '</a>';
+            $('#menu-contextual').html(result_hmtl);
+        }
+
+        {# Menu contextuel d'une carte du battlefield #}
+        function renderMenuContextualBattlefieldCard(id, idscryfall, player){
+            let result_hmtl = '';
+            result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="battlefield" data-to="graveyard" data-player="'+player+'">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/lorc/tombstone.svg', 'Put card to graveyard', null);
             result_hmtl += '</a>';
             $('#menu-contextual').html(result_hmtl);
         }
