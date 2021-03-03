@@ -1,0 +1,15 @@
+{% macro script() %}
+    <script>
+        function renderGameCardBattlefield(datas, player_area){
+            let cardHtml = $('#battlefield-card-'+datas.gameCardBattlefield.id);
+
+            {# Tapped #}
+            if (datas.gameCardBattlefield.tapped === true){
+                cardHtml.addClass('tapped');
+            }else{
+                cardHtml.removeClass('tapped');
+            }
+
+        }
+    </script>
+{% endmacro %}

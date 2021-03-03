@@ -27,8 +27,6 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .library, .graveyard, .exile  {width:90px;background-color:rgba(0,0,0,0.4);}
 .library-top-card, .graveyard-top-card, .exile-top-card  {color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;text-shadow:0px 0px 10px #000;
     background-size:65px auto;background-repeat:no-repeat;background-position:center;height:100%;width:100%;}
-.hand  {width:calc(100% - 270px);}
-.battlefield {width:100%;}
 
 /* Zones de jeux - exile */
 .exile {background-image:url("/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
@@ -41,12 +39,14 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
 
 /* Zones de jeux - hand */
-.hand {text-align:center;}
+.hand {width:calc(100% - 270px);text-align:center;}
 .hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:90px;margin:5px;}
 
 /* Zones de jeux - battlefield */
+.battlefield {width:100%;}
 .battlefield {text-align:center;position:relative;}
 .battlefield-card {position:absolute;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:65px;height:90px;box-shadow:2px 2px 10px #000;}
+.battlefield-card-link.tapped .battlefield-card {transform: rotate(45deg);}
 
 /* Phases */
 #phases-area {position: absolute;margin: auto;text-align: center;top: -30px;left: 0;bottom: 0;right: 0;z-index: 1;height: 30px;}
@@ -74,6 +74,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 #menu-contextual .menu-contextual-link-area {color:#fff;text-decoration:none;padding:5px 10px;font-size:13px;}
 #menu-contextual .menu-contextual-txt-area {min-width: 200px;margin: 0 10px;}
 #menu-contextual .menu-contextual-picto-area .thumb {width:20px;height:20px;}
+#menu-contextual hr{height: 1px;background-color: rgba(255,255,255,0.1);margin: 5px 10px;}
 
 /* Tchat */
 #tchat-messages-area {overflow-y:scroll;height:calc(100vh - 70px);}
@@ -100,8 +101,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 }
 
 /* Starting game */
-#starting-game-area{background-color:#000;background-position:center;background-size:cover;
-    position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;display:none;}
+#starting-game-area{background-color:#000;background-position:center;background-size:cover;position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;display:none;}
 #starting-game-area #starting-step-1 {height:100vh;}
 #starting-game-area #starting-step-1 .avatar {width: 200px;height: 200px;background-size: 200px;margin:auto;float:none;border:3px solid rgba(0,0,0,0.5);box-shadow:0 0 20px 10px rgba(0,0,0,0.5);}
 #starting-game-area #starting-step-1 .starting-game-name-area {text-align:center;color:#fff;text-shadow:5px 10px 10px #000;font-size:2em;background-color:rgba(0,0,0,0.3);border-radius:15px;padding:20px;margin:20px 30px;}

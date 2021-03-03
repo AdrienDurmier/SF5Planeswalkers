@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller\Admin\Planeswalkers\Play\Action;
+namespace App\Controller\Admin\Planeswalkers\Play;
 
+use App\Utils\Planeswalkers\Play\GameCardBattlefieldUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use App\Service\Planeswalkers\Play\GameCardBattlefieldService;
 class GameCardBattlefieldController extends AbstractController
 {
     /**
-     * @Route("/planeswalkers/play/action/gamecardbattlefield/tapped", name="planeswalkers.play.action.gamecardbattlefield.tapped", methods="POST")
+     * @Route("/planeswalkers/play/gamecardbattlefield/edit", name="planeswalkers.play.gamecardbattlefield.edit", methods="POST")
      * @param Request $request
      * @param PublisherInterface $publisher
      * @param GameCardBattlefieldService $gameCardBattlefieldService
@@ -27,14 +28,15 @@ class GameCardBattlefieldController extends AbstractController
         $action = null;
 
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
-        $gameCardBattlefieldService->tapped($datas);
+        $gameCardBattlefield = $this->getDoctrine()->getRepository(GameCardBattlefield::class)->find($datas['card']);
+        $gameCardBattlefieldService->edit($gameCardBattlefield, $datas);
         $em->flush();
 
         // Publication à Mercure
         $topic = 'planeswalkers-game-'.$datas['game'];
         $datasMercure = [
-            'log' => $player->getUser() .' tapped TODO.',
-            'picto' => '/images/planeswalkers/game-icons-net/lorc/arrow-dunk.svg',
+            'gameCardBattlefield'  => GameCardBattlefieldUtils::formatJson($gameCardBattlefield),
+            'player'               => $player->getId(),
         ];
 
         $update = new Update($topic, json_encode($datasMercure));

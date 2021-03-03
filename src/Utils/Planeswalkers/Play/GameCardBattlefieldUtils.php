@@ -15,7 +15,11 @@ class GameCardBattlefieldUtils
             'idScryfall'    => $gameCardBattlefield->getCard()->getIdScryfall(),
             'imageUrisPng'  => $gameCardBattlefield->getCard()->getImageUrisPng(),
             'faceDown'      => $gameCardBattlefield->getFaceDown(),
+            'tapped'        => $gameCardBattlefield->getTapped(),
             'counter'       => $gameCardBattlefield->getCounter(),
+            'power'         => $gameCardBattlefield->getPower(),
+            'toughness'     => $gameCardBattlefield->getToughness(),
+            'note'          => $gameCardBattlefield->getNote(),
             'offsetX'       => $gameCardBattlefield->getOffsetX(),
             'offsetY'       => $gameCardBattlefield->getOffsetY(),
         ];

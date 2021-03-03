@@ -36,4 +36,34 @@ class GameCardBattlefieldService
         return $gameCard;
     }
 
+    /**
+     * @param GameCardBattlefield $gameCardBattlefield
+     * @param array $datas
+     * @return GameCardBattlefield
+     */
+    public function edit(GameCardBattlefield $gameCardBattlefield, array $datas): GameCardBattlefield
+    {
+        if (isset($datas['tapped'])){
+            $gameCardBattlefield->setTapped(($datas['tapped']=='true')?true:false);
+        }
+        if (isset($datas['facedown'])){
+            $gameCardBattlefield->setFaceDown($datas['facedown']);
+        }
+        if (isset($datas['counter'])){
+            $gameCardBattlefield->setCounter($datas['counter']);
+        }
+        if (isset($datas['power'])){
+            $gameCardBattlefield->setPower($datas['power']);
+        }
+        if (isset($datas['toughness'])){
+            $gameCardBattlefield->setToughness($datas['toughness']);
+        }
+        if (isset($datas['note'])){
+            $gameCardBattlefield->setNote($datas['note']);
+        }
+
+        $this->em->persist($gameCardBattlefield);
+        return $gameCardBattlefield;
+    }
+
 }

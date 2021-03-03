@@ -24,6 +24,11 @@ class GameCardBattlefield extends GameCard
     private $battlefield;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $tapped;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $faceDown;
@@ -32,6 +37,21 @@ class GameCardBattlefield extends GameCard
      * @ORM\Column(type="integer", nullable=true)
      */
     private $counter;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $power;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $toughness;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $note;
 
     /**
      * @ORM\Column(type="integer")
@@ -51,6 +71,18 @@ class GameCardBattlefield extends GameCard
     public function setBattlefield(?Battlefield $battlefield): self
     {
         $this->battlefield = $battlefield;
+
+        return $this;
+    }
+
+    public function getTapped(): ?bool
+    {
+        return $this->tapped;
+    }
+
+    public function setTapped(bool $tapped): self
+    {
+        $this->tapped = $tapped;
 
         return $this;
     }
@@ -75,6 +107,42 @@ class GameCardBattlefield extends GameCard
     public function setCounter(?int $counter): self
     {
         $this->counter = $counter;
+
+        return $this;
+    }
+
+    public function getToughness(): ?int
+    {
+        return $this->toughness;
+    }
+
+    public function setToughness(?int $toughness): self
+    {
+        $this->toughness = $toughness;
+
+        return $this;
+    }
+
+    public function getPower(): ?int
+    {
+        return $this->power;
+    }
+
+    public function setPower(?int $power): self
+    {
+        $this->power = $power;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

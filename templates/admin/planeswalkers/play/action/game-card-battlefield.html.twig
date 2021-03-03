@@ -1,0 +1,45 @@
+{% macro script(game) %}
+    <script>
+        {# Engager une carte #}
+        $('#menu-contextual').on('click', '.tapped-link', function() {
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            launchTapped(player, card);
+        });
+        function launchTapped(player, card){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                card: card,
+                tapped: true,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Dégager une carte #}
+        $('#menu-contextual').on('click', '.untapped-link', function() {
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            launchUntapped(player, card);
+        });
+        function launchUntapped(player, card){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                card: card,
+                tapped: false,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+    </script>
+{% endmacro %}

@@ -185,6 +185,7 @@
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             let retourMercure = JSON.parse(event.data);
+            console.log(retourMercure);
             let player_area = $('.player-area-' + retourMercure.player);
 
             {# Mise à jour des zones de jeu liées à l'action #}
@@ -204,6 +205,11 @@
                 if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
                     renderBattlefield(retourMercure.areas, player_area);
                 }
+            }
+
+            {# Lancé de dé au départ de la partie #}
+            if (typeof retourMercure.gameCardBattlefield !== 'undefined'){
+                renderGameCardBattlefield(retourMercure);
             }
 
             {# Lancé de dé au départ de la partie #}
@@ -239,6 +245,8 @@
     {{ battlefieldJs.script() }}
     {% import 'admin/planeswalkers/play/rendu/message.html.twig' as messageJs %}
     {{ messageJs.script(player) }}
+    {% import 'admin/planeswalkers/play/rendu/game-card-battlefield.html.twig' as gameCardBattlefieldJs %}
+    {{ gameCardBattlefieldJs.script(player) }}
 
     {# Raccourcies clavier #}
     {% import 'admin/planeswalkers/play/action/keyboard-shortcuts.html.twig' as actionKeyboardShortcutsJs %}
@@ -264,5 +272,8 @@
     {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
     {{ actionDrawJs.script(game) }}
 
+    {# GameCardBattlefield #}
+    {% import 'admin/planeswalkers/play/action/game-card-battlefield.html.twig' as actionGameCardBattlefieldJs %}
+    {{ actionGameCardBattlefieldJs.script(game) }}
 
 {% endblock %}
