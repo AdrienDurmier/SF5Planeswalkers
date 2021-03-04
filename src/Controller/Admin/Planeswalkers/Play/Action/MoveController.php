@@ -29,7 +29,11 @@ class MoveController extends AbstractController
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
 
         // Ensemble des scénarios lors du déplacement d'une carte
-        $moveService->move($player, $datas);
+        if ($datas['from'] == 'battlefield' && $datas['to'] == 'battlefield'){
+            $moveService->battlefield($datas);
+        }else{
+            $moveService->move($player, $datas);
+        }
         $em->flush();
 
         // Publication à Mercure

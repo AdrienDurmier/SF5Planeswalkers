@@ -119,10 +119,13 @@
         </div>
     </div>
 
-
     {# Modale : détails d'une carte #}
     {% import 'admin/planeswalkers/play/rendu/card-details.html.twig' as cardDetails %}
     {{ cardDetails.afficher() }}
+
+    {# Modale : Note sur une carte du champs de bataille #}
+    {% import 'admin/planeswalkers/play/rendu/card-note.html.twig' as cardNote %}
+    {{ cardNote.afficher() }}
 
     {# Menu contextual #}
     <div id="menu-contextual" class="menu"></div>

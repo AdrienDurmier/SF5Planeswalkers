@@ -19,6 +19,14 @@
                 cardHtml.find('.battlefield-card').css({'background-image':'url("'+datas.gameCardBattlefield.imageUrisPng+'")'});
             }
 
+            {# Note #}
+            let note = '';
+            if (datas.gameCardBattlefield.note !== null){
+                note = '<div class="note">'+datas.gameCardBattlefield.note+'</div>';
+            }
+
+            cardHtml.find('.battlefield-card').append(note);
+
         }
     </script>
 {% endmacro %}

@@ -24,6 +24,13 @@
                     background = '/images/planeswalkers/mtg_card_back.jpg';
                 }
 
+                {# Note #}
+                console.log(gameCardBattlefield);
+                let note = '';
+                if (gameCardBattlefield.note !== null){
+                    note = '<div class="note">'+gameCardBattlefield.note+'</div>'
+                }
+
                 results_html += '<a href="#" ' +
                     'id="battlefield-card-'+gameCardBattlefield.id+'" ' +
                     'class="battlefield-card-link'+tapped+faceDown+'" ' +
@@ -35,6 +42,7 @@
                 results_html +=     '<div ' +
                     'class="battlefield-card" ' +
                     'style="background-image:url('+background+');left:'+offsetX+'px;top:'+offsetY+'px;">';
+                results_html +=         note;
                 results_html +=     '</div>';
                 results_html += '</a>';
             })

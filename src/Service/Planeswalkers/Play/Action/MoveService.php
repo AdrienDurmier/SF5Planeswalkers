@@ -162,4 +162,18 @@ class MoveService
         return null;
     }
 
+    /**
+     * @param array $datas
+     * @return GameCardBattlefield
+     */
+    public function battlefield(array $datas): GameCardBattlefield
+    {
+        $gameCardBattlefield = $this->em->getRepository(GameCardBattlefield::class)->find($datas['card']);
+        $gameCardBattlefield->setOffsetX($datas['offsetX']);
+        $gameCardBattlefield->setOffsetY($datas['offsetY']);
+        $this->em->persist($gameCardBattlefield);
+        $this->em->flush();
+        return $gameCardBattlefield;
+    }
+
 }

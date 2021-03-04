@@ -72,7 +72,7 @@
             });
         }
 
-        {# Dégager une carte depuis le menu contextuel #}
+        {# Flip une carte depuis le menu contextuel #}
         $('#menu-contextual').on('click', '.facedown-link', function() {
             let player = $(this).data('player');
             let card = $(this).data('id');
@@ -88,6 +88,36 @@
                 player: player,
                 card: card,
                 faceDown: faceDown,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Note sur une carte depuis le menu contextuel #}
+        $('#menu-contextual').on('click', '.note-link', function() {
+            $('#game-card-battlefield-note').val('');
+            $('#cardNoteModal').modal('show');
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            $('#cardNoteModalOK').attr('data-player', player);
+            $('#cardNoteModalOK').attr('data-id', card);
+        });
+        $(document).on('click', '#cardNoteModalOK', function() {
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            let note = $('#game-card-battlefield-note').val();
+            launchNote(player, card, note);
+        });
+        function launchNote(player, card, note){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                card: card,
+                note: note,
             };
             $.ajax({
                 url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
