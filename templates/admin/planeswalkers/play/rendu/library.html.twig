@@ -11,6 +11,7 @@
             launchShuffle(player);
         });
 
+        {# Requete pour mélanger la bibliothèque #}
         function launchShuffle(player){
             let parametres = {
                 game: {{ game.id }},
@@ -23,5 +24,12 @@
                 dataType: 'json'
             });
         }
+
+        {# Le joueur pioche une carte en double cliquant sur la bibliothèque #}
+        $("body").on('dblclick', '.library', function(e) {
+            let player = $('#player-area').data('player');
+            launchMove('library', 'hand', player);
+        });
+
     </script>
 {% endmacro %}

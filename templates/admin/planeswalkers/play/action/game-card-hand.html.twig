@@ -1,0 +1,29 @@
+{% macro script(game) %}
+    <script>
+        let clicksHand = 0, timerHand = null;
+
+        $(document).on('click', '.hand-card-link', function(e) {
+            clicksHand++;
+            {# Pour un clic on ouvre les détails de la carte #}
+            if(clicksHand === 1) {
+                timerHand = setTimeout(function() {
+                    clicksHand = 0;
+                    $('#cardDetailsModal').modal('show');
+                }, 200);
+            }
+            {# Pour un double-clic on déplace la carte sur le champs de bataile #}
+            else {
+                clearTimeout(timerHand);
+                clicksHand = 0;
+                let player = $('#player-area').data('player');
+                let card = $(this).data('id');
+                launchMove('hand', 'battlefield', player, card, 0, 0); {# todo mettre des vrai données pour le offsetX et offsetY #}
+            }
+        });
+
+        {# Annulation du double-clic classique pour ne pas le cumuler avec l'event du simple clic #}
+        $(document).on('dblclick', '.hand-card-link', function(e) {
+            e.preventDefault();
+        });
+    </script>
+{% endmacro %}

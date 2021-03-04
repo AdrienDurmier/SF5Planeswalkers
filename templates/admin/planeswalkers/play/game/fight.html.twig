@@ -268,9 +268,9 @@
     {% import 'admin/planeswalkers/play/action/move.html.twig' as actionMoveJs %}
     {{ actionMoveJs.script(game) }}
 
-    {# Draw #}
-    {% import 'admin/planeswalkers/play/action/draw.html.twig' as actionDrawJs %}
-    {{ actionDrawJs.script(game) }}
+    {# GameCardHand #}
+    {% import 'admin/planeswalkers/play/action/game-card-hand.html.twig' as actionGameCardHandJs %}
+    {{ actionGameCardHandJs.script(game) }}
 
     {# GameCardBattlefield #}
     {% import 'admin/planeswalkers/play/action/game-card-battlefield.html.twig' as actionGameCardBattlefieldJs %}

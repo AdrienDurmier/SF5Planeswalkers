@@ -1,6 +1,36 @@
 {% macro script(game) %}
     <script>
-        {# Engager une carte #}
+        let clicksBattlefield = 0, timerBattlefield = null;
+
+        $(document).on('click', '.battlefield-card-link', function(e) {
+            clicksBattlefield++;
+            {# Pour un clic on ouvre les détails de la carte #}
+            if(clicksBattlefield === 1) {
+                timerBattlefield = setTimeout(function() {
+                    clicksBattlefield = 0;
+                    $('#cardDetailsModal').modal('show');
+                }, 200);
+            }
+            {# Pour un double-clic on déplace la carte sur le champs de bataile #}
+            else {
+                clearTimeout(timerBattlefield);
+                clicksBattlefield = 0;
+                let player = $('#player-area').data('player');
+                let card = $(this).data('id');
+                if ($(this).hasClass('tapped')){
+                    launchUntapped(player, card);
+                }else{
+                    launchTapped(player, card);
+                }
+            }
+        });
+
+        {# Annulation du double-clic classique pour ne pas le cumuler avec l'event du simple clic #}
+        $(document).on('dblclick', '.battlefield-card-link', function(e) {
+            e.preventDefault();
+        });
+
+        {# Engager une carte depuis le menu contextuel#}
         $('#menu-contextual').on('click', '.tapped-link', function() {
             let player = $(this).data('player');
             let card = $(this).data('id');
@@ -21,7 +51,7 @@
             });
         }
 
-        {# Dégager une carte #}
+        {# Dégager une carte depuis le menu contextuel #}
         $('#menu-contextual').on('click', '.untapped-link', function() {
             let player = $(this).data('player');
             let card = $(this).data('id');
