@@ -4,16 +4,29 @@
             let results_html = "";
             $.each(datas.battlefield.cards, function (index, gameCardBattlefield) {
 
+                {# Coordonnées #}
                 let offsetX = gameCardBattlefield.offsetX * grid;
                 let offsetY = gameCardBattlefield.offsetY * grid;
+
+                {# Background #}
+                let background = gameCardBattlefield.imageUrisPng;
+
+                {# Tapped #}
                 let tapped  = '';
                 if (gameCardBattlefield.tapped === true){
-                    tapped = 'tapped';
+                    tapped = ' tapped';
+                }
+
+                {# FaceDown #}
+                let faceDown  = '';
+                if (gameCardBattlefield.faceDown === true){
+                    faceDown = ' faceDown';
+                    background = '/images/planeswalkers/mtg_card_back.jpg';
                 }
 
                 results_html += '<a href="#" ' +
                     'id="battlefield-card-'+gameCardBattlefield.id+'" ' +
-                    'class="battlefield-card-link '+tapped+'" ' +
+                    'class="battlefield-card-link'+tapped+faceDown+'" ' +
                     'draggable="true" ' +
                     'data-area="battlefield" ' +
                     'data-player="'+datas.player+'" ' +
@@ -21,7 +34,7 @@
                     'data-idsrcyfall="'+gameCardBattlefield.idScryfall+'">';
                 results_html +=     '<div ' +
                     'class="battlefield-card" ' +
-                    'style="background-image:url('+gameCardBattlefield.imageUrisPng+');left:'+offsetX+'px;top:'+offsetY+'px;">';
+                    'style="background-image:url('+background+');left:'+offsetX+'px;top:'+offsetY+'px;">';
                 results_html +=     '</div>';
                 results_html += '</a>';
             })

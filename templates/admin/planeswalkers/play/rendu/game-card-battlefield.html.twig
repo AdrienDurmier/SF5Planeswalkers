@@ -10,6 +10,15 @@
                 cardHtml.removeClass('tapped');
             }
 
+            {# FaceDown #}
+            if (datas.gameCardBattlefield.faceDown === true){
+                cardHtml.addClass('faceDown');
+                cardHtml.find('.battlefield-card').css({'background-image':'url("/images/planeswalkers/mtg_card_back.jpg")'});
+            }else{
+                cardHtml.removeClass('faceDown');
+                cardHtml.find('.battlefield-card').css({'background-image':'url("'+datas.gameCardBattlefield.imageUrisPng+'")'});
+            }
+
         }
     </script>
 {% endmacro %}

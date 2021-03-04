@@ -46,8 +46,8 @@ class GameCardBattlefieldService
         if (isset($datas['tapped'])){
             $gameCardBattlefield->setTapped(($datas['tapped']=='true')?true:false);
         }
-        if (isset($datas['facedown'])){
-            $gameCardBattlefield->setFaceDown($datas['facedown']);
+        if (isset($datas['faceDown'])){
+            $gameCardBattlefield->setFaceDown(($datas['faceDown']=='true')?true:false);
         }
         if (isset($datas['counter'])){
             $gameCardBattlefield->setCounter($datas['counter']);
