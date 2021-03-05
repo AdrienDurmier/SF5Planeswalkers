@@ -123,13 +123,13 @@
             $('#cardNoteModal').modal('show');
             let player = $(this).data('player');
             let card = $(this).data('id');
-            $('#cardNoteModalOK').attr('data-player', player);
-            $('#cardNoteModalOK').attr('data-id', card);
+            $('#game-card-battlefield-note-player').val(player);
+            $('#game-card-battlefield-note-card').val(card);
         });
         $(document).on('click', '#cardNoteModalOK', function() {
-            let player = $(this).data('player');
-            let card = $(this).data('id');
-            let note = $('#game-card-battlefield-note').val();
+            let player  = $('#game-card-battlefield-note-player').val();
+            let card    = $('#game-card-battlefield-note-card').val();
+            let note    = $('#game-card-battlefield-note').val();
             launchNote(player, card, note);
         });
         function launchNote(player, card, note){
