@@ -118,6 +118,8 @@ class GameCardBattlefieldService
             'tapped'        => $originalGameCardBattlefield->getTapped(),
             'faceDown'      => $originalGameCardBattlefield->getFaceDown(),
             'counter'       => $originalGameCardBattlefield->getCounter(),
+            'power'         => $originalGameCardBattlefield->getPower(),
+            'toughness'     => $originalGameCardBattlefield->getToughness(),
             'note'          => $originalGameCardBattlefield->getNote(),
             'offsetX'       => $originalGameCardBattlefield->getOffsetX() + 1,
             'offsetY'       => $originalGameCardBattlefield->getOffsetY() + 1,

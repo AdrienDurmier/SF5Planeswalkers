@@ -33,10 +33,10 @@
             if (datas.gameCardBattlefield.power !== null || datas.gameCardBattlefield.toughness !== null){
                 power  = '<div class="power">';
                 power +=    '<div class="power-picto"></div>';
-                power +=    datas.gameCardBattlefield.power;
+                power +=    '<span class="power-value">' + datas.gameCardBattlefield.power + '</span>';
                 power +=    ' / ';
                 power +=    '<div class="toughness-picto"></div>';
-                power +=    datas.gameCardBattlefield.toughness;
+                power +=    '<span class="toughness-value">' + datas.gameCardBattlefield.toughness + '</span>';
                 power += '</div>';
                 cardHtml.find('.battlefield-card').append(power);
             }
@@ -74,22 +74,22 @@
                 background = '/images/planeswalkers/mtg_card_back.jpg';
             }
 
-            {# Power/Toughness #}
-            let power = '';
-            if (datas.power !== null || datas.toughness !== null){
-                power  = '<div class="power">';
-                power +=    '<div class="power-picto"></div>';
-                power +=    datas.power;
-                power +=    ' / ';
-                power +=    '<div class="toughness-picto"></div>';
-                power +=    datas.toughness;
-                power += '</div>';
-            }
-
             {# Counter #}
             let counter = '';
             if (datas.counter !== null){
                 counter = '<div class="counter">'+datas.counter+'</div>'
+            }
+
+            {# Power/Toughness #}
+            let power = '';
+            if (datas.power !== null || datas.toughness !== null) {
+                power  = '<div class="power">';
+                power +=    '<div class="power-picto"></div>';
+                power +=    '<span class="power-value">' + datas.power + '</span>';
+                power +=    ' / ';
+                power +=    '<div class="toughness-picto"></div>';
+                power +=    '<span class="toughness-value">' + datas.toughness + '</span>';
+                power += '</div>';
             }
 
             {# Note #}

@@ -157,8 +157,10 @@
             $('#game-card-battlefield-power-player').val(player);
             $('#game-card-battlefield-power-card').val(card);
             {# valeur par défaut #}
-            let actualPowers = $('#battlefield-card-'+card).find('.power').text();
-            $('#game-card-battlefield-power').val(actualPowers);
+            let actualPower = $('#battlefield-card-'+card).find('.power-value').text();
+            $('#game-card-battlefield-power').val(actualPower);
+            let actualToughness = $('#battlefield-card-'+card).find('.toughness-value').text();
+            $('#game-card-battlefield-toughness').val(actualToughness);
         });
         $(document).on('click', '#cardPowerModalOK', function() {
             let player  = $('#game-card-battlefield-power-player').val();

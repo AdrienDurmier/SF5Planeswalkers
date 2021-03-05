@@ -35,10 +35,10 @@
                 if (gameCardBattlefield.power !== null || gameCardBattlefield.toughness !== null){
                     power  = '<div class="power">';
                     power +=    '<div class="power-picto"></div>';
-                    power +=    gameCardBattlefield.power;
+                    power +=    '<span class="power-value">'+gameCardBattlefield.power+'</span>';
                     power +=    ' / ';
                     power +=    '<div class="toughness-picto"></div>';
-                    power +=    gameCardBattlefield.toughness;
+                    power +=    '<span class="toughness-value">'+gameCardBattlefield.toughness+'</span>';
                     power += '</div>';
                 }
 
