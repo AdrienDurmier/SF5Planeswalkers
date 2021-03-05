@@ -127,6 +127,10 @@
     {% import 'admin/planeswalkers/play/rendu/card-counter.html.twig' as cardCounter %}
     {{ cardCounter.afficher() }}
 
+    {# Modale : Power/Toughness sur une carte du champs de bataille #}
+    {% import 'admin/planeswalkers/play/rendu/card-power.html.twig' as cardPower %}
+    {{ cardPower.afficher() }}
+
     {# Modale : Note sur une carte du champs de bataille #}
     {% import 'admin/planeswalkers/play/rendu/card-note.html.twig' as cardNote %}
     {{ cardNote.afficher() }}

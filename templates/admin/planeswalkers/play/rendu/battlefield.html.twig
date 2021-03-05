@@ -30,6 +30,18 @@
                     counter = '<div class="counter">'+gameCardBattlefield.counter+'</div>';
                 }
 
+                {# Power/Toughness #}
+                let power = '';
+                if (gameCardBattlefield.power !== null || gameCardBattlefield.toughness !== null){
+                    power  = '<div class="power">';
+                    power +=    '<div class="power-picto"></div>';
+                    power +=    gameCardBattlefield.power;
+                    power +=    ' / ';
+                    power +=    '<div class="toughness-picto"></div>';
+                    power +=    gameCardBattlefield.toughness;
+                    power += '</div>';
+                }
+
                 {# Note #}
                 let note = '';
                 if (gameCardBattlefield.note !== null){
@@ -48,6 +60,7 @@
                     'class="battlefield-card" ' +
                     'style="background-image:url('+background+');left:'+offsetX+'px;top:'+offsetY+'px;">';
                 results_html +=         counter;
+                results_html +=         power;
                 results_html +=         note;
                 results_html +=     '</div>';
                 results_html += '</a>';
