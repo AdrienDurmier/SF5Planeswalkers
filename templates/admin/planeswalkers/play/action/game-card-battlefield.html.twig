@@ -117,6 +117,36 @@
             });
         }
 
+        {# Counter (marqueurs) sur une carte depuis le menu contextuel #}
+        $('#menu-contextual').on('click', '.counter-link', function() {
+            $('#game-card-battlefield-counter').val('');
+            $('#cardCounterModal').modal('show');
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            $('#game-card-battlefield-counter-player').val(player);
+            $('#game-card-battlefield-counter-card').val(card);
+        });
+        $(document).on('click', '#cardCounterModalOK', function() {
+            let player  = $('#game-card-battlefield-counter-player').val();
+            let card    = $('#game-card-battlefield-counter-card').val();
+            let counter = $('#game-card-battlefield-counter').val();
+            launchCounter(player, card, counter);
+        });
+        function launchCounter(player, card, counter){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                card: card,
+                counter: counter,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
         {# Note sur une carte depuis le menu contextuel #}
         $('#menu-contextual').on('click', '.note-link', function() {
             $('#game-card-battlefield-note').val('');

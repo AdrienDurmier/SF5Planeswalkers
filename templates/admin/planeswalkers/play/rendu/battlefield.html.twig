@@ -24,6 +24,12 @@
                     background = '/images/planeswalkers/mtg_card_back.jpg';
                 }
 
+                {# Counter #}
+                let counter = '';
+                if (gameCardBattlefield.counter !== null){
+                    counter = '<div class="counter">'+gameCardBattlefield.counter+'</div>';
+                }
+
                 {# Note #}
                 let note = '';
                 if (gameCardBattlefield.note !== null){
@@ -41,6 +47,7 @@
                 results_html +=     '<div ' +
                     'class="battlefield-card" ' +
                     'style="background-image:url('+background+');left:'+offsetX+'px;top:'+offsetY+'px;">';
+                results_html +=         counter;
                 results_html +=         note;
                 results_html +=     '</div>';
                 results_html += '</a>';
