@@ -44,5 +44,35 @@ class GameCardBattlefieldController extends AbstractController
 
         return new JsonResponse($datasMercure);
     }
+    /**
+     * @Route("/planeswalkers/play/gamecardbattlefield/clone", name="planeswalkers.play.gamecardbattlefield.clone", methods="POST")
+     * @param Request $request
+     * @param PublisherInterface $publisher
+     * @param GameCardBattlefieldService $gameCardBattlefieldService
+     * @return JsonResponse
+     */
+    public function clone(Request $request, PublisherInterface $publisher, GameCardBattlefieldService $gameCardBattlefieldService){
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+        $action = null;
+
+        $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
+        $originalGameCardBattlefield = $this->getDoctrine()->getRepository(GameCardBattlefield::class)->find($datas['card']);
+        $gameCardBattlefield =$gameCardBattlefieldService->clone($originalGameCardBattlefield, $datas);
+        $em->flush();
+
+        // Publication à Mercure
+        $topic = 'planeswalkers-game-'.$datas['game'];
+        $datasMercure = [
+            'action'               => 'clone',
+            'player'               => $player->getId(),
+            'gameCardBattlefield'  => GameCardBattlefieldUtils::formatJson($gameCardBattlefield),
+        ];
+
+        $update = new Update($topic, json_encode($datasMercure));
+        $publisher($update);
+
+        return new JsonResponse($datasMercure);
+    }
 
 }

@@ -10,6 +10,7 @@ class GameCardBattlefieldUtils
     {
         if ($gameCardBattlefield == null)
             return null;
+
         return [
             'id'            => $gameCardBattlefield->getId(),
             'idScryfall'    => $gameCardBattlefield->getCard()->getIdScryfall(),

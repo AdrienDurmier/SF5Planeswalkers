@@ -30,7 +30,7 @@
             e.preventDefault();
         });
 
-        {# Engager une carte depuis le menu contextuel#}
+        {# Engager une carte depuis le menu contextuel #}
         $('#menu-contextual').on('click', '.tapped-link', function() {
             let player = $(this).data('player');
             let card = $(this).data('id');
@@ -66,6 +66,26 @@
             };
             $.ajax({
                 url: "{{ path('planeswalkers.play.gamecardbattlefield.edit') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Clone une carte depuis le menu contextuel #}
+        $('#menu-contextual').on('click', '.clone-link', function() {
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            launchClone(player, card);
+        });
+        function launchClone(player, card){
+            let parametres = {
+                game: {{ game.id }},
+                player: player,
+                card: card
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.gamecardbattlefield.clone') }}",
                 type: 'post',
                 data: parametres,
                 dataType: 'json'

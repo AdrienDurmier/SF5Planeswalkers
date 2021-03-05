@@ -1,6 +1,6 @@
 {% macro script() %}
     <script>
-        function renderGameCardBattlefield(datas, player_area){
+        function renderGameCardBattlefield(datas){
             let cardHtml = $('#battlefield-card-'+datas.gameCardBattlefield.id);
 
             {# Tapped #}
@@ -21,12 +21,62 @@
 
             {# Note #}
             let note = '';
+            cardHtml.find('.note').remove();
             if (datas.gameCardBattlefield.note !== null){
                 note = '<div class="note">'+datas.gameCardBattlefield.note+'</div>';
+                cardHtml.find('.battlefield-card').append(note);
             }
 
-            cardHtml.find('.battlefield-card').append(note);
+        }
 
+        function addGameCardBattlefield(datas, player_area, player){
+            let results_html = "";
+
+            {# Coordonnées #}
+            let offsetX = datas.offsetX * grid;
+            let offsetY = datas.offsetY * grid;
+
+            {# Background #}
+            let background = datas.imageUrisPng;
+
+            {# Tapped #}
+            let tapped  = '';
+            if (datas.tapped === true){
+                tapped = ' tapped';
+            }
+
+            {# FaceDown #}
+            let faceDown  = '';
+            if (datas.faceDown === true){
+                faceDown = ' faceDown';
+                background = '/images/planeswalkers/mtg_card_back.jpg';
+            }
+
+            {# Note #}
+            let note = '';
+            if (datas.note !== null){
+                note = '<div class="note">'+datas.note+'</div>'
+            }
+
+            results_html += '<a href="#" ' +
+                'id="battlefield-card-'+datas.id+'" ' +
+                'class="battlefield-card-link'+tapped+faceDown+'" ' +
+                'draggable="true" ' +
+                'data-area="battlefield" ' +
+                'data-player="'+player+'" ' +
+                'data-id="'+datas.id+'" ' +
+                'data-idsrcyfall="'+datas.idScryfall+'">';
+            results_html +=     '<div ' +
+                'class="battlefield-card" ' +
+                'style="background-image:url('+background+');left:'+offsetX+'px;top:'+offsetY+'px;">';
+            results_html +=         note;
+            results_html +=     '</div>';
+            results_html += '</a>';
+            player_area.find('.battlefield').append(results_html);
+        }
+
+        function cloneGameCardBattlefield(datas, player_area){
+            addGameCardBattlefield(datas.gameCardBattlefield, player_area, datas.player);
         }
     </script>
 {% endmacro %}

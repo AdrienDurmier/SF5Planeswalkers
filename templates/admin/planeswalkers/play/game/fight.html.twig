@@ -210,9 +210,14 @@
                 }
             }
 
-            {# Lancé de dé au départ de la partie #}
+            {# modification d'une gameCardBattlefield #}
             if (typeof retourMercure.gameCardBattlefield !== 'undefined'){
                 renderGameCardBattlefield(retourMercure);
+            }
+
+            {# clone d'une gameCardBattlefield #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'clone'){
+                cloneGameCardBattlefield(retourMercure, player_area);
             }
 
             {# Lancé de dé au départ de la partie #}

@@ -111,18 +111,6 @@ class GameCardBattlefield extends GameCard
         return $this;
     }
 
-    public function getToughness(): ?int
-    {
-        return $this->toughness;
-    }
-
-    public function setToughness(?int $toughness): self
-    {
-        $this->toughness = $toughness;
-
-        return $this;
-    }
-
     public function getPower(): ?int
     {
         return $this->power;
@@ -135,12 +123,24 @@ class GameCardBattlefield extends GameCard
         return $this;
     }
 
+    public function getToughness(): ?int
+    {
+        return $this->toughness;
+    }
+
+    public function setToughness(?int $toughness): self
+    {
+        $this->toughness = $toughness;
+
+        return $this;
+    }
+
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    public function setNote(string $note): self
+    public function setNote(?string $note): self
     {
         $this->note = $note;
 

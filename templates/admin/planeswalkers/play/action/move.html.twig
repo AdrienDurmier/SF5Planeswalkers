@@ -1,6 +1,14 @@
 {# Move #}
 {% macro script(game) %}
     <script>
+        {# Lorsque le joueur déplace une carte #}
+        $('#menu-contextual').on('click', '.move-link', function() {
+            let from = $(this).data('from');
+            let to = $(this).data('to');
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            launchMove(from, to, player, card);
+        });
 
         {# Récupération des coordonnées du curseur lors du click (lorsque l'on drop une carte elle est positionnée sur son coin haut gauche et non au curseur) #}
         let selectionOffsetX = null;
