@@ -30,6 +30,11 @@ class GameCardHand extends GameCard
     private $weight;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $manaCost;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $reveal;
@@ -54,6 +59,18 @@ class GameCardHand extends GameCard
     public function setWeight(int $weight): self
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getManaCost(): ?string
+    {
+        return $this->manaCost;
+    }
+
+    public function setManaCost(string $manaCost): self
+    {
+        $this->manaCost = $manaCost;
 
         return $this;
     }

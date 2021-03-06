@@ -11,10 +11,11 @@ class GameCardHandUtils
         if ($gameCardHand == null)
             return null;
         return [
-            'id'            => $gameCardHand->getId(),
-            'idScryfall'    => $gameCardHand->getCard()->getIdScryfall(),
-            'imageUrisPng'  => $gameCardHand->getCard()->getImageUrisPng(),
-            'reveal'        => $gameCardHand->getReveal(),
+            'id'                => $gameCardHand->getId(),
+            'idScryfall'        => $gameCardHand->getCard()->getIdScryfall(),
+            'imageUrisArtCrop'  => $gameCardHand->getCard()->getImageUrisArtCrop(),
+            'manaCost'          => $gameCardHand->getManaCost(),
+            'reveal'            => $gameCardHand->getReveal(),
         ];
     }
 }

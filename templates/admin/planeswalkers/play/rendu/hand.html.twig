@@ -5,7 +5,8 @@
             let results_html = "";
             $.each(datas.hand.cards, function (index, gameCardHand) {
                 results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-player="'+datas.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
-                results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
+                results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisArtCrop+');">';
+                results_html +=         '<div class="mana-cost">'+cardSymbol(gameCardHand.manaCost)+'</div>';
                 results_html +=     '</div>';
                 results_html += '</a>';
             })

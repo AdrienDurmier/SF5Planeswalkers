@@ -27,8 +27,9 @@ class GameCardHandService
     {
         $gameCard = new GameCardHand();
         $gameCard->setCard($card);
-        $gameCard->setReveal(false);
         $gameCard->setWeight($weight);
+        $gameCard->setManaCost($card->getManaCost());
+        $gameCard->setReveal(false);
 
         $this->em->persist($gameCard);
         return $gameCard;
