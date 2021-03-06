@@ -54,6 +54,12 @@ class CardService
             if(isset($response_card->body->card_faces[0]->cmc)){
                 $card->setCmc($response_card->body->card_faces[0]->cmc);
             }
+            if(isset($response_card->body->card_faces[0]->power)){
+                $card->setPower($response_card->body->card_faces[0]->power);
+            }
+            if(isset($response_card->body->card_faces[0]->toughness)){
+                $card->setToughness($response_card->body->card_faces[0]->toughness);
+            }
         }
         // si c'est une carte normale
         else{
@@ -78,6 +84,12 @@ class CardService
             }
             if(isset($response_card->body->cmc)){
                 $card->setCmc($response_card->body->cmc);
+            }
+            if(isset($response_card->body->power)){
+                $card->setPower($response_card->body->power);
+            }
+            if(isset($response_card->body->toughness)){
+                $card->setToughness($response_card->body->toughness);
             }
         }
 

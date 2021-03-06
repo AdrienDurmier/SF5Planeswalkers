@@ -74,6 +74,16 @@ class Card
     private $manaCost;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $power;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $toughness;
+
+    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $colors;
@@ -214,6 +224,30 @@ class Card
     public function setManaCost(string $manaCost): self
     {
         $this->manaCost = $manaCost;
+
+        return $this;
+    }
+
+    public function getPower(): ?int
+    {
+        return $this->power;
+    }
+
+    public function setPower(?int $power): self
+    {
+        $this->power = $power;
+
+        return $this;
+    }
+
+    public function getToughness(): ?int
+    {
+        return $this->toughness;
+    }
+
+    public function setToughness(?int $toughness): self
+    {
+        $this->toughness = $toughness;
 
         return $this;
     }
