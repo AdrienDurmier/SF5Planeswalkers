@@ -3,6 +3,7 @@
     <script>
         $(document).on('click', '.hand-card-link, .battlefield-card-link', function () {
             let idScryfall = $(this).data('idsrcyfall');
+            $('.before-send-loader').hide();
             displayCardDetails(idScryfall);
         });
 
@@ -11,9 +12,6 @@
                 url: "https://api.scryfall.com/cards/"+idScryfall,
                 type: 'get',
                 dataType: 'json',
-                beforeSend: function(){
-                    $('.before-send-loader').hide();
-                },
                 success: function (data) {
                     $('.before-send-loader').fadeIn();
                     $('#cardDetailsTitre').text(data.name);

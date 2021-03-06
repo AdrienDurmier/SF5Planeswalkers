@@ -15,6 +15,7 @@ class GameCardBattlefieldUtils
             'id'                => $gameCardBattlefield->getId(),
             'idScryfall'        => $gameCardBattlefield->getCard()->getIdScryfall(),
             'imageUrisArtCrop'  => $gameCardBattlefield->getCard()->getImageUrisArtCrop(),
+            'name'              => str_replace("'",'',$gameCardBattlefield->getCard()->getName()),
             'faceDown'          => $gameCardBattlefield->getFaceDown(),
             'tapped'            => $gameCardBattlefield->getTapped(),
             'counter'           => $gameCardBattlefield->getCounter(),
