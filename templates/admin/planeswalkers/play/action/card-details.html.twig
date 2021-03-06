@@ -11,7 +11,11 @@
                 url: "https://api.scryfall.com/cards/"+idScryfall,
                 type: 'get',
                 dataType: 'json',
+                beforeSend: function(){
+                    $('.before-send-loader').hide();
+                },
                 success: function (data) {
+                    $('.before-send-loader').fadeIn();
                     $('#cardDetailsTitre').text(data.name);
                     $('#cardDetailsImg').attr('src', data.image_uris.border_crop);
                     $('#cardDetailsTypeLine').text(data.type_line);
@@ -25,19 +29,19 @@
                     $('#cardDetailsPricesEur').text(data.prices.eur);
                     $('#cardDetailsPricesUsdFoil').text(data.prices.usd_foil);
                     $('#cardDetailsPricesEurFoil').text(data.prices.eur_foil);
-                    $('#cardDetailsLegalitiesStandard').text(data.legalities.standard);
-                    $('#cardDetailsLegalitiesModern').text(data.legalities.modern);
-                    $('#cardDetailsLegalitiesLegacy').text(data.legalities.legacy);
-                    $('#cardDetailsLegalitiesVintage').text(data.legalities.vintage);
-                    $('#cardDetailsLegalitiesPauper').text(data.legalities.pauper);
-                    $('#cardDetailsLegalitiesPenny').text(data.legalities.penny);
-                    $('#cardDetailsLegalitiesCommander').text(data.legalities.commander);
-                    $('#cardDetailsLegalitiesBrawl').text(data.legalities.brawl);
-                    $('#cardDetailsLegalitiesDuel').text(data.legalities.duel);
-                    $('#cardDetailsLegalitiesFuture').text(data.legalities.future);
-                    $('#cardDetailsLegalitiesOldschool').text(data.legalities.oldschool);
-                    $('#cardDetailsLegalitiesGladiator').text(data.legalities.gladiator);
-                    $('#cardDetailsLegalitiesPremodern').text(data.legalities.premodern);
+                    $('#cardDetailsLegalitiesStandard').html(legality(data.legalities.standard));
+                    $('#cardDetailsLegalitiesModern').html(legality(data.legalities.modern));
+                    $('#cardDetailsLegalitiesLegacy').html(legality(data.legalities.legacy));
+                    $('#cardDetailsLegalitiesVintage').html(legality(data.legalities.vintage));
+                    $('#cardDetailsLegalitiesPauper').html(legality(data.legalities.pauper));
+                    $('#cardDetailsLegalitiesPenny').html(legality(data.legalities.penny));
+                    $('#cardDetailsLegalitiesCommander').html(legality(data.legalities.commander));
+                    $('#cardDetailsLegalitiesBrawl').html(legality(data.legalities.brawl));
+                    $('#cardDetailsLegalitiesDuel').html(legality(data.legalities.duel));
+                    $('#cardDetailsLegalitiesFuture').html(legality(data.legalities.future));
+                    $('#cardDetailsLegalitiesOldschool').html(legality(data.legalities.oldschool));
+                    $('#cardDetailsLegalitiesGladiator').html(legality(data.legalities.gladiator));
+                    $('#cardDetailsLegalitiesPremodern').html(legality(data.legalities.premodern));
                     $.each(data.colors, function (index, color) {
                         $('#cardDetailsColors').text(color);
                     });
