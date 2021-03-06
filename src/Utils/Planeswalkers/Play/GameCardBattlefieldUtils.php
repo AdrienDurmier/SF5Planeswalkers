@@ -11,6 +11,21 @@ class GameCardBattlefieldUtils
         if ($gameCardBattlefield == null)
             return null;
 
+        $power = null;
+        if ($gameCardBattlefield->getCard()->getPower()){
+            $power = $gameCardBattlefield->getCard()->getPower();
+        }
+        if ($gameCardBattlefield->getPower()){
+            $power = $gameCardBattlefield->getPower();
+        }
+        $toughness = null;
+        if ($gameCardBattlefield->getCard()->getToughness()){
+            $toughness = $gameCardBattlefield->getCard()->getToughness();
+        }
+        if ($gameCardBattlefield->getToughness()){
+            $toughness = $gameCardBattlefield->getToughness();
+        }
+
         return [
             'id'            => $gameCardBattlefield->getId(),
             'idScryfall'    => $gameCardBattlefield->getCard()->getIdScryfall(),
@@ -18,8 +33,8 @@ class GameCardBattlefieldUtils
             'faceDown'      => $gameCardBattlefield->getFaceDown(),
             'tapped'        => $gameCardBattlefield->getTapped(),
             'counter'       => $gameCardBattlefield->getCounter(),
-            'power'         => $gameCardBattlefield->getPower(),
-            'toughness'     => $gameCardBattlefield->getToughness(),
+            'power'         => $power,
+            'toughness'     => $toughness,
             'note'          => $gameCardBattlefield->getNote(),
             'offsetX'       => $gameCardBattlefield->getOffsetX(),
             'offsetY'       => $gameCardBattlefield->getOffsetY(),
