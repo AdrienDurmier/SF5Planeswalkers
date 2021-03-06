@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GameCardBattlefield extends GameCard
 {
+    public function __clone() {
+        $this->offsetX = self::getOffsetX()+1;
+        $this->offsetY = self::getOffsetY()+1;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

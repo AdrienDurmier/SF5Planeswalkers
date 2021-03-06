@@ -16,7 +16,7 @@
                 cardHtml.find('.battlefield-card').css({'background-image':'url("/images/planeswalkers/mtg_card_back.jpg")'});
             }else{
                 cardHtml.removeClass('faceDown');
-                cardHtml.find('.battlefield-card').css({'background-image':'url("'+datas.gameCardBattlefield.imageUrisPng+'")'});
+                cardHtml.find('.battlefield-card').css({'background-image':'url("'+datas.gameCardBattlefield.imageUrisArtCrop+'")'});
             }
 
             {# Counter #}
@@ -45,6 +45,7 @@
             let note = '';
             cardHtml.find('.note').remove();
             if (datas.gameCardBattlefield.note !== null){
+                //note = '<div class="note">'+datas.gameCardBattlefield.note+'</div>';
                 note = '<div class="note">'+datas.gameCardBattlefield.note+'</div>';
                 cardHtml.find('.battlefield-card').append(note);
             }
@@ -59,7 +60,7 @@
             let offsetY = datas.offsetY * grid;
 
             {# Background #}
-            let background = datas.imageUrisPng;
+            let background = datas.imageUrisArtCrop;
 
             {# Tapped #}
             let tapped  = '';

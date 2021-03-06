@@ -58,7 +58,8 @@ class GameCardBattlefieldController extends AbstractController
 
         $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
         $originalGameCardBattlefield = $this->getDoctrine()->getRepository(GameCardBattlefield::class)->find($datas['card']);
-        $gameCardBattlefield =$gameCardBattlefieldService->clone($originalGameCardBattlefield, $datas);
+        $gameCardBattlefield = clone $originalGameCardBattlefield;
+        $em->persist($gameCardBattlefield);
         $em->flush();
 
         // Publication à Mercure
