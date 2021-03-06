@@ -89,7 +89,6 @@ class GameController extends AbstractController
         $opponent = $game->getOpponent($this->getUser());
 
         $areasPlayer = $playerService->areas($player);
-        //dd($areasPlayer);
         $areasOpponent = $playerService->areas($opponent);
 
         return $this->render('admin/planeswalkers/play/game/fight.html.twig', [

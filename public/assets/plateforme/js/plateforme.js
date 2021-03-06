@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+$(document).ready(function($) {
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });
@@ -20,11 +20,14 @@ function getRandomInt(max) {
  */
 function cardSymbol(contenu)
 {
-    let matches = contenu.match(/{.+?}/g);
-    for (let i = 0; i < matches.length; i++) {
-        let match = matches[i].replace(/[{}]/g, "");
-        contenu = contenu.replace('{'+match+'}', '<div class="card-symbol card-symbol-'+match+'"></div>');
+    if(contenu){
+        let matches = contenu.match(/{.+?}/g);
+        if(matches){
+            for (let i = 0; i < matches.length; i++) {
+                let match = matches[i].replace(/[{}]/g, "");
+                contenu = contenu.replace('{'+match+'}', '<div class="card-symbol card-symbol-'+match+'"></div>');
+            }
+        }
     }
-
     return contenu;
 }

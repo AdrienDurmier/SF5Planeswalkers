@@ -10,10 +10,12 @@ class GameCardHandUtils
     {
         if ($gameCardHand == null)
             return null;
+
         return [
             'id'                => $gameCardHand->getId(),
             'idScryfall'        => $gameCardHand->getCard()->getIdScryfall(),
             'imageUrisArtCrop'  => $gameCardHand->getCard()->getImageUrisArtCrop(),
+            'name'              => str_replace("'",'',$gameCardHand->getCard()->getName()),
             'manaCost'          => $gameCardHand->getManaCost(),
             'reveal'            => $gameCardHand->getReveal(),
         ];

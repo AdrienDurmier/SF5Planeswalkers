@@ -39,8 +39,11 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
 
 /* Zones de jeux - hand */
-.hand {width:calc(100% - 270px);text-align:center;}
-.hand-card {display:inline-block;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:75px;height:55px;margin:5px;}
+.hand {width:calc(100% - 270px);display:flex;align-content: center;justify-content: center;}
+.hand-card {position:relative;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:95px;height:70px;margin:15px 5px 5px 5px;}
+.hand-card .hand-card-mana-cost {width: 100%;text-align:right;position:absolute;bottom:65px;}
+.hand-card .hand-card-mana-cost .card-symbol {width:9px;height:9px;margin:0 1px;}
+.hand-card .hand-card-name {text-shadow:2px 2px 5px #000,2px 2px 5px #000,2px 2px 5px #000,2px 2px 5px #000;font-size:12px;line-height:1em;padding:2px;color:#fff;}
 
 /* Zones de jeux - battlefield */
 .battlefield {width:100%;}
