@@ -3,6 +3,9 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 
 #opponent-area, #player-area {height:50%;position:relative;}
 
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+input[type=number] {-moz-appearance: textfield;}
+
 /* Avatar */
 .avatar-area {position:absolute;background-color:rgba(0,0,0,0.4);padding:10px;border-radius:10px;left:15px;}
 #opponent-area .avatar-area {bottom:10px;}
@@ -12,6 +15,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .lifepoint-action-area {position:absolute;bottom:-20px;font-size:14px;width:100%;}
 .lifepoint-btn{font-size:14px;color:#fff;padding:2px;}
 .lifepoint-btn:hover {color:#fff;}
+.lifepoint-input {background-color:transparent;border:none;width:50px;height:50px;color:#fff;font-weight:bold;text-align:center;}
 
 /* Card */
 #cardDetailsTitre {font-weight:bold;}

@@ -151,11 +151,16 @@ class PlayerService
     public function lifepoint(Player $player, array $datas, ?int $quantity = 1): Player
     {
         $lifepoint = $player->getLifepoint();
-        if ($datas['operation'] == 'plus'){
-            $lifepoint += $quantity;
+        if ($datas['operation'] != ''){
+            if ($datas['operation'] == 'plus'){
+                $lifepoint += $quantity;
+            }
+            if ($datas['operation'] == 'minus'){
+                $lifepoint -= $quantity;
+            }
         }
-        if ($datas['operation'] == 'minus'){
-            $lifepoint -= $quantity;
+        if ($datas['lifepoint'] != ''){
+            $lifepoint = $datas['lifepoint'];
         }
         $player->setLifepoint($lifepoint);
         $this->em->persist($player);

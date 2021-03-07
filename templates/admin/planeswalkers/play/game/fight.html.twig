@@ -75,7 +75,7 @@
             </div>
             <div class="avatar-area {% if game.playerActive == opponent %}pulse{% endif %}">
                 <div class="lifepoint" title="Lifepoints">
-                    <div class="lifepoint-value">{{ opponent.lifepoint }}</div>
+                    <input type="number" class="lifepoint-input" value="{{ opponent.lifepoint }}" readonly>
                 </div>
                 {{ avatar.afficher(opponent.user) }}
             </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="avatar-area {% if game.playerActive == player %}pulse{% endif %}">
                 <div class="lifepoint" title="Lifepoints">
-                    <div class="lifepoint-value">{{ player.lifepoint }}</div>
+                    <input type="number" class="lifepoint-input" value="{{ player.lifepoint }}">
                     <div class="lifepoint-action-area">
                         <a href="#" class="lifepoint-btn" data-operation="plus"><i class="fas fa-plus-circle"></i></a>
                         <a href="#" class="lifepoint-btn" data-operation="minus"><i class="fas fa-minus-circle"></i></a>
