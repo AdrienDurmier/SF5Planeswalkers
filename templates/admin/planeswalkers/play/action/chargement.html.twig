@@ -1,0 +1,23 @@
+{% macro script(player, opponent, areasPlayer, areasOpponent) %}
+    <script>
+        {# Chargement de la partie #}
+        $(document).ready(function() {
+            {# Chargement du jeu du joueur #}
+            let areasPlayer = JSON.parse('{{ areasPlayer|raw }}');
+            let playerArea = $('.player-area-{{ player.id }}');
+            renderExile(areasPlayer, playerArea);
+            renderLibrary(areasPlayer, playerArea);
+            renderGraveyard(areasPlayer, playerArea);
+            renderHand(areasPlayer, playerArea);
+            renderBattlefield(areasPlayer, playerArea);
+            {# Chargement du jeu de l'adversaire #}
+            let areasOpponent = JSON.parse('{{ areasOpponent|raw }}');
+            let opponentArea = $('.player-area-{{ opponent.id }}');
+            renderExile(areasOpponent, opponentArea);
+            renderLibrary(areasOpponent, opponentArea);
+            renderGraveyard(areasOpponent, opponentArea);
+            renderHand(areasOpponent, opponentArea);
+            renderBattlefield(areasOpponent, opponentArea);
+        });
+    </script>
+{% endmacro %}

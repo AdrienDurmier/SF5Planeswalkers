@@ -2,6 +2,7 @@
 
 namespace App\Entity\Planeswalkers\Play;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Planeswalkers\Deck;
 use App\Entity\User;
@@ -16,6 +17,18 @@ class Player
     public function __toString()
     {
         return $this->user->getFirstname() . ' ' . $this->user->getLastname();
+    }
+
+    public function __construct()
+    {
+        switch ($this->getGame()->getFormat()->getCle()) {
+            case 'commander':
+            case 'brawl':
+                $this->lifepoint = 30;
+                break;
+            default:
+                $this->lifepoint = 20;
+        }
     }
 
     /**
@@ -82,6 +95,11 @@ class Player
      * @ORM\JoinColumn(nullable=false)
      */
     private $sideboard;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lifepoint;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -207,6 +225,17 @@ class Player
     {
         $this->sideboard = $sideboard;
 
+        return $this;
+    }
+
+    public function getLifepoint(): ?int
+    {
+        return $this->lifepoint;
+    }
+
+    public function setLifepoint(int $lifepoint): self
+    {
+        $this->lifepoint = $lifepoint;
         return $this;
     }
 

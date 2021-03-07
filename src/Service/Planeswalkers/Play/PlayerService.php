@@ -142,4 +142,25 @@ class PlayerService
         return $datas;
     }
 
+    /**
+     * @param Player $player
+     * @param array $datas
+     * @param int $quantity
+     * @return Player
+     */
+    public function lifepoint(Player $player, array $datas, ?int $quantity = 1): Player
+    {
+        $lifepoint = $player->getLifepoint();
+        if ($datas['operation'] == 'plus'){
+            $lifepoint += $quantity;
+        }
+        if ($datas['operation'] == 'minus'){
+            $lifepoint -= $quantity;
+        }
+        $player->setLifepoint($lifepoint);
+        $this->em->persist($player);
+        $this->em->flush();
+        return $player;
+    }
+
 }

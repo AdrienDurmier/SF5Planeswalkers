@@ -1,0 +1,30 @@
+{% macro script(game) %}
+    <script>
+        {# Changement des points de vie #}
+        $(document).on('click', '.lifepoint-btn', function() {
+            let player = $(this).closest('.player-area').data('player');
+            let operation = $(this).data('operation');
+            launchLifepoint(player, operation);
+        });
+
+        {# Requête pour déplacer une carte #}
+        function launchLifepoint(player, operation){
+            let parametres = {
+                player: player,
+                operation: operation,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.player.lifepoint') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Mise à jout de l'interface après le retour de Mercure #}
+        function renderLifepoint(datas){
+            $('.player-area-'+datas.player).find('.lifepoint-value').text(datas.lifepoint);
+        }
+
+    </script>
+{% endmacro %}

@@ -1,0 +1,62 @@
+{% macro script(game) %}
+    <script>
+        {# Mercure #}
+        const url = new URL('{{mercure_publish_url}}');
+        url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
+        const eventSource = new EventSource(url);
+        eventSource.onmessage = event => {
+            let retourMercure = JSON.parse(event.data);
+            console.log(retourMercure);
+            let player_area = $('.player-area-' + retourMercure.player);
+
+            {# Mise à jour des zones de jeu liées à l'action #}
+            if (typeof retourMercure.move !== 'undefined'){
+                if (retourMercure.move.from === 'exile' || retourMercure.move.to === 'exile'){
+                    renderExile(retourMercure.areas, player_area);
+                }
+                if (retourMercure.move.from === 'library' || retourMercure.move.to === 'library'){
+                    renderLibrary(retourMercure.areas, player_area);
+                }
+                if (retourMercure.move.from === 'graveyard' || retourMercure.move.to === 'graveyard'){
+                    renderGraveyard(retourMercure.areas, player_area);
+                }
+                if (retourMercure.move.from === 'hand' || retourMercure.move.to === 'hand'){
+                    renderHand(retourMercure.areas, player_area);
+                }
+                if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
+                    renderBattlefield(retourMercure.areas, player_area);
+                }
+            }
+
+            {# Modification des points de vie #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'lifepoint'){
+                renderLifepoint(retourMercure);
+            }
+
+            {# modification d'une gameCardBattlefield #}
+            if (typeof retourMercure.gameCardBattlefield !== 'undefined'){
+                renderGameCardBattlefield(retourMercure);
+            }
+
+            {# clone d'une gameCardBattlefield #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'clone'){
+                cloneGameCardBattlefield(retourMercure, player_area);
+            }
+
+            {# Lancé de dé au départ de la partie #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'starting-game-roll-dice'){
+                renderStartingReponse(retourMercure);
+            }
+
+            {# Logs #}
+            if (retourMercure.log){
+                renderLog(retourMercure);
+            }
+
+            {# Messages #}
+            if (retourMercure.message){
+                renderMessage(retourMercure);
+            }
+        }
+    </script>
+{% endmacro %}

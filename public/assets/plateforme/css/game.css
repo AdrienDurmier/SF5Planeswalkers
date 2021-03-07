@@ -4,11 +4,14 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 #opponent-area, #player-area {height:50%;position:relative;}
 
 /* Avatar */
-.avatar-area {position:absolute;background-color:rgba(0,0,0,0.4);padding: 10px;border-radius:10px;left:15px;}
+.avatar-area {position:absolute;background-color:rgba(0,0,0,0.4);padding:10px;border-radius:10px;left:15px;}
 #opponent-area .avatar-area {bottom:10px;}
 #player-area .avatar-area {top:10px;}
 .avatar {width:50px;height:50px;background-size:50px;}
-.avatar-area .lifepoint {font-size: 30px;font-weight: bold;display: inline-block;background-color: rgba(0,0,0,0.3);border-radius: 50%;width: 50px;height: 50px;text-align: center;color: #fff;}
+.lifepoint {position:relative;font-size: 30px;font-weight: bold;display: inline-block;background-color: rgba(0,0,0,0.3);border-radius: 50%;width: 50px;height: 50px;text-align: center;color: #fff;}
+.lifepoint-action-area {position:absolute;bottom:-20px;font-size:14px;width:100%;}
+.lifepoint-btn{font-size:14px;color:#fff;padding:2px;}
+.lifepoint-btn:hover {color:#fff;}
 
 /* Card */
 #cardDetailsTitre {font-weight:bold;}
@@ -28,6 +31,7 @@ body {width:100%;min-width:1200px;background-repeat: repeat;background-image:url
 .library-top-card, .graveyard-top-card, .exile-top-card  {color:#fff;text-align:center;vertical-align: middle;line-height:100px;font-weight:bold;font-size:1.5em;text-shadow:0px 0px 10px #000;
     background-size:65px auto;background-repeat:no-repeat;background-position:center;height:100%;width:100%;}
 .card-name {text-shadow:2px 2px 5px #000,2px 2px 5px #000,2px 2px 5px #000;font-size:11px;line-height:1em;padding:2px;color:rgba(255,255,255,0.7);}
+
 
 /* Zones de jeux - exile */
 .exile {background-image:url("/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
