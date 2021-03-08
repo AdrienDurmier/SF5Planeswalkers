@@ -8,6 +8,9 @@
     {# ZONE DE JEU #}
     <div id="game-main-area">
 
+        {# Bouton pour afficher/cacher la sidebar #}
+        <div id="game-sidebar-btn"><i class="fas fa-comments"></i></div>
+
         {# Phases #}
         <div id="phases-area">
             <ol class="list-unstyled list-inline">
@@ -113,7 +116,7 @@
     </div>
 
     {# ZONE SIDEBAR #}
-    <div id="game-sidebar-area">
+    <div id="game-sidebar-area" class="active">
         {# Zones contenants les messages #}
         <div id="tchat-messages-area" class="tchat-messages-content"></div>
         {# Zone de rédaction des messages #}
@@ -224,5 +227,9 @@
     {# GameCardBattlefield #}
     {% import 'admin/planeswalkers/play/action/game-card-battlefield.html.twig' as actionGameCardBattlefieldJs %}
     {{ actionGameCardBattlefieldJs.script(game) }}
+
+    {# Sidebar #}
+    {% import 'admin/planeswalkers/play/action/sidebar.html.twig' as sidebarJs %}
+    {{ sidebarJs.script(game) }}
 
 {% endblock %}

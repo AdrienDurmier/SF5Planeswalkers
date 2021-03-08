@@ -1,0 +1,20 @@
+{% macro script() %}
+    <script>
+        $(document).on('click', '#game-sidebar-btn', function(e) {
+            {# Disbarution #}
+            if ($('#game-sidebar-area').hasClass('active')){
+                $('#game-sidebar-area').removeClass('active');
+                $("#game-main-area").animate({marginRight: "-=400px"}, 500);
+                $("#game-sidebar-area").animate({right: "-400px"}, 500);
+                $("#game-sidebar-area").animate({width: "0"}, 500);
+            }
+            {# Apparition #}
+            else{
+                $('#game-sidebar-area').addClass('active');
+                $("#game-main-area").animate({marginRight: "+=400px"}, 500);
+                $("#game-sidebar-area").animate({right: "0px"}, 500);
+                $("#game-sidebar-area").animate({width: "400px"}, 500);
+            }
+        });
+    </script>
+{% endmacro %}

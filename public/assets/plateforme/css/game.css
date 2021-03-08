@@ -66,7 +66,7 @@ input[type=number] {-moz-appearance: textfield;}
 .battlefield-card-link .card-name {font-size:10px;}
 
 /* Phases */
-#phases-area {position: absolute;margin:auto;text-align:center;top:-30px;left:130px;bottom:0;right:0;z-index:1;height:30px;}
+#phases-area {position: absolute;margin:auto;text-align:center;top:0px;left:130px;bottom:0;right:0;z-index:1;height:30px;}
 #phases-area .list-inline-item div {background-color: rgba(0,0,0,0.5);text-align: center;padding:10px;position: relative;height: 30px;}
 #phases-area .list-inline-item div.active {border:1px solid #fff;}
 #phases-area .list-inline-item div i {position:absolute;left:0;right:0;top:6px;bottom:0;font-size:17px;color:rgba(255,255,255,0.7);}
@@ -94,6 +94,7 @@ input[type=number] {-moz-appearance: textfield;}
 #menu-contextual hr{height: 1px;background-color: rgba(255,255,255,0.1);margin: 5px 10px;}
 
 /* Tchat */
+#game-sidebar-btn {position: absolute;top: 0;bottom: 0;right: 0px;background-color: rgba(0,0,0,0.5);color: #fff;width: 30px;height: 25px;margin: auto;margin-top: auto;margin-right: auto;margin-bottom: auto;margin-left: auto;text-align: center;z-index: 9;cursor: pointer;border-top-left-radius: 5px;border-bottom-left-radius: 5px;}
 #tchat-messages-area {overflow-y:scroll;height:calc(100vh - 70px);}
 #tchat-messages-area .game-tchat-message {background-color: rgba(0,0,0,0.5);color:#fff;padding:5px 10px;margin:3px 0;font-size:12px;}
 #tchat-messages-area .game-tchat-message i {width: 15px;}
