@@ -19,18 +19,6 @@ class Player
         return $this->user->getFirstname() . ' ' . $this->user->getLastname();
     }
 
-    public function __construct()
-    {
-        switch ($this->getGame()->getFormat()->getCle()) {
-            case 'commander':
-            case 'brawl':
-                $this->lifepoint = 30;
-                break;
-            default:
-                $this->lifepoint = 20;
-        }
-    }
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

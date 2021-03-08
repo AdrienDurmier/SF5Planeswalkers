@@ -74,6 +74,15 @@ class PlayerService
         $player->setGraveyard($this->graveyardService->new($player));
         $player->setExile($this->exileService->new($player));
         $player->setSideboard($this->sideboardService->new($player));
+        switch ($player->getGame()->getFormat()->getCle()) {
+            case 'commander':
+            case 'brawl':
+                $player->setLifepoint(30);
+                break;
+            default:
+                $player->setLifepoint(20);
+        }
+
         $this->em->persist($player);
         $this->em->flush();
         return $player;
