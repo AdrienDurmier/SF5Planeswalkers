@@ -3,8 +3,10 @@
 namespace App\Service\Planeswalkers\Play;
 
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\Planeswalkers\Play\GameCardHand;
 use App\Entity\Planeswalkers\Card;
+use App\Utils\Planeswalkers\Play\GameCardHandUtils;
 
 class GameCardHandService
 {
@@ -33,5 +35,24 @@ class GameCardHandService
 
         $this->em->persist($gameCard);
         return $gameCard;
+    }
+
+    /**
+     * @param Player $player
+     * @return array
+     */
+    public function start(Player $player): array
+    {
+        $gameCardsHand = array();
+        if ($player->getHand()->getGameCardsHand()) {
+            foreach ($player->getHand()->getGameCardsHand() as $gameCardHand) {
+                $gameCardsHand[] = [
+                    'id'         => $gameCardHand->getId(),
+                    'idScryfall' => $gameCardHand->getCard()->getIdScryfall(),
+                    'image'      => $gameCardHand->getCard()->getImageUrisPng(),
+                ];
+            }
+        }
+        return $gameCardsHand;
     }
 }

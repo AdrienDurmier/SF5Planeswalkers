@@ -43,11 +43,6 @@
                 cloneGameCardBattlefield(retourMercure, player_area);
             }
 
-            {# Lancé de dé au départ de la partie #}
-            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'starting-game-roll-dice'){
-                renderStartingReponse(retourMercure);
-            }
-
             {# Logs #}
             if (retourMercure.log){
                 renderLog(retourMercure);

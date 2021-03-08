@@ -1,4 +1,4 @@
-{% macro script(game, player, areasPlayer) %}
+{% macro script(game, player, hand) %}
     {% if game.playerActive is null %}
         <script>
             {# Impose la fenêtre pour démarrer la partie #}
@@ -7,33 +7,27 @@
             {# 1. Présentation des joueurs #}
             $('#starting-game-area').css({'background-image':'url(/images/planeswalkers/landscape-'+getRandomInt(10)+'.jpg)'});
             $('#starting-step-1').fadeIn(3000);
-            $('#starting-step-1').fadeOut(1000);
+            $('#starting-step-1').fadeOut(995);
             setTimeout(function() {
                 $('#starting-step-1').removeClass("d-flex");
             }, 4000);
 
             {# 2. Choix du joueur qui commence #}
-            $('#starting-step-2').fadeIn(2000);
+            $('#starting-step-2').delay(4005).fadeIn(2000);
 
             {# 3. Main de départ #}
-            let areasPlayerJs = JSON.parse('{{ areasPlayer|raw }}');
-            renderStartingHand(areasPlayerJs);
-
-            {# Rendu d'une main de départ #}
-            function renderStartingHand(datas){
-                let results_html = "";
-                $.each(datas.hand.cards, function (index, gameCardHand) {
-                    results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-toggle="modal" data-target="#cardDetailsModal" data-player="'+datas.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
-                    results_html +=     '<div class="hand-card" style="background-image:url('+gameCardHand.imageUrisPng+');">';
-                    results_html +=     '</div>';
-                    results_html += '</a>';
-                })
-                $('#starting-game-hand').html(results_html);
-            }
+            let handJs = JSON.parse('{{ hand|raw }}');
+            let results_html = "";
+            $.each(handJs, function (index, gameCardHand) {
+                let inclinaison = 7 * (index+1  - (handJs.length / 2));
+                let translateX = 120 * (index+1 - (handJs.length / 2));
+                let translateY = Math.abs(20 * (index+1 - (handJs.length / 2)));
+                results_html += '<div class="start-hand-card" style="background-image:url('+gameCardHand.image+');transform:translate('+translateX+'px, '+translateY+'px) rotate('+inclinaison+'deg);"></div>';
+            });
+            $('#starting-game-hand').html(results_html);
 
             {# Intéraction en fonction des retours de Mercure #}
             function renderStartingReponse(retourMercure){
-                console.log(retourMercure);
                 {# todo "Your opponent is ready" #}
                 {#$('#starting-game-opponent-message').html('<i class="fas fa-spinner fa-pulse"></i> Your opponent is choosing whether mulligan or keep 7 cards');#}
 
@@ -63,7 +57,7 @@
             });
 
             $('#starting-game-keep').on('click', function() {
-                $('#starting-game-area').fadeOut(1000);
+                window.location.href='{{ path('planeswalkers.play.game.fight', { id : game.id }) }}';
             });
         </script>
     {% endif %}

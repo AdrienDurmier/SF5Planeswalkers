@@ -146,17 +146,9 @@
     {# Menu contextual #}
     <div id="menu-contextual" class="menu"></div>
 
-    {# Starting game #}
-    {% import 'admin/planeswalkers/play/rendu/starting-game.html.twig' as startingGame %}
-    {{ startingGame.afficher(game, player, opponent) }}
-
 {% endblock %}
 
 {% block javascripts %}
-
-    {# Starting Game #}
-    {% import 'admin/planeswalkers/play/action/starting-game.html.twig' as actionStartingGameJs %}
-    {{ actionStartingGameJs.script(game, player, areasPlayer) }}
 
     <script>
         {# Draggable #}
@@ -209,10 +201,6 @@
     {# Raccourcies clavier #}
     {% import 'admin/planeswalkers/play/action/keyboard-shortcuts.html.twig' as actionKeyboardShortcutsJs %}
     {{ actionKeyboardShortcutsJs.script() }}
-
-    {# Roll dice #}
-    {% import 'admin/planeswalkers/play/action/roll-dice.html.twig' as actionRollDiceJs %}
-    {{ actionRollDiceJs.script(game) }}
 
     {# Steps #}
     {% import 'admin/planeswalkers/play/action/step.html.twig' as actionStepJs %}

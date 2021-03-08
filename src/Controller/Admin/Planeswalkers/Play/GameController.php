@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Planeswalkers\Play;
 
+use App\Service\Planeswalkers\Play\GameCardHandService;
 use App\Service\Planeswalkers\Play\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -78,6 +79,30 @@ class GameController extends AbstractController
     }
 
     /**
+     * @Route("/planeswalkers/play/games/start/{id}", name="planeswalkers.play.game.start")
+     * @param Game $game
+     * @param GameCardHandService $gameCardHandService
+     * @return Response
+     */
+    public function start(Game $game, GameCardHandService $gameCardHandService)
+    {
+        if ($game->getPlayerActive() != null) {
+            return $this->redirectToRoute('planeswalkers.play.game.fight', [
+                'id' => $game->getId()
+            ]);
+        }
+        $player = $game->getPlayer($this->getUser());
+        $opponent = $game->getOpponent($this->getUser());
+        $hand = $gameCardHandService->start($player);
+        return $this->render('admin/planeswalkers/play/game/start.html.twig', [
+            'game'      =>  $game,
+            'player'    =>  $player,
+            'opponent'  =>  $opponent,
+            'hand'      =>  json_encode($hand),
+        ]);
+    }
+
+    /**
      * @Route("/planeswalkers/play/games/fight/{id}", name="planeswalkers.play.game.fight")
      * @param Game $game
      * @param PlayerService $playerService
@@ -85,12 +110,15 @@ class GameController extends AbstractController
      */
     public function fight(Game $game, PlayerService $playerService)
     {
+        if ($game->getPlayerActive() == null) {
+            return $this->redirectToRoute('planeswalkers.play.game.start', [
+                'id' => $game->getId()
+            ]);
+        }
         $player = $game->getPlayer($this->getUser());
         $opponent = $game->getOpponent($this->getUser());
-
         $areasPlayer = $playerService->areas($player);
         $areasOpponent = $playerService->areas($opponent);
-
         return $this->render('admin/planeswalkers/play/game/fight.html.twig', [
             'game'          =>  $game,
             'player'        =>  $player,

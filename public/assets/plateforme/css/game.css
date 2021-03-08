@@ -126,7 +126,8 @@ input[type=number] {-moz-appearance: textfield;}
 #starting-game-area #starting-step-1 .starting-game-format-area {text-align:center;color:#fff;text-shadow:5px 5px 20px #000;font-size:2em;}
 #starting-game-area #starting-step-2 #starting-game-roll-area {text-align:center;color:#fff;text-shadow:5px 5px 20px #000;font-size:2em;padding-top:10%;}
 #starting-game-area #starting-step-3 {text-align:center;color:#fff;text-shadow:5px 5px 20px #000;font-size:2em;padding-top:10%;}
-#starting-game-area #starting-step-3 .hand-card{width:130px;height:200px;margin:0 20px;}
+#starting-game-area #starting-game-hand {height:400px;}
+#starting-game-area #starting-step-3 .start-hand-card{width:220px;height:310px;position:absolute;margin:auto;left:0;right:0;background-position: center;background-size: 100% auto;background-repeat: no-repeat;}
 #starting-game-area .starting-game-separator {width: 140px;margin: 13px auto;text-align: center;background-color: rgba(255,255,255,0.1);height: 3px;}
 
 /* Roll dice */
@@ -137,7 +138,7 @@ input[type=number] {-moz-appearance: textfield;}
     70% {transform: rotateX(360deg) rotateY(720deg) rotateZ(0deg);}
     90% {transform: rotateX(480deg) rotateY(960deg) rotateZ(0deg);}
 }
-.dice-content {position:relative;margin:auto;width:200px;height:250px;}
+.dice-content {position:relative;margin:100px auto 15px;width:200px;height:200px;}
 .dice {position: absolute;width: 100%;height: 100%;transform-style: preserve-3d;transition: transform 0.5s ease-out;cursor: pointer;transform: rotateX(-53deg);}
 .dice.rolling {animation: roll 3s linear;}
 .dice[data-face="1"] {transform: rotateX(-53deg) rotateY(0deg);}

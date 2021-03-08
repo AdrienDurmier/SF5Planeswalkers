@@ -70,7 +70,7 @@
                                         {% endif %}
                                     {% endfor %}
                                     {% if resumeGame %}
-                                        <a href="{{ path('planeswalkers.play.game.fight', { id : game.id }) }}" class="btn btn-sm btn-primary planeswalkers-game-join-link">
+                                        <a href="{{ path('planeswalkers.play.game.start', { id : game.id }) }}" class="btn btn-sm btn-primary planeswalkers-game-join-link">
                                             Resume
                                         </a>
                                     {% else %}

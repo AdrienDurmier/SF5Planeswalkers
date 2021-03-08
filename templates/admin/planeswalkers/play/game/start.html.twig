@@ -1,5 +1,10 @@
-{% macro afficher(game, player, opponent) %}
-    {% import 'macro/avatar.html.twig' as avatar %}
+{% extends 'game.html.twig' %}
+{% import 'macro/avatar.html.twig' as avatar %}
+
+{% block title "Games" %}
+
+{% block body %}
+
     <div id="starting-game-area">
         <div id="starting-step-1" class="d-flex" style="display:none;">
             <div class="align-self-center flex-fill p-2">
@@ -70,4 +75,32 @@
             </div>
         </div>
     </div>
-{% endmacro %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        {# Mercure #}
+        const url = new URL('{{mercure_publish_url}}');
+        url.searchParams.append('topic', 'planeswalkers-game-'+ {{ game.id }} );
+        const eventSource = new EventSource(url);
+        eventSource.onmessage = event => {
+            let retourMercure = JSON.parse(event.data);
+
+            {# Lancé de dé au départ de la partie #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'starting-game-roll-dice'){
+                renderStartingReponse(retourMercure);
+            }
+        }
+    </script>
+
+    {# Starting Game #}
+    {% import 'admin/planeswalkers/play/action/starting-game.html.twig' as actionStartingGameJs %}
+    {{ actionStartingGameJs.script(game, player, hand) }}
+
+    {# Roll dice #}
+    {% import 'admin/planeswalkers/play/action/roll-dice.html.twig' as actionRollDiceJs %}
+    {{ actionRollDiceJs.script(game) }}
+
+{% endblock %}
