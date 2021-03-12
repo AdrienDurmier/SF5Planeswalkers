@@ -6,7 +6,7 @@
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             let retourMercure = JSON.parse(event.data);
-            console.log(retourMercure);
+            //console.log(retourMercure);
             let player_area = $('.player-area-' + retourMercure.player);
 
             {# Mise à jour des zones de jeu liées à l'action #}
@@ -21,7 +21,11 @@
                     renderGraveyard(retourMercure.areas, player_area);
                 }
                 if (retourMercure.move.from === 'hand' || retourMercure.move.to === 'hand'){
-                    renderHand(retourMercure.areas, player_area);
+                    if (playerId === parseInt(retourMercure.player)){
+                        renderPlayerHand(retourMercure.areas, player_area);
+                    }else{
+                        renderOpponentHand(retourMercure.areas, player_area);
+                    }
                 }
                 if (retourMercure.move.from === 'battlefield' || retourMercure.move.to === 'battlefield'){
                     renderBattlefield(retourMercure.areas, player_area);

@@ -46,12 +46,15 @@ input[type=number] {-moz-appearance: textfield;}
 /* Zones de jeux - library */
 .library {background-image:url("/images/planeswalkers/game-icons-net/delapouite/spell-book.svg");background-repeat: no-repeat;background-size:50%;background-position: center;}
 .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back.jpg');}
+#opponent-area .library-top-card {background-image:url('/images/planeswalkers/mtg_card_back180.jpg');}
 
 /* Zones de jeux - hand */
 .hand {width:calc(100% - 270px);display:flex;align-content: center;justify-content: center;}
 .hand-card {position:relative;background-size:100% auto;background-repeat:no-repeat;background-position:center;width:95px;height:70px;margin:15px 5px 5px 5px;border-radius:4px;}
 .hand-card .hand-card-mana-cost {width: 100%;text-align:right;position:absolute;bottom:65px;}
 .hand-card .hand-card-mana-cost .card-symbol {width:9px;height:9px;margin:0 1px;}
+/* Zones de jeux - hand opponent */
+#opponent-area .hand-card {background-position:bottom;background-image:url('/images/planeswalkers/mtg_card_back180.jpg');}
 
 /* Zones de jeux - battlefield */
 .battlefield {width:100%;}

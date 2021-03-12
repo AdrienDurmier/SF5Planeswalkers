@@ -1,7 +1,8 @@
 {% macro script() %}
     <script>
-        {# Rendu d'une main #}
-        function renderHand(datas, player_area){
+
+        {# Rendu de la main du joueur #}
+        function renderPlayerHand(datas, player_area){
             let results_html = "";
             $.each(datas.hand.cards, function (index, gameCardHand) {
                 results_html += '<a href="#" class="hand-card-link" data-area="hand" draggable="true" data-player="'+datas.player+'" data-id="'+gameCardHand.id+'" data-idsrcyfall="'+gameCardHand.idScryfall+'">';
@@ -10,6 +11,16 @@
                 results_html +=         '<div class="card-name">'+cardSymbol(gameCardHand.name)+'</div>';
                 results_html +=     '</div>';
                 results_html += '</a>';
+            })
+            player_area.find('.hand').html(results_html);
+        }
+
+        {# Rendu de la main de l'adversaire #}
+        function renderOpponentHand(datas, player_area){
+            let results_html = "";
+            $.each(datas.hand.cards, function (index, gameCardHand) {
+                results_html +=     '<div class="hand-card">';
+                results_html +=     '</div>';
             })
             player_area.find('.hand').html(results_html);
         }

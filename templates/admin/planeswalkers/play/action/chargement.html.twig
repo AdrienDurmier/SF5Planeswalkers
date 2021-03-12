@@ -8,7 +8,7 @@
             renderExile(areasPlayer, playerArea);
             renderLibrary(areasPlayer, playerArea);
             renderGraveyard(areasPlayer, playerArea);
-            renderHand(areasPlayer, playerArea);
+            renderPlayerHand(areasPlayer, playerArea);
             renderBattlefield(areasPlayer, playerArea);
             {# Chargement du jeu de l'adversaire #}
             let areasOpponent = JSON.parse('{{ areasOpponent|raw }}');
@@ -16,7 +16,7 @@
             renderExile(areasOpponent, opponentArea);
             renderLibrary(areasOpponent, opponentArea);
             renderGraveyard(areasOpponent, opponentArea);
-            renderHand(areasOpponent, opponentArea);
+            renderOpponentHand(areasOpponent, opponentArea);
             renderBattlefield(areasOpponent, opponentArea);
         });
     </script>
