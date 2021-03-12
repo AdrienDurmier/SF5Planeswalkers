@@ -19,7 +19,7 @@
         });
 
         {# Lorsque le joueur déplace une carte #}
-        $("body").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(e) {
+        $("#player-area").on("drop",'.exile, .graveyard, .library, .hand, .battlefield', function(e) {
             e.preventDefault();
             e.stopPropagation();
             let from = draggableELement.data('area');

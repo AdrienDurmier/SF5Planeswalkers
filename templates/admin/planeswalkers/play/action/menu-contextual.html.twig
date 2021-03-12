@@ -44,7 +44,7 @@
         }
 
         {# Rendu du menu si c'est un clic droit sur la library #}
-        $('body').on('contextmenu', '#player-library-top-card', function(e) {
+        $('#player-area').on('contextmenu', '#player-library-top-card', function(e) {
             let player = $(this).data('player');
             renderMenuContextualLibrary(player);
             menuContextualDisplay(e);
@@ -52,7 +52,7 @@
         });
 
         {# Rendu du menu si c'est un clic droit sur une carte #}
-        $('body').on('contextmenu', '.hand-card-link', function(e) {
+        $('#player-area').on('contextmenu', '.hand-card-link', function(e) {
             let id = $(this).data('id');
             let idscryfall = $(this).data('idsrcyfall');
             let player = $(this).data('player');
@@ -62,7 +62,7 @@
         });
 
         {# Rendu du menu si c'est un clic droit sur une carte du battlefield #}
-        $('body').on('contextmenu', '.battlefield-card-link', function(e) {
+        $('#player-area').on('contextmenu', '.battlefield-card-link', function(e) {
             let id = $(this).data('id');
             let idscryfall = $(this).data('idsrcyfall');
             let player = $(this).data('player');
