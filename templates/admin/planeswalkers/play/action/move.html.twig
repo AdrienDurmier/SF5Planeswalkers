@@ -31,7 +31,6 @@
             let offsetY = Math.round(((e.pageY - selectionOffsetY) - $(this).offset().top) / grid);
             launchMove(from, to, player, card, offsetX, offsetY);
         });
-
         {# Requête pour déplacer une carte #}
         function launchMove(from, to, player, card, offsetX, offsetY){
             let parametres = {
@@ -45,6 +44,43 @@
             };
             $.ajax({
                 url: "{{ path('planeswalkers.play.action.move') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
+        {# Lorsque le joueur donne le contrôle d'une carte #}
+        $("#opponent-area").on("drop",'.battlefield', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let from = draggableELement.data('area');
+            let to = $(this).data('area');
+            let player = draggableELement.data('player');
+            let card = draggableELement.data('id');
+            {# Position horizontale de la carte sur la ligne du battlefield (moins le décalage de la position du curseur sur le coin haut gauche de la carte ) #}
+            let offsetX = Math.round((e.pageX - selectionOffsetX) / grid);
+            let offsetY = Math.round(((e.pageY - selectionOffsetY) - $(this).offset().top) / grid);
+            let opponent = $(this).data('player');
+            let battlefield = $(this).data('battlefield');
+            launchSwitch(from, to, player, card, offsetX, offsetY, opponent, battlefield);
+        });
+
+        {# Requête pour donner le contrôle d'une carte #}
+        function launchSwitch(from, to, player, card, offsetX, offsetY, opponent, battlefield){
+            let parametres = {
+                from: from,
+                to: to,
+                game: {{ game.id }},
+                player: player,
+                card: card,
+                offsetX: offsetX,
+                offsetY: offsetY,
+                opponent: opponent,
+                battlefield: battlefield,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.action.switch') }}",
                 type: 'post',
                 data: parametres,
                 dataType: 'json'

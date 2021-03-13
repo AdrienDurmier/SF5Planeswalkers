@@ -6,7 +6,7 @@
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             let retourMercure = JSON.parse(event.data);
-            //console.log(retourMercure);
+            console.log(retourMercure);
             let player_area = $('.player-area-' + retourMercure.player);
 
             {# Mise à jour des zones de jeu liées à l'action #}
@@ -37,12 +37,20 @@
                 renderLifepoint(retourMercure);
             }
 
-            {# modification d'une gameCardBattlefield #}
+            {# Modification d'une gameCardBattlefield #}
             if (typeof retourMercure.gameCardBattlefield !== 'undefined'){
                 renderGameCardBattlefield(retourMercure);
             }
 
-            {# clone d'une gameCardBattlefield #}
+            {# Switch d'une carte #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'switch'){
+                renderBattlefield(retourMercure.playerAreas, player_area);
+                let opponent_area = $('.player-area-' + retourMercure.opponent);
+                renderBattlefield(retourMercure.opponentAreas, opponent_area);
+            }
+
+
+            {# Clone d'une gameCardBattlefield #}
             if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'clone'){
                 cloneGameCardBattlefield(retourMercure, player_area);
             }

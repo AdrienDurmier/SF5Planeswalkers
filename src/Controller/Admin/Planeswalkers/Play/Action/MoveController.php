@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin\Planeswalkers\Play\Action;
 
+use App\Entity\Planeswalkers\Play\Battlefield;
+use App\Entity\Planeswalkers\Play\GameCardBattlefield;
 use App\Service\Planeswalkers\Play\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,6 +97,45 @@ class MoveController extends AbstractController
             return '/images/planeswalkers/game-icons-net/delapouite/knocked-out-stars.svg';
         }
         return null;
+    }
+
+    /**
+     * @Route("/planeswalkers/play/action/switch", name="planeswalkers.play.action.switch", methods="POST")
+     * @param Request $request
+     * @param PublisherInterface $publisher
+     * @param MoveService $moveService
+     * @param PlayerService $playerService
+     * @return JsonResponse
+     */
+    public function switch(Request $request, PublisherInterface $publisher, MoveService $moveService, PlayerService $playerService){
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+        $action = null;
+        $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
+        $opponent = $this->getDoctrine()->getRepository(Player::class)->find($datas['opponent']);
+        $card = $this->getDoctrine()->getRepository(GameCardBattlefield::class)->find($datas['card']);
+        $battlefield = $this->getDoctrine()->getRepository(Battlefield::class)->find($datas['battlefield']);
+
+        // Ensemble des scénarios lors du déplacement d'une carte
+        $moveService->switch($battlefield, $datas);
+        $em->flush();
+
+        // Publication à Mercure
+        $topic = 'planeswalkers-game-'.$datas['game'];
+        $datasMercure = [
+            'action'        =>  'switch',
+            'log'           =>  $opponent . " is now the controller of " . $card->getCard(),
+            'picto'         =>  '/images/planeswalkers/game-icons-net/delapouite/switch-weapon.svg',
+            'player'        =>  $player->getId(),
+            'opponent'      =>  $opponent->getId(),
+            'playerAreas'   =>  $playerService->areas($player),
+            'opponentAreas' =>  $playerService->areas($opponent),
+        ];
+
+        $update = new Update($topic, json_encode($datasMercure));
+        $publisher($update);
+
+        return new JsonResponse($datasMercure);
     }
 
 }

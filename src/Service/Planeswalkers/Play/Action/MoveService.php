@@ -2,6 +2,7 @@
 
 namespace App\Service\Planeswalkers\Play\Action;
 
+use App\Entity\Planeswalkers\Play\Battlefield;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Planeswalkers\Play\Player;
 use App\Entity\Planeswalkers\Play\GameCardHand;
@@ -171,6 +172,20 @@ class MoveService
         $gameCardBattlefield = $this->em->getRepository(GameCardBattlefield::class)->find($datas['card']);
         $gameCardBattlefield->setOffsetX($datas['offsetX']);
         $gameCardBattlefield->setOffsetY($datas['offsetY']);
+        $this->em->persist($gameCardBattlefield);
+        $this->em->flush();
+        return $gameCardBattlefield;
+    }
+
+    /**
+     * @param Battlefield $battlefield
+     * @param array $datas
+     * @return GameCardBattlefield
+     */
+    public function switch(Battlefield $battlefield, array $datas): GameCardBattlefield
+    {
+        $gameCardBattlefield = $this->em->getRepository(GameCardBattlefield::class)->find($datas['card']);
+        $gameCardBattlefield->setBattlefield($battlefield);
         $this->em->persist($gameCardBattlefield);
         $this->em->flush();
         return $gameCardBattlefield;

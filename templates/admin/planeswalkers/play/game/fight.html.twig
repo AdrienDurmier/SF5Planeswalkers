@@ -74,7 +74,7 @@
                 <div class="hand"></div>
             </div>
             <div class="row-zone-battlefield">
-                <div class="battlefield"></div>
+                <div class="battlefield" data-player="{{ opponent.id }}" data-area="battlefield" data-battlefield="{{ opponent.battlefield.id }}"></div>
             </div>
             <div class="avatar-area {% if game.playerActive == opponent %}pulse{% endif %}">
                 <div class="lifepoint" title="Lifepoints">
@@ -87,7 +87,7 @@
         {# Allies area #}
         <div id="player-area" class="player-area player-area-{{ player.id }}" data-player="{{ player.id }}">
             <div class="row-zone-battlefield">
-                <div data-area="battlefield" class="battlefield" data-player="{{ player.id }}"></div>
+                <div class="battlefield" data-player="{{ player.id }}" data-area="battlefield" data-battlefield="{{ player.battlefield.id }}"></div>
             </div>
             <div class="row-library-hand">
                 <div data-area="exile" class="exile" title="Exile">
