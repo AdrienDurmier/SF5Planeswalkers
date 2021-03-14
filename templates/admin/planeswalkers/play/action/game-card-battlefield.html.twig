@@ -74,7 +74,7 @@
 
         {# Place une carte au dessous de la bibliothèque #}
         $('#menu-contextual').on('click', '.bottom-library-link', function() {
-            let from = $(this).data('area');
+            let from = $(this).data('from');
             let player = $(this).data('player');
             let card = $(this).data('id');
             launchBottomLibrary(from, player, card);

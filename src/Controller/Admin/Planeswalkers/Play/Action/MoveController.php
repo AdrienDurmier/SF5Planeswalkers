@@ -162,6 +162,7 @@ class MoveController extends AbstractController
             'action' =>  'bottom-library',
             'log'    =>  $player->getUser() . " puts a ". $gameCardLibrary->getCard() ." on bottom of library",
             'picto'  =>  '/images/planeswalkers/game-icons-net/lorc/bottom-right-3d-arrow.svg',
+            'from'   =>  $datas['from'],
             'player' =>  $player->getId(),
             'areas'  =>  $playerService->areas($player),
         ];

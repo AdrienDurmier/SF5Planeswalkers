@@ -110,6 +110,9 @@
             result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="hand" data-to="graveyard" data-player="'+player+'">';
             result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/faithtoken/card-discard.svg', 'Discard this card', null);
             result_hmtl += '</a>';
+            result_hmtl += '<a href="#" class="bottom-library-link" data-id="'+id+'" data-player="'+player+'" data-from="hand">';
+            result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/lorc/bottom-right-3d-arrow.svg', 'Put card on bottom of library', null);
+            result_hmtl += '</a>';
             $('#menu-contextual').html(result_hmtl);
         }
 
@@ -129,7 +132,7 @@
             result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="battlefield" data-to="library" data-player="'+player+'">';
             result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/delapouite/spell-book.svg', 'Put card on top of library', null);
             result_hmtl += '</a>';
-            result_hmtl += '<a href="#" class="bottom-library-link" data-id="'+id+'" data-player="'+player+'" data-area="battlefield">';
+            result_hmtl += '<a href="#" class="bottom-library-link" data-id="'+id+'" data-player="'+player+'" data-from="battlefield">';
             result_hmtl +=      renderMenuContextualLink('/images/planeswalkers/game-icons-net/lorc/bottom-right-3d-arrow.svg', 'Put card on bottom of library', null);
             result_hmtl += '</a>';
             result_hmtl += '<a href="#" class="move-link" data-id="'+id+'" data-from="battlefield" data-to="graveyard" data-player="'+player+'">';

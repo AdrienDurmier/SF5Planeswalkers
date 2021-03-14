@@ -32,6 +32,17 @@
                 }
             }
 
+            {# Déplace une carte vers le dessous de la bibliothèque #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'bottom-library'){
+                if (retourMercure.from === 'hand'){
+                    renderPlayerHand(retourMercure.areas, player_area);
+                }
+                if (retourMercure.from === 'battlefield'){
+                    renderBattlefield(retourMercure.areas, player_area);
+                }
+                renderLibrary(retourMercure.areas, player_area);
+            }
+
             {# Modification des points de vie #}
             if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'lifepoint'){
                 renderLifepoint(retourMercure);
@@ -40,12 +51,6 @@
             {# Modification d'une gameCardBattlefield #}
             if (typeof retourMercure.gameCardBattlefield !== 'undefined'){
                 renderGameCardBattlefield(retourMercure);
-            }
-
-            {# Déplace une carte en dessous de la bibliothèque #}
-            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'bottom-library'){
-                renderBattlefield(retourMercure.areas, player_area);
-                renderLibrary(retourMercure.areas, player_area);
             }
 
             {# Switch d'une carte #}
