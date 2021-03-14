@@ -157,17 +157,17 @@
         {# Draggable #}
         let grid = 15;
         let draggableELement = null;
-        $("body").on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(e) {
+        $(document).on("drag", '.exile-top-card, .graveyard-top-card, .library-top-card, .hand-card-link, .battlefield-card-link', function(e) {
             e.preventDefault();
             e.stopPropagation();
             draggableELement = $(this);
         });
-        $("body").on("dragover", function(e) {
+        $(document).on("dragover", function(e) {
             e.preventDefault();
             e.stopPropagation();
             $(this).addClass('dragging');
         });
-        $("body").on("dragleave", function(e) {
+        $(document).on("dragleave", function(e) {
             e.preventDefault();
             e.stopPropagation();
             $(this).removeClass('dragging');

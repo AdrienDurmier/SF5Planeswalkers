@@ -78,5 +78,21 @@
             });
         }
 
+        {# Requête pour donner le contrôle d'une carte #}
+        function launchBottomLibrary(from, player, card){
+            let parametres = {
+                from: from,
+                game: {{ game.id }},
+                player: player,
+                card: card,
+            };
+            $.ajax({
+                url: "{{ path('planeswalkers.play.action.bottomlibrary') }}",
+                type: 'post',
+                data: parametres,
+                dataType: 'json'
+            });
+        }
+
     </script>
 {% endmacro %}

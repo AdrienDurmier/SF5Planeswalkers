@@ -138,4 +138,38 @@ class MoveController extends AbstractController
         return new JsonResponse($datasMercure);
     }
 
+    /**
+     * @Route("/planeswalkers/play/action/bottomlibrary", name="planeswalkers.play.action.bottomlibrary", methods="POST")
+     * @param Request $request
+     * @param PublisherInterface $publisher
+     * @param MoveService $moveService
+     * @param PlayerService $playerService
+     * @return JsonResponse
+     */
+    public function bottomLibrary(Request $request, PublisherInterface $publisher, MoveService $moveService, PlayerService $playerService){
+        $em = $this->getDoctrine()->getManager();
+        $datas = $request->request->all();
+        $action = null;
+        $player = $this->getDoctrine()->getRepository(Player::class)->find($datas['player']);
+
+        // Ensemble des scénarios lors du déplacement d'une carte
+        $gameCardLibrary = $moveService->bottomLibrary($player, $datas);
+        $em->flush();
+
+        // Publication à Mercure
+        $topic = 'planeswalkers-game-'.$datas['game'];
+        $datasMercure = [
+            'action' =>  'bottom-library',
+            'log'    =>  $player->getUser() . " puts a ". $gameCardLibrary->getCard() ." on bottom of library",
+            'picto'  =>  '/images/planeswalkers/game-icons-net/lorc/bottom-right-3d-arrow.svg',
+            'player' =>  $player->getId(),
+            'areas'  =>  $playerService->areas($player),
+        ];
+
+        $update = new Update($topic, json_encode($datasMercure));
+        $publisher($update);
+
+        return new JsonResponse($datasMercure);
+    }
+
 }

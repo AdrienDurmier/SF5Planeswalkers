@@ -42,13 +42,18 @@
                 renderGameCardBattlefield(retourMercure);
             }
 
+            {# Déplace une carte en dessous de la bibliothèque #}
+            if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'bottom-library'){
+                renderBattlefield(retourMercure.areas, player_area);
+                renderLibrary(retourMercure.areas, player_area);
+            }
+
             {# Switch d'une carte #}
             if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'switch'){
                 renderBattlefield(retourMercure.playerAreas, player_area);
                 let opponent_area = $('.player-area-' + retourMercure.opponent);
                 renderBattlefield(retourMercure.opponentAreas, opponent_area);
             }
-
 
             {# Clone d'une gameCardBattlefield #}
             if (typeof retourMercure.action !== 'undefined' && retourMercure.action === 'clone'){

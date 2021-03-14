@@ -191,4 +191,53 @@ class MoveService
         return $gameCardBattlefield;
     }
 
+    /**
+     * @param Player $player
+     * @param array $datas
+     * @return null
+     */
+    public function bottomLibrary(Player $player, array $datas)
+    {
+        $exile = $player->getExile();
+        $graveyard = $player->getGraveyard();
+        $library = $player->getLibrary();
+        $hand = $player->getHand();
+        $battlefield = $player->getBattlefield();
+        $card = null;
+
+        if($datas['from'] == 'exile'){
+            $card = $this->exileService->topCard($exile);
+            if ($card){
+                $exile->removeGameCardsExile($card);
+            }
+        }
+
+        if($datas['from'] == 'graveyard'){
+            $card = $this->graveyardService->topCard($graveyard);
+            if ($card){
+                $graveyard->removeGameCardsGraveyard($card);
+            }
+        }
+
+        if($datas['from'] == 'hand'){
+            $card = $this->em->getRepository(GameCardHand::class)->find($datas['card']);
+            if ($card){
+                $hand->removeGameCardsHand($card);
+            }
+        }
+
+        if($datas['from'] == 'battlefield'){
+            $card = $this->em->getRepository(GameCardBattlefield::class)->find($datas['card']);
+            if ($card){
+                $battlefield->removeGameCardsBattlefield($card);
+            }
+        }
+
+        $gameCardLibrary = $this->gameCardLibraryService->newBottomLibrary($card->getCard(), $library);
+        $library->addGameCardsLibrary($gameCardLibrary);
+        $this->em->persist($library);
+
+        return $gameCardLibrary;
+    }
+
 }

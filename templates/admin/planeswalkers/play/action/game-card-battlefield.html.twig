@@ -72,6 +72,14 @@
             });
         }
 
+        {# Place une carte au dessous de la bibliothèque #}
+        $('#menu-contextual').on('click', '.bottom-library-link', function() {
+            let from = $(this).data('area');
+            let player = $(this).data('player');
+            let card = $(this).data('id');
+            launchBottomLibrary(from, player, card);
+        });
+
         {# Switch du controller de ce permanent #}
         $('#menu-contextual').on('click', '.switch-controller-link', function() {
             let player = $(this).data('player');
